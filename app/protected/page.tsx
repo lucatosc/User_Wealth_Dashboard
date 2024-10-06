@@ -1,7 +1,10 @@
-import FetchDataSteps from "@/components/tutorial/fetch-data-steps";
 import { createClient } from "@/utils/supabase/server";
-import { InfoIcon } from "lucide-react";
 import { redirect } from "next/navigation";
+import { TableData } from "../../components/Table";
+import { AccordionTemp, AccordionData } from "@/components/Accordion";
+import  Chart  from "react-apexcharts";
+import { Button } from "flowbite-react";
+import { accordionData } from "@/components/example";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -14,24 +17,46 @@ export default async function ProtectedPage() {
     return redirect("/sign-in");
   }
 
+  const options = {
+    chart: {
+        type: 'line',
+        height: 350
+    },
+    xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+    },
+    series: [{
+        name: 'Sales',
+        data: [30, 40, 35, 50, 49, 60]
+    }]
+  };
+
+  
+
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
-      <div className="w-full">
-        <div className="bg-accent text-sm p-3 px-5 rounded-md text-foreground flex gap-3 items-center">
-          <InfoIcon size="16" strokeWidth={2} />
-          This is a protected page that you can only see as an authenticated
-          user
+    <div className="w-full rounded-2xl flex-1 flex flex-col min-w-80 bg-gray-200 p-3">
+      <div className="flex justify-end items-center">
+        <div className="w-7 h-7 rounded-full bg-blue-600 text-white text-center">R</div>
+      </div>
+      <hr/>
+      <div className="flex justify-end items-center p-2">
+        <Button>Add Assert</Button>
+      </div>
+      <div className="w-full h-[200px] rounded-sm bg-white">
+        <div className="">
+        
         </div>
+        {/* <Chart options={options} series={options.series} type="line" /> */}
       </div>
-      <div className="flex flex-col gap-2 items-start">
-        <h2 className="font-bold text-2xl mb-4">Your user details</h2>
-        <pre className="text-xs font-mono p-3 rounded border max-h-32 overflow-auto">
-          {JSON.stringify(user, null, 2)}
-        </pre>
+      <div className="w-full">
+        <Button.Group className="p-2 pl-4">
+          <Button color="dark">Tot</Button>
+          <Button color="dark">Liquidità</Button>
+          <Button color="dark">investimenti</Button>
+        </Button.Group>
       </div>
-      <div>
-        <h2 className="font-bold text-2xl mb-4">Next steps</h2>
-        <FetchDataSteps />
+      <div className="w-full h-[360px] border rounded-sm border-black bg-white overflow-scroll">
+        <AccordionTemp accordionData={accordionData}/>          
       </div>
     </div>
   );
