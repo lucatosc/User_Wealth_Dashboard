@@ -25,14 +25,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-background ">
+      <body className="bg-background">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="w-[425px] border-2 border-black rounded-2xl min-h-screen flex flex-col items-center justify-center">
+          <main className="w-[425px] border-2 border-black rounded-2xl min-h-screen flex flex-col items-center justify-center m-auto">
             {children}
           </main>
         </ThemeProvider>

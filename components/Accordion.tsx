@@ -32,14 +32,14 @@ export const AccordionTemp: React.FC<Props> = ({
                     </AccordionTitle>
                     <AccordionContent>
                         {acco.content.map((_acco, index) => 
-                            <Accordion>
+                            <Accordion className="mb-1">
                                 <AccordionPanel>
                                     <AccordionTitle className="flex justify-between">
                                         <p>{_acco.title.name}</p>
                                         <p>{_acco.title.price}</p>
                                     </AccordionTitle>
-                                    {_acco.table && <AccordionContent>
-                                        <TableTemp tableData={_acco.table} />
+                                    {_acco.table && <AccordionContent className="p-0">
+                                        <TableTemp tableData={_acco.table} state="1"/>
                                     </AccordionContent>}
                                 </AccordionPanel>
                             </Accordion>

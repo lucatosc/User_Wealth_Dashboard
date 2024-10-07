@@ -1,5 +1,5 @@
 import { TableData } from "@/components/Table";
-import { AccordionTemp, AccordionData } from "@/components/Accordion";
+import { AccordionData } from "@/components/Accordion";
 
 const tableDataA1 : TableData = {title: ["Date", "Total"], content: [["AAAA", "AAAA"], ["BBBB", "BBBB"], ["CCCC", "CCCC"]]};
 const tableDataA2 : TableData = {title: ["Date", "Total"], content: []};
@@ -37,3 +37,8 @@ export const accordionData : AccordionData [] = [
         ]
     }
 ];
+
+export const listData : TableData = {
+    title: [""],
+    content: [["AAAAA"], ["BBBBB"], ["CCCCC"], ["DDDDD"], ["EEEEE"]]
+};

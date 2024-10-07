@@ -10,10 +10,11 @@ export type TableData =
 
 type Props = {
     tableData: TableData;
+    state: string;
 };
 
 export const TableTemp: React.FC<Props> = ({
-    tableData,
+    tableData, state
   }: Props) => {
 
     // const editData = () => {
@@ -42,10 +43,13 @@ export const TableTemp: React.FC<Props> = ({
                                     {val}
                                 </TableCell>
                             )}
-                            <TableCell className="flex justify-end">
-                                <FaEdit/>
+                            {state === "1" && <TableCell className="flex justify-end">
+                                <FaEdit className="pr-1"/>
                                 <FaTrash/>
-                            </TableCell>
+                            </TableCell>}
+                            {state === "2" && <TableCell className="flex justify-end">
+                                <div>{">"}</div>
+                            </TableCell>}
                         </TableRow>
                     ))
                     : (
