@@ -3,10 +3,8 @@ import { redirect } from "next/navigation";
 import { AccordionTemp } from "@/components/Accordion";
 import  Chart  from "react-apexcharts";
 import { Button } from "flowbite-react";
-import { accordionData, listData } from "@/components/example";
+import { accordionData } from "@/components/example";
 import Link from "next/link";
-import { useState } from "react";
-import { TableTemp } from "@/components/Table";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -33,8 +31,6 @@ export default async function ProtectedPage() {
     }]
   };
 
-  const [openModal, setOpenModal] = useState(true);
-
   return (
     <div className="w-full rounded-2xl flex-1 flex flex-col min-w-80 bg-gray-200 p-3">
       <div className="flex justify-end items-center p-2 border-b border-black">
@@ -43,7 +39,8 @@ export default async function ProtectedPage() {
         </Link>
       </div>
       <div className="flex justify-end items-center p-2">
-        <Button onClick={() => setOpenModal(openModal === false)}>Add Assert</Button>
+        <Button>Add Assert</Button>
+        {/* <Button onClick={() => setOpenModal(openModal === false)}>Add Assert</Button> */}
       </div>
       <div className="w-full h-[200px] rounded-sm bg-white">
         {/* <Chart options={options} series={options.series} type="line" /> */}

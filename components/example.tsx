@@ -7,7 +7,7 @@ const tableDataB : TableData = {title: ["Date", "Total"], content: [["DDDD", "DD
 
 export const accordionData : AccordionData [] = [
     {
-        title: {name: "AAAAA", price: "17382"},
+        title: {name: "AAAAAAAA", price: "17382"},
         content: [
             {
                 title: {name: "AAAAA(1)", price: "23532"},
@@ -38,7 +38,7 @@ export const accordionData : AccordionData [] = [
     }
 ];
 
-export const listData : TableData = {
-    title: [""],
-    content: [["AAAAA"], ["BBBBB"], ["CCCCC"], ["DDDDD"], ["EEEEE"]]
-};
+// export const listData : TableData = {
+//     title: [""],
+//     content: [["AAAAA"], ["BBBBB"], ["CCCCC"], ["DDDDD"], ["EEEEE"]]
+// };
