@@ -49,7 +49,7 @@ export const AccordionTemp: React.FC<Props> = ({
                     </AccordionTitle>
                     <AccordionContent>
                         {acco.content.map((_acco, index) => 
-                            <Accordion className="mb-1">
+                            <Accordion key={index} className="mb-1">
                                 <AccordionPanel>
                                     <AccordionTitle className="flex flex-row-reverse">
                                         <Table className="w-64">
