@@ -1,6 +1,6 @@
 import { Accordion, AccordionContent, AccordionPanel, AccordionTitle } from "flowbite-react";
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
-import { TableTemp, TableData } from "../components/Table";
+import { TableTemp, TableData } from "./table";
 import { FaPlus } from 'react-icons/fa';
 
 export type titleData = {

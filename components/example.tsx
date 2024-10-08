@@ -1,5 +1,5 @@
-import { TableData } from "@/components/Table";
-import { AccordionData } from "@/components/Accordion";
+import { TableData } from "@/components/table";
+import { AccordionData } from "@/components/accordion";
 
 const tableDataA1 : TableData = {title: ["Date", "Total"], content: [["AAAA", "AAAA"], ["BBBB", "BBBB"], ["CCCC", "CCCC"]]};
 const tableDataA2 : TableData = {title: ["Date", "Total"], content: []};
@@ -38,7 +38,21 @@ export const accordionData : AccordionData [] = [
     }
 ];
 
-// export const listData : TableData = {
-//     title: [""],
-//     content: [["AAAAA"], ["BBBBB"], ["CCCCC"], ["DDDDD"], ["EEEEE"]]
-// };
+export const listData : TableData = {
+    title: [""],
+    content: [["AAAAA"], ["BBBBB"], ["CCCCC"], ["DDDDD"], ["EEEEE"]]
+};
+
+export const options = {
+    chart: {
+        type: 'line',
+        height: 350
+    },
+    xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+    },
+    series: [{
+        name: 'Sales',
+        data: [30, 40, 35, 50, 49, 60]
+    }]
+  };
