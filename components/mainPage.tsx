@@ -1,7 +1,7 @@
 "use client";
 import { AccordionTemp } from "@/components/Accordion";
 import  Chart  from "react-apexcharts";
-import { Button } from "flowbite-react";
+import { Button, Checkbox, Label } from "flowbite-react";
 import { accordionData, listData } from "@/components/example";
 import Link from "next/link";
 import { SubmitButton } from "@/components/submit-button";
@@ -37,11 +37,32 @@ export function MainPage() {
                 {/* <Chart options={options} series={options.series} type="line" /> */}
             </div>
             <div className="w-full">
-                <Button.Group className="p-2 pl-4">
-                    <Button color="dark">Tot</Button>
-                    <Button color="dark">Liquidità</Button>
-                    <Button color="dark">investimenti</Button>
-                </Button.Group>
+            <div className="flex items-center gap-2 pb-2 pt-2">
+                <div className="text-center">
+                    <Checkbox id="total" />
+                    <Label htmlFor="total">Total</Label>
+                </div>
+                <div className="text-center">
+                    <Checkbox id="liquidita" />
+                    <Label htmlFor="liquidita">Liquidita</Label>
+                </div>
+                <div className="text-center">
+                    <Checkbox id="investimenti" />
+                    <Label htmlFor="investimenti">Investimenti</Label>
+                </div>
+                <div className="text-center">
+                    <Checkbox id="immobiliare" />
+                    <Label htmlFor="immobiliare">Immobiliare</Label>
+                </div>
+                <div className="text-center">
+                    <Checkbox id="altenativi" />
+                    <Label htmlFor="altenativi">Altenativi</Label>
+                </div>
+                <div className="text-center">
+                    <Checkbox id="passivita" />
+                    <Label htmlFor="passivita">Passivita</Label>
+                </div>
+            </div>
             </div>
             <div className="w-full h-[360px] border rounded-sm border-black bg-white overflow-scroll">
                 <AccordionTemp accordionData={accordionData}  state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />          
