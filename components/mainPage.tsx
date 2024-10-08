@@ -44,9 +44,9 @@ export function MainPage() {
                 </Button.Group>
             </div>
             <div className="w-full h-[360px] border rounded-sm border-black bg-white overflow-scroll">
-                <AccordionTemp accordionData={accordionData}/>          
+                <AccordionTemp accordionData={accordionData}  state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />          
             </div>
-            <ModalTemp listData={listData} state={state} openModal={openModal} setOpenModal={setOpenModal} />
+            <ModalTemp listData={listData} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />
         </div>
     );
 }

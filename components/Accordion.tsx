@@ -19,11 +19,21 @@ export type AccordionData =
 
 type Props = {
     accordionData: AccordionData [];
+    state: string;
+    setState: any;
+    openModal: boolean;
+    setOpenModal: any;
 };
 
 export const AccordionTemp: React.FC<Props> = ({
-    accordionData,
+    accordionData, state, setState, openModal, setOpenModal
   }: Props) => {
+
+    const addLiquidita = () => {
+        setState("Add New Liquidita");
+        setOpenModal(true);
+    }
+
     return (
         accordionData.map((acco, index) => 
             <Accordion key={index} className="m-2">
@@ -33,7 +43,7 @@ export const AccordionTemp: React.FC<Props> = ({
                             <TableHead>
                                 <TableHeadCell className="w-40">{acco.title.name}</TableHeadCell>
                                 <TableHeadCell className="w-32 text-right">{acco.title.price}</TableHeadCell>
-                                <TableHeadCell className="w-8"><FaPlus/></TableHeadCell>
+                                <TableHeadCell className="w-8"><FaPlus onClick={addLiquidita}/></TableHeadCell>
                             </TableHead>
                         </Table>
                     </AccordionTitle>
@@ -46,12 +56,12 @@ export const AccordionTemp: React.FC<Props> = ({
                                             <TableHead>
                                                 <TableHeadCell className="w-40">{_acco.title.name}</TableHeadCell>
                                                 <TableHeadCell className="w-28 text-left">{_acco.title.price}</TableHeadCell>
-                                                <TableHeadCell className="w-2"><FaPlus/></TableHeadCell>
+                                                <TableHeadCell className="w-2"></TableHeadCell>
                                             </TableHead>
                                         </Table>
                                     </AccordionTitle>
                                     {_acco.table && <AccordionContent className="p-0">
-                                        <TableTemp tableData={_acco.table} state="1"/>
+                                        <TableTemp tableData={_acco.table} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal}/>
                                     </AccordionContent>}
                                 </AccordionPanel>
                             </Accordion>

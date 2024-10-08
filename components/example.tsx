@@ -55,4 +55,8 @@ export const options = {
         name: 'Sales',
         data: [30, 40, 35, 50, 49, 60]
     }]
-  };
+};
+
+export const userlist = [
+    "aaaaa", "bbbbb", "ccccc"
+];
