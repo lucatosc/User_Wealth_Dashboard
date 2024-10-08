@@ -1,5 +1,5 @@
 "use client";
-import { AccordionTemp } from "@/components/accordion";
+import { AccordionTemp } from "@/components/Accordion";
 import  Chart  from "react-apexcharts";
 import { Button } from "flowbite-react";
 import { accordionData, listData } from "@/components/example";
@@ -7,7 +7,7 @@ import Link from "next/link";
 import { SubmitButton } from "@/components/submit-button";
 import { signOutAction } from "@/app/actions";
 import { useEffect, useState } from "react";
-import { ModalTemp } from "./modal";
+import { ModalTemp } from "./Modal";
 
 export function MainPage() {
     const [openModal, setOpenModal] = useState(false);

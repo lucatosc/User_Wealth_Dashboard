@@ -1,5 +1,5 @@
 import { Button, Label, Modal, TextInput, Dropdown } from "flowbite-react";
-import { TableData, TableTemp } from "./table";
+import { TableData, TableTemp } from "./Table";
 
 type Props = {
     listData: TableData;

@@ -1,5 +1,5 @@
-import { TableData } from "@/components/table";
-import { AccordionData } from "@/components/accordion";
+import { TableData } from "@/components/Table";
+import { AccordionData } from "@/components/Accordion";
 
 const tableDataA1 : TableData = {title: ["Date", "Total"], content: [["AAAA", "AAAA"], ["BBBB", "BBBB"], ["CCCC", "CCCC"]]};
 const tableDataA2 : TableData = {title: ["Date", "Total"], content: []};
