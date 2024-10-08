@@ -58,6 +58,9 @@ export const ModalTemp: React.FC<Props> = ({
                     </div>
                 </div>
             </Modal.Body>}
+
+            {/* Add New Liquidita Account*/}
+            {state === "Add New Liquidita Account" && <Modal.Header>Add Liquidita Account</Modal.Header>}
             {state === "Add New Liquidita Account" && <Modal.Body>
                 <div className="space-y-6">
                     <div>
@@ -69,14 +72,14 @@ export const ModalTemp: React.FC<Props> = ({
                     </div>
                 </div>
             </Modal.Body>}
+
+            {/* Confirm */}
+            {state === "Confirm" && <Modal.Header>Conferma Delete</Modal.Header>}
             {state === "Confirm" && <Modal.Body>
                 <div className="text-center">
                   <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                        Conferma delete
-                  </h3>
-                  <h4 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                     Sei sicuro di voler eliminare questo item?
-                  </h4>
+                  </h3>
                   <div className="flex justify-center gap-4">
                     <Button color="gray">
                       {"Cancel"}
