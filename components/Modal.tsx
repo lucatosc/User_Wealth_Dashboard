@@ -1,4 +1,4 @@
-import { Button, Label, Modal, TextInput } from "flowbite-react";
+import { Button, Label, Modal, TextInput, Dropdown } from "flowbite-react";
 import { TableData, TableTemp } from "./table";
 
 type Props = {
@@ -34,13 +34,38 @@ export const ModalTemp: React.FC<Props> = ({
             {state === "Add New Liquidita" && <Modal.Body>
                 <div className="space-y-6">
                     <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="password" value="Your password" />
-                        </div>
-                        <TextInput id="password" type="password" required />
+                        <Label htmlFor="account" value="Account" />
+                        <Dropdown id="account" label="Dropdown" inline aria-required>
+                            <Dropdown.Item>Dashboard</Dropdown.Item>
+                            <Dropdown.Item>Settings</Dropdown.Item>
+                            <Dropdown.Item>Earnings</Dropdown.Item>
+                            <Dropdown.Item>Sign out</Dropdown.Item>
+                        </Dropdown>
+                    </div>
+                    <div>
+                        <div className="text-blue-600">Add new account</div>
+                    </div>
+                    <div>
+                        <Label htmlFor="amount" value="Amount" />
+                        <TextInput id="account" type="number" required />
+                    </div>
+                    <div>
+                        <Label htmlFor="date" value="Date" />
+                        <TextInput id="date" type="date" required />
                     </div>
                     <div className="w-full">
-                        <Button>Log in to your account</Button>
+                        <Button>Add</Button>
+                    </div>
+                </div>
+            </Modal.Body>}
+            {state === "Add New Liquidita Account" && <Modal.Body>
+                <div className="space-y-6">
+                    <div>
+                        <Label htmlFor="amount" value="Amount Name" />
+                        <TextInput id="account" type="text" required />
+                    </div>
+                    <div className="w-full">
+                        <Button>Add</Button>
                     </div>
                 </div>
             </Modal.Body>}
