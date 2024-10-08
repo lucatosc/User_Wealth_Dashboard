@@ -21,7 +21,7 @@ export const ModalTemp: React.FC<Props> = ({
     // }
 
     return (
-        <Modal show={openModal} size="" onClose={() => setOpenModal(false)}>
+        <Modal show={openModal} size="sm" onClose={() => setOpenModal(false)}>
             
             {/* Add New Asset Modal} */}
             {state === "Add New Asset" && <Modal.Header>Add Assert</Modal.Header>}
