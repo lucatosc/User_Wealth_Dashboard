@@ -69,6 +69,24 @@ export const ModalTemp: React.FC<Props> = ({
                     </div>
                 </div>
             </Modal.Body>}
+            {state === "Confirm" && <Modal.Body>
+                <div className="text-center">
+                  <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                        Conferma delete
+                  </h3>
+                  <h4 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                    Sei sicuro di voler eliminare questo item?
+                  </h4>
+                  <div className="flex justify-center gap-4">
+                    <Button color="gray">
+                      {"Cancel"}
+                    </Button>
+                    <Button color="failure">
+                      {"Delete"}
+                    </Button>
+                  </div>
+                </div>
+              </Modal.Body>}
         </Modal>
     );
 }
