@@ -37,7 +37,7 @@ export function MainPage() {
                 {/* <Chart options={options} series={options.series} type="line" /> */}
             </div>
             <div className="w-full">
-            <div className="flex items-center gap-2 pb-2 pt-2">
+            <div className="flex flex-wrap items-center gap-2 pb-2 pt-2">
                 <div className="text-center">
                     <Checkbox id="total" />
                     <Label htmlFor="total">Total</Label>
