@@ -8,9 +8,7 @@ import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://wealth-management-app.vercel.app";
+const defaultUrl = "http://wealth-management-app.vercel.app";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
