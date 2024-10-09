@@ -8,7 +8,9 @@ import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
 
-const defaultUrl = "http://wealth-management-app.vercel.app";
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
@@ -30,7 +32,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="w-[425px] border-2 border-black rounded-2xl min-h-screen flex flex-col items-center justify-center m-auto">
+          <main className="w-full border-2 min-h-screen flex flex-col items-center justify-center m-auto">
             {children}
           </main>
         </ThemeProvider>
