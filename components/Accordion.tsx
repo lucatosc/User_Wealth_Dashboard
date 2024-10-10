@@ -2,6 +2,7 @@ import { Accordion, AccordionContent, AccordionPanel, AccordionTitle } from "flo
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import { TableTemp, TableData } from "./Table";
 import { FaPlus } from 'react-icons/fa';
+import { on } from "events";
 
 export type titleData = {
     name: string, price: string
@@ -36,29 +37,29 @@ export const AccordionTemp: React.FC<Props> = ({
 
     return (
         accordionData.map((acco, index) => 
-            <Accordion key={index} className="m-2">
+            <Accordion key={index}>
                 <AccordionPanel>
-                    <AccordionTitle className="flex flex-row-reverse">
-                        <Table className="w-80">
-                            <TableHead>
-                                <TableHeadCell className="w-40">{acco.title.name}</TableHeadCell>
-                                <TableHeadCell className="w-32 text-right">{acco.title.price}</TableHeadCell>
-                                <TableHeadCell className="w-8"><FaPlus onClick={addLiquidita}/></TableHeadCell>
-                            </TableHead>
-                        </Table>
+                    <AccordionTitle className="flex-row-reverse">
+                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 160px)'}}>
+                            <div>{acco.title.name}</div>
+                            <div className="flex items-center">
+                                <div className="pr-4">{acco.title.price}</div>
+                                <div><FaPlus onClick={addLiquidita}/></div>
+                            </div>
+                        </div>
                     </AccordionTitle>
                     <AccordionContent>
                         {acco.content.map((_acco, index) => 
                             <Accordion key={index} className="mb-1">
                                 <AccordionPanel>
                                     <AccordionTitle className="flex flex-row-reverse">
-                                        <Table className="w-64">
-                                            <TableHead>
-                                                <TableHeadCell className="w-40">{_acco.title.name}</TableHeadCell>
-                                                <TableHeadCell className="w-28 text-left">{_acco.title.price}</TableHeadCell>
-                                                <TableHeadCell className="w-2"></TableHeadCell>
-                                            </TableHead>
-                                        </Table>
+                                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 200px)'}}>
+                                            <div>{_acco.title.name}</div>
+                                            <div className="flex items-center">
+                                                <div className="pr-4">{_acco.title.price}</div>
+                                                <div><FaPlus onClick={addLiquidita}/></div>
+                                            </div>
+                                        </div>
                                     </AccordionTitle>
                                     {_acco.table && <AccordionContent className="p-0">
                                         <TableTemp tableData={_acco.table} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal}/>

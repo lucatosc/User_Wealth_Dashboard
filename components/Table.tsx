@@ -55,8 +55,8 @@ export const TableTemp: React.FC<Props> = ({
                                     {val}
                                 </TableCell>
                             )}
-                            {state === "" && <TableCell className="flex justify-between">
-                                <FaEdit onClick={editData}/>
+                            {state === "" && <TableCell className="flex justify-end">
+                                <FaEdit className="mr-4" onClick={editData}/>
                                 <FaTrash onClick={deleteData}/>
                             </TableCell>}
                             {state === "Add New Asset" && <TableCell className="flex justify-end">
