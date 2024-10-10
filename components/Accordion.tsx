@@ -48,7 +48,7 @@ export const AccordionTemp: React.FC<Props> = ({
                             </div>
                         </div>
                     </AccordionTitle>
-                    <AccordionContent>
+                    <AccordionContent style={{paddingRight: "0", borderRadius: "0"}}>
                         {acco.content.map((_acco, index) => 
                             <Accordion key={index} className="mb-1">
                                 <AccordionPanel>
@@ -61,7 +61,7 @@ export const AccordionTemp: React.FC<Props> = ({
                                             </div>
                                         </div>
                                     </AccordionTitle>
-                                    {_acco.table && <AccordionContent className="p-0">
+                                    {_acco.table && <AccordionContent>
                                         <TableTemp tableData={_acco.table} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal}/>
                                     </AccordionContent>}
                                 </AccordionPanel>

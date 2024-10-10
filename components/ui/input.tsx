@@ -1,12 +1,15 @@
+'use client';
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
+    const handleContextMenu = (event: React.MouseEvent) => {
+      event.preventDefault(); // Prevent the right-click context menu from appearing
+    };
+
     return (
       <input
         type={type}
@@ -15,6 +18,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className,
         )}
         ref={ref}
+        onContextMenu={handleContextMenu} // Attach the context menu handler
         {...props}
       />
     );
