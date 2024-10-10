@@ -76,7 +76,7 @@ export const ModalTemp: React.FC<Props> = ({
                         </Select>
                     </div>
                     <div>
-                        <div className="text-blue-600" onClick={setAddAccount}>Add new account</div>
+                        <div className="text-blue-600 cursor-pointer" onClick={setAddAccount}>Add new account</div>
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
