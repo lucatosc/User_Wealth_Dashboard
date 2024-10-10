@@ -63,7 +63,7 @@ export function MainPage() {
                     <Label className="ml-2" htmlFor="passivita">Passivita</Label>
                 </div>
             </div>
-            <div className="w-full h-[350px] p-3 rounded-lg bg-white overflow-y-auto">
+            <div className="w-full h-[350px] p-3 rounded-lg bg-white overflow-y-scroll">
                 <AccordionTemp accordionData={accordionData}  state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />          
             </div>
             <ModalTemp listData={listData} userlist={userlist} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />
