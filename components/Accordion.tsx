@@ -37,7 +37,7 @@ export const AccordionTemp: React.FC<Props> = ({
 
     return (
         accordionData.map((acco, index) => 
-            <Accordion key={index}>
+            <Accordion key={index} className="mb-3">
                 <AccordionPanel>
                     <AccordionTitle className="flex-row-reverse">
                         <div className="flex items-center justify-between" style={{width: 'calc(100vw - 160px)'}}>
@@ -48,9 +48,9 @@ export const AccordionTemp: React.FC<Props> = ({
                             </div>
                         </div>
                     </AccordionTitle>
-                    <AccordionContent style={{paddingRight: "0", borderRadius: "0"}}>
+                    <AccordionContent style={{padding: "12px 0 12px 12px"}}>
                         {acco.content.map((_acco, index) => 
-                            <Accordion key={index} className="mb-1">
+                            <Accordion key={index} className="mb-3 rounded-r-none">
                                 <AccordionPanel>
                                     <AccordionTitle className="flex flex-row-reverse">
                                         <div className="flex items-center justify-between" style={{width: 'calc(100vw - 200px)'}}>
@@ -61,7 +61,7 @@ export const AccordionTemp: React.FC<Props> = ({
                                             </div>
                                         </div>
                                     </AccordionTitle>
-                                    {_acco.table && <AccordionContent>
+                                    {_acco.table && <AccordionContent style={{padding: "0"}}>
                                         <TableTemp tableData={_acco.table} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal}/>
                                     </AccordionContent>}
                                 </AccordionPanel>
