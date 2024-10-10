@@ -1,7 +1,7 @@
 "use client";
 import { AccordionTemp } from "@/components/Accordion";
 import { Button, Checkbox, Label } from "flowbite-react";
-import { accordionData, listData } from "@/components/example";
+import { accordionData, listData, userlist } from "@/components/example";
 import Link from "next/link";
 import { SubmitButton } from "@/components/submit-button";
 import { signOutAction } from "@/app/actions";
@@ -66,7 +66,7 @@ export function MainPage() {
             <div className="w-full h-[350px] p-2 rounded-lg bg-white overflow-y-auto">
                 <AccordionTemp accordionData={accordionData}  state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />          
             </div>
-            <ModalTemp listData={listData} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />
+            <ModalTemp listData={listData} userlist={userlist} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />
         </div>
     );
 }

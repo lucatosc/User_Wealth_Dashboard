@@ -1,5 +1,6 @@
-import { Button, Label, Modal, TextInput, Dropdown } from "flowbite-react";
+import { Button, Label, Modal, TextInput, Dropdown, Select } from "flowbite-react";
 import { TableData, TableTemp } from "./Table";
+import { useEffect, useState } from "react";
 
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
     setState: any;
     openModal: boolean;
     setOpenModal: any;
-    userlist?: string [];
+    userlist: string [];
 };
 
 export const ModalTemp: React.FC<Props> = ({
@@ -45,6 +46,12 @@ export const ModalTemp: React.FC<Props> = ({
         setOpenModal(false);
     }
 
+    const [dropDown, setDropDown] = useState("No Account Available");
+
+    useEffect(() => {
+        if(userlist && userlist?.length > 0) setDropDown(userlist[0]);
+    }, [])
+
     return (
         <Modal show={openModal} size="sm" onClose={() => {setOpenModal(false); setState("")}}>
             
@@ -58,11 +65,15 @@ export const ModalTemp: React.FC<Props> = ({
             {state === "Add New Liquidita" && <Modal.Header>Add Liquidita</Modal.Header>}
             {state === "Add New Liquidita" && <Modal.Body>
                 <div className="space-y-6">
-                    <div>
-                        <Label htmlFor="account" value="Account" />
-                        <Dropdown id="account" inline aria-required>
-                            {userlist && userlist.map(user => <Dropdown.Item>{user}</Dropdown.Item>)}
-                        </Dropdown>
+                    <div className="w-full">
+                        <div className="mb-2 block">
+                            <Label htmlFor="account" value="Account" />
+                        </div>
+                        <Select id="account" required>
+                            {userlist.length > 0 ? 
+                            userlist.map(user => <option onClick={() => setDropDown(user)}>{user}</option>) : 
+                            <option>No Account Available</option>}
+                        </Select>
                     </div>
                     <div>
                         <div className="text-blue-600" onClick={setAddAccount}>Add new account</div>
@@ -91,8 +102,8 @@ export const ModalTemp: React.FC<Props> = ({
                             {userlist && userlist.map(user => <Dropdown.Item>{user}</Dropdown.Item>)}
                         </Dropdown>
                     </div>
-                    <div>
-                        <div className="text-blue-600 hover:cursor-pointer" onClick={setAddAccount}>Add new account</div>
+                    <div className="hover:cursor-pointer">
+                        <div className="text-blue-600" onClick={setAddAccount}>Add new account</div>
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
