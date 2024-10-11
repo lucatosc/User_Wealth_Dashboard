@@ -96,11 +96,15 @@ export const ModalTemp: React.FC<Props> = ({
             {state === "Add Update Liquidita" && <Modal.Header>Add Liquidita</Modal.Header>}
             {state === "Add Update Liquidita" && <Modal.Body>
                 <div className="space-y-6">
-                    <div>
-                        <Label htmlFor="account" value="Account" />
-                        <Dropdown id="account" inline aria-required>
-                            {userlist && userlist.map(user => <Dropdown.Item>{user}</Dropdown.Item>)}
-                        </Dropdown>
+                <div className="w-full">
+                        <div className="mb-2 block">
+                            <Label htmlFor="account" value="Account" />
+                        </div>
+                        <Select id="account" required>
+                            {userlist.length > 0 ? 
+                            userlist.map(user => <option onClick={() => setDropDown(user)}>{user}</option>) : 
+                            <option>No Account Available</option>}
+                        </Select>
                     </div>
                     <div className="hover:cursor-pointer">
                         <div className="text-blue-600" onClick={setAddAccount}>Add new account</div>
