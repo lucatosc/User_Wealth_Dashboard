@@ -96,7 +96,7 @@ export const ModalTemp: React.FC<Props> = ({
             {state === "Add Update Liquidita" && <Modal.Header>Add Liquidita</Modal.Header>}
             {state === "Add Update Liquidita" && <Modal.Body>
                 <div className="space-y-6">
-                <div className="w-full">
+                    <div className="w-full">
                         <div className="mb-2 block">
                             <Label htmlFor="account" value="Account" />
                         </div>
@@ -128,7 +128,7 @@ export const ModalTemp: React.FC<Props> = ({
             {state === "Add New Liquidita Account" && <Modal.Body>
                 <div className="space-y-6">
                     <div>
-                        <Label htmlFor="amount" value="Amount Name" />
+                        <Label htmlFor="amount" value="Account Name" />
                         <TextInput id="account" type="text" required />
                     </div>
                     <div className="w-full">
