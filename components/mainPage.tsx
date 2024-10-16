@@ -50,6 +50,11 @@ export function MainPage() {
     const [state, setState] = useState("");
     const [bankList, setBankList] = useState <string[]>([]);
     const [accordionData, setAccordionData] = useState <AccordionData []>(initAccordionData);
+    
+    const [checked, setChecked] = useState <number> (0);
+    const [account, setAccount] = useState <string> ("");
+    const [amount, setAmount] = useState <number> (0);
+    const [newDate, setNewDate] = useState <any> (Date.now());
 
     const addNewAsset = () => {
         setState("Add New Asset");
