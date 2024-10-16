@@ -1,7 +1,6 @@
 "use client";
 import { AccordionTemp } from "@/components/Accordion";
 import { Button, Checkbox, Label } from "flowbite-react";
-import { userlist } from "@/components/example";
 import Link from "next/link";
 import { SubmitButton } from "@/components/submit-button";
 import { signOutAction } from "@/app/actions";
@@ -22,33 +21,35 @@ export const listData : TableData = {
     content: [["Liquidita"], ["Investimenti"], ["Immobiliare"], ["Altenativi"], ["Passivita"]]
 };
 
+export const initAccordionData: AccordionData [] = [
+    {
+        title: {name: "Liquidita", price: "0"},
+        content: []
+    },
+    {
+        title: {name: "Investimenti", price: "0"},
+        content: []
+    },
+    {
+        title: {name: "Immobiliare", price: "0"},
+        content: []
+    },
+    {
+        title: {name: "Alternativi", price: "0"},
+        content: []
+    },
+    {
+        title: {name: "Passivita", price: "0"},
+        content: []
+    },
+];
+
 export function MainPage() {
 
     const [openModal, setOpenModal] = useState(false);
     const [state, setState] = useState("");
     const [bankList, setBankList] = useState <string[]>([]);
-    const [accordionData, setAccordionData] = useState <AccordionData []>([
-        {
-            title: {name: "Liquidita", price: "0"},
-            content: []
-        },
-        {
-            title: {name: "Investimenti", price: "0"},
-            content: []
-        },
-        {
-            title: {name: "Immobiliare", price: "0"},
-            content: []
-        },
-        {
-            title: {name: "Alternativi", price: "0"},
-            content: []
-        },
-        {
-            title: {name: "Passivita", price: "0"},
-            content: []
-        },
-    ]);
+    const [accordionData, setAccordionData] = useState <AccordionData []>(initAccordionData);
 
     const addNewAsset = () => {
         setState("Add New Asset");
@@ -67,14 +68,39 @@ export function MainPage() {
             if (bank_error) {
                 console.error("Error fetching data:", bank_error);
             } else {
-                // let banks: any [] = Bank_accounts?.filter(item => item.name);
-                // setBankList(banks);
+                if(Bank_accounts) {
+                    let banks: string [] = Bank_accounts.map(item => item.name);
+                    setBankList(banks);
+                }
             }
             //Liquidity
 
-            let _accordionData = accordionData.slice(0);
+            let _accordionData : AccordionData [] = [
+                {
+                    title: {name: "Liquidita", price: "0"},
+                    content: []
+                },
+                {
+                    title: {name: "Investimenti", price: "0"},
+                    content: []
+                },
+                {
+                    title: {name: "Immobiliare", price: "0"},
+                    content: []
+                },
+                {
+                    title: {name: "Alternativi", price: "0"},
+                    content: []
+                },
+                {
+                    title: {name: "Passivita", price: "0"},
+                    content: []
+                },
+            ];
             let totalAmount : number = 0;
             
+            console.log("initAccordionData => ", initAccordionData)
+
             let { data: Liquidity_users, error: liquidity_error } = await supabase
                 .from('Liquidity_users')
                 .select(`*, Bank_accounts(name)`)
@@ -92,8 +118,6 @@ export function MainPage() {
                         if(bankArray.includes(item.Bank_accounts.name) === false) bankArray.push(item.Bank_accounts.name); 
                     });
 
-                    setBankList(bankArray);
-                    
                     bankArray.forEach(bank => {
                         let temp: any [] = [];
                         let tableData : TableData = {title: ["Date", "Impoto"], content: []};
@@ -114,7 +138,9 @@ export function MainPage() {
 
                         totalAmount += bankAmount;
                     })
+
                     _accordionData[0].title.price = totalAmount + "";
+                    console.log("_accordionData =>", _accordionData);
                 }
             }
 
