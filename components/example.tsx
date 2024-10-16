@@ -40,7 +40,7 @@ export const accordionData : AccordionData [] = [
 
 export const listData : TableData = {
     title: [""],
-    content: [["AAAAA"], ["BBBBB"], ["CCCCC"], ["DDDDD"], ["EEEEE"]]
+    content: [["Liquidita"], ["Investimenti"], ["Immobiliare"], ["Altenativi"], ["Passivita"]]
 };
 
 export const options = {
@@ -58,5 +58,5 @@ export const options = {
 };
 
 export const userlist = [
-    "aaaaa", "bbbbb", "ccccc"
+    "bank1", "bank2", "bank3"
 ];

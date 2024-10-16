@@ -9,11 +9,11 @@ type Props = {
     setState: any;
     openModal: boolean;
     setOpenModal: any;
-    userlist: string [];
+    bankList: string [];
 };
 
 export const ModalTemp: React.FC<Props> = ({
-    listData, state, setState, openModal, setOpenModal, userlist,
+    listData, state, setState, openModal, setOpenModal, bankList,
   }: Props) => {
 
     const addLiquidita = () => {
@@ -49,7 +49,7 @@ export const ModalTemp: React.FC<Props> = ({
     const [dropDown, setDropDown] = useState("No Account Available");
 
     useEffect(() => {
-        if(userlist && userlist?.length > 0) setDropDown(userlist[0]);
+        if(bankList && bankList?.length > 0) setDropDown(bankList[0]);
     }, [])
 
     return (
@@ -70,8 +70,8 @@ export const ModalTemp: React.FC<Props> = ({
                             <Label htmlFor="account" value="Account" />
                         </div>
                         <Select id="account" required>
-                            {userlist.length > 0 ? 
-                            userlist.map(user => <option onClick={() => setDropDown(user)}>{user}</option>) : 
+                            {bankList.length > 0 ? 
+                            bankList.map((user, index) => <option key={index} onClick={() => setDropDown(user)}>{user}</option>) : 
                             <option>No Account Available</option>}
                         </Select>
                     </div>
@@ -86,7 +86,7 @@ export const ModalTemp: React.FC<Props> = ({
                         <Label htmlFor="date" value="Date" />
                         <TextInput id="date" type="date" required />
                     </div>
-                    <div className="w-full">
+                    <div className="w-full items-center justify-center">
                         <Button onClick={addLiquidita}>Add</Button>
                     </div>
                 </div>
@@ -101,8 +101,8 @@ export const ModalTemp: React.FC<Props> = ({
                             <Label htmlFor="account" value="Account" />
                         </div>
                         <Select id="account" required>
-                            {userlist.length > 0 ? 
-                            userlist.map(user => <option onClick={() => setDropDown(user)}>{user}</option>) : 
+                            {bankList.length > 0 ? 
+                            bankList.map(user => <option onClick={() => setDropDown(user)}>{user}</option>) : 
                             <option>No Account Available</option>}
                         </Select>
                     </div>

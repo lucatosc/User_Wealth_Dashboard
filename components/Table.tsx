@@ -59,7 +59,7 @@ export const TableTemp: React.FC<Props> = ({
                                 <FaEdit className="mr-4" onClick={editData}/>
                                 <FaTrash onClick={deleteData}/>
                             </TableCell>}
-                            {state === "Add New Asset" && <TableCell className="flex justify-end">
+                            {state === "Add New Asset" && <TableCell className="flex justify-end" >
                                 <div className="cursor-pointer">{">"}</div>
                             </TableCell>}
                         </TableRow>

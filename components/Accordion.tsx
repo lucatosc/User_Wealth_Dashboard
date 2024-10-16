@@ -9,7 +9,6 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import { TableTemp, TableData } from "./Table";
 import { FaPlus } from 'react-icons/fa';
-import { useState } from "react";
 
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -74,43 +73,43 @@ export const AccordionTemp: React.FC<Props> = ({
     accordionData, state, setState, openModal, setOpenModal
   }: Props) => {
 
-    const addLiquidita = () => {
+    const addLiquidita = (e : any) => {
+        e.preventDefault();
         setState("Add New Liquidita");
         setOpenModal(true);
     }
-
+    
     return (
         accordionData.map((acco, index) => 
             <Accordion key={index} className="mb-3 rounded-lg">
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                    <Typography>
-                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 150px)'}}>
+                    {/* <Typography> */}
+                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 120px)'}}>
                             <div>{acco.title.name}</div>
                             <div className="flex items-center">
                                 <div className="pr-4">{acco.title.price}</div>
                                 <div><FaPlus onClick={addLiquidita}/></div>
                             </div>
                         </div>
-                    </Typography>
+                    {/* </Typography> */}
                 </AccordionSummary>
                 <AccordionDetails style={{padding: "12px 0 12px 12px"}}>
-                    {acco.content.map((_acco, index) => 
+                    {acco.content.length > 0 && acco.content.map((_acco, index) => 
                         <Accordion key={index} className="mb-3 rounded-lg rounded-r-none">
                             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                                <Typography>
-                                    <div className="flex items-center justify-between" style={{width: 'calc(100vw - 170px)'}}>
+                                {/* <Typography> */}
+                                    <div className="flex items-center justify-between" style={{width: 'calc(100vw - 140px)'}}>
                                         <div>{_acco.title.name}</div>
                                         <div className="flex items-center">
                                             <div className="pr-4">{_acco.title.price}</div>
-                                            <div><FaPlus onClick={addLiquidita}/></div>
                                         </div>
                                     </div>
-                                </Typography>
+                                {/* </Typography> */}
                             </AccordionSummary>
                             {_acco.table && <AccordionDetails style={{padding: "0"}}>
-                                <Typography>
+                                {/* <Typography> */}
                                     <TableTemp tableData={_acco.table} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal}/>
-                                </Typography>
+                                {/* </Typography> */}
                             </AccordionDetails>}
                         </Accordion>
                     )}

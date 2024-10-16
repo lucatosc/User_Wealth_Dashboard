@@ -1,22 +1,139 @@
 "use client";
 import { AccordionTemp } from "@/components/Accordion";
 import { Button, Checkbox, Label } from "flowbite-react";
-import { accordionData, listData, userlist } from "@/components/example";
+import { userlist } from "@/components/example";
 import Link from "next/link";
 import { SubmitButton } from "@/components/submit-button";
 import { signOutAction } from "@/app/actions";
 import { useEffect, useState } from "react";
 import { ModalTemp } from "./Modal";
 import { LineChart } from '@mui/x-charts/LineChart';
+import { createClient } from '@supabase/supabase-js';
+import { TableData } from "@/components/Table";
+import { AccordionData } from "@/components/Accordion";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+export const listData : TableData = {
+    title: [""],
+    content: [["Liquidita"], ["Investimenti"], ["Immobiliare"], ["Altenativi"], ["Passivita"]]
+};
 
 export function MainPage() {
+
     const [openModal, setOpenModal] = useState(false);
     const [state, setState] = useState("");
+    const [bankList, setBankList] = useState <string[]>([]);
+    const [accordionData, setAccordionData] = useState <AccordionData []>([
+        {
+            title: {name: "Liquidita", price: "0"},
+            content: []
+        },
+        {
+            title: {name: "Investimenti", price: "0"},
+            content: []
+        },
+        {
+            title: {name: "Immobiliare", price: "0"},
+            content: []
+        },
+        {
+            title: {name: "Alternativi", price: "0"},
+            content: []
+        },
+        {
+            title: {name: "Passivita", price: "0"},
+            content: []
+        },
+    ]);
 
     const addNewAsset = () => {
         setState("Add New Asset");
         setOpenModal(true);
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            console.log("Fetching data from Supabase...");
+            
+            //Bank
+            let { data: Bank_accounts, error: bank_error } = await supabase
+                .from('Bank_accounts')
+                .select(`name`)
+                
+            if (bank_error) {
+                console.error("Error fetching data:", bank_error);
+            } else {
+                // let banks: any [] = Bank_accounts?.filter(item => item.name);
+                // setBankList(banks);
+            }
+            //Liquidity
+
+            let _accordionData = accordionData.slice(0);
+            let totalAmount : number = 0;
+            
+            let { data: Liquidity_users, error: liquidity_error } = await supabase
+                .from('Liquidity_users')
+                .select(`*, Bank_accounts(name)`)
+                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+
+            if (liquidity_error) {
+                console.error("Error fetching data:", liquidity_error);
+            } else {
+                console.log("Fetched Liquidity_Users:", Liquidity_users);
+                if (Liquidity_users) {
+                    totalAmount = 0;
+                    
+                    let bankArray: string [] = [];
+                    Liquidity_users.forEach(item => {
+                        if(bankArray.includes(item.Bank_accounts.name) === false) bankArray.push(item.Bank_accounts.name); 
+                    });
+
+                    setBankList(bankArray);
+                    
+                    bankArray.forEach(bank => {
+                        let temp: any [] = [];
+                        let tableData : TableData = {title: ["Date", "Impoto"], content: []};
+                        let bankAmount : number = 0;
+
+                        Liquidity_users.forEach(item => {
+                            if(item.Bank_accounts.name === bank) {
+                                temp.push(item);
+                                tableData.content.push([item.date, item.amount]);
+                                bankAmount += item.amount;
+                            }
+                        });
+
+                        _accordionData[0].content.push({
+                            title: {name: bank, price: bankAmount + ""},
+                            table: tableData
+                        })
+
+                        totalAmount += bankAmount;
+                    })
+                    _accordionData[0].title.price = totalAmount + "";
+                }
+            }
+
+            //Investimenti
+
+            //Immobiliare
+
+            //Altenativi
+
+            //Passivita
+
+            console.log("_accordionData =>", _accordionData);
+            setAccordionData(_accordionData);
+        };
+    
+        fetchData();
+    }, []);
+
+
 
     return (
         <div className="w-full flex-1 flex flex-col min-w-80 bg-[#ebf2f3] p-5">
@@ -66,7 +183,7 @@ export function MainPage() {
             <div className="w-full h-[350px] p-3 rounded-lg bg-white overflow-y-scroll">
                 <AccordionTemp accordionData={accordionData}  state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />          
             </div>
-            <ModalTemp listData={listData} userlist={userlist} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />
+            <ModalTemp listData={listData} bankList={bankList} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />
         </div>
     );
 }
