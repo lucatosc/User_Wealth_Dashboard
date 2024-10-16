@@ -55,6 +55,7 @@ export function MainPage() {
     const [account, setAccount] = useState <string> ("");
     const [amount, setAmount] = useState <number> (0);
     const [newDate, setNewDate] = useState <any> (Date.now());
+    const [newAccount, setNewAccount] = useState <string> ("");
 
     const addNewAsset = () => {
         setState("Add New Asset");
@@ -226,11 +227,14 @@ export function MainPage() {
                     setAmount={setAmount} 
                     newDate={newDate} 
                     setNewDate={setNewDate}
+                    newAccount={newAccount} 
+                    setNewAccount={setNewAccount}
                 />          
             </div>
             <ModalTemp 
                 listData={listData} 
                 bankList={bankList} 
+                setBankList={setBankList} 
                 state={state} 
                 setState={setState} 
                 openModal={openModal} 
@@ -243,6 +247,8 @@ export function MainPage() {
                 setAmount={setAmount} 
                 newDate={newDate} 
                 setNewDate={setNewDate}
+                newAccount={newAccount} 
+                setNewAccount={setNewAccount}
             />
         </div>
     );

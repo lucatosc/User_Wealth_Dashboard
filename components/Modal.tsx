@@ -1,7 +1,12 @@
 import { Button, Label, Modal, TextInput, Dropdown, Select } from "flowbite-react";
 import { TableData, TableTemp } from "./Table";
 import { useEffect, useState } from "react";
+import { createClient } from '@supabase/supabase-js';
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 type Props = {
     listData: TableData;
@@ -10,23 +15,40 @@ type Props = {
     openModal: boolean;
     setOpenModal: any;
     bankList: string [];
+    setBankList: any;
     checked: number;
     setChecked: any;
     account: string; 
     setAccount: any;
     amount: number;
     setAmount: any; 
-    newDate: Date; 
+    newDate: any; 
     setNewDate: any;
+    newAccount: string;
+    setNewAccount: any;
 };
 
 export const ModalTemp: React.FC<Props> = ({
-    listData, state, setState, openModal, setOpenModal, bankList, setChecked
+    listData, state, setState, openModal, setOpenModal, bankList, setBankList, setChecked, account, setAccount,  amount, setAmount, newAccount, setNewAccount, newDate, setNewDate
   }: Props) => {
+    const [totalBank, setTotalBank] = useState <any []> ([]);
 
     const addLiquidita = () => {
         setState("");
         setOpenModal(false);
+
+        const checkedBankId = totalBank.filter(bank => bank.name === account);
+
+        const fetchData = async () => {     
+            const { data, error } = await supabase
+                .from('Liquidity_users')
+                .insert([
+                    { date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                ])
+                .select()
+        }
+    
+        fetchData();
     }
 
     const updateLiquidita = () => {
@@ -52,6 +74,30 @@ export const ModalTemp: React.FC<Props> = ({
     const deleteData = () => {
         setState("");
         setOpenModal(false);
+    }
+
+    
+    const addNewAccount = () => {
+        const fetchData = async () => {     
+            const { data: Bank_accounts, error: bank_error } = await supabase
+                .from('Bank_accounts')
+                .insert([
+                    { name: newAccount },
+                ])
+                .select("name, id")
+            
+            if (bank_error) {
+                console.error("Error fetching data:", bank_error);
+            } else {
+                if(Bank_accounts) {
+                    let banks: string [] = Bank_accounts.map(item => item.name);
+                    setBankList(banks);
+                    setTotalBank(Bank_accounts);
+                }
+            }
+        }
+
+        fetchData();
     }
 
     const [dropDown, setDropDown] = useState("No Account Available");
@@ -86,20 +132,20 @@ export const ModalTemp: React.FC<Props> = ({
                         </div>
                         <Select id="account" required>
                             {bankList.length > 0 ? 
-                            bankList.map((user, index) => <option key={index} onClick={() => setDropDown(user)}>{user}</option>) : 
+                            bankList.map((user, index) => <option key={index} onClick={() => setAccount(user)}>{user}</option>) : 
                             <option>No Account Available</option>}
                         </Select>
                     </div>
                     <div>
-                        <div className="text-blue-600 cursor-pointer" onClick={setAddAccount}>Add new account</div>
+                        <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add new account</div>
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
-                        <TextInput id="account" type="number" required />
+                        <TextInput id="account" type="number" required value={amount} onChange={e => setAmount(e.target.value)}/>
                     </div>
                     <div>
-                        <Label htmlFor="date" value="Date" />
-                        <TextInput id="date" type="date" required />
+                        <Label htmlFor="date" value="Date"/>
+                        <TextInput id="date" type="date" required value={newDate} onChange={e => setNewDate(e.target.value)}/>
                     </div>
                     <div className="w-full items-center justify-center">
                         <Button onClick={addLiquidita}>Add</Button>
@@ -117,7 +163,7 @@ export const ModalTemp: React.FC<Props> = ({
                         </div>
                         <Select id="account" required>
                             {bankList.length > 0 ? 
-                            bankList.map(user => <option onClick={() => setDropDown(user)}>{user}</option>) : 
+                            bankList.map(user => <option onClick={() => setAccount=(user)}>{user}</option>) : 
                             <option>No Account Available</option>}
                         </Select>
                     </div>
@@ -129,7 +175,7 @@ export const ModalTemp: React.FC<Props> = ({
                         <TextInput id="account" type="number" required />
                     </div>
                     <div>
-                        <Label htmlFor="date" value="Date" />
+                        <Label htmlFor="date" value="Date"/>
                         <TextInput id="date" type="date" required />
                     </div>
                     <div className="w-full">
@@ -144,10 +190,10 @@ export const ModalTemp: React.FC<Props> = ({
                 <div className="space-y-6">
                     <div>
                         <Label htmlFor="amount" value="Account Name" />
-                        <TextInput id="account" type="text" required />
+                        <TextInput id="account" type="text" required value={newAccount} onChange={e => setNewAccount(e.target.value)}/>
                     </div>
                     <div className="w-full">
-                        <Button onClick={addAccount}>Add</Button>
+                        <Button onClick={addNewAccount}>Add</Button>
                     </div>
                 </div>
             </Modal.Body>}

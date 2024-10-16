@@ -12,8 +12,8 @@ type Props = {
     tableData: TableData;
     state: string;
     setState: any;
-    openModal?: boolean;
-    setOpenModal?: any;
+    openModal: boolean;
+    setOpenModal: any;
     setChecked: any;
 };
 
