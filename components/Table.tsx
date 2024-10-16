@@ -14,10 +14,11 @@ type Props = {
     setState: any;
     openModal?: boolean;
     setOpenModal?: any;
+    setChecked: any;
 };
 
 export const TableTemp: React.FC<Props> = ({
-    tableData, state, setState ,openModal, setOpenModal
+    tableData, state, setState ,openModal, setOpenModal, setChecked,
   }: Props) => {
 
     const editData = () => {
@@ -30,10 +31,11 @@ export const TableTemp: React.FC<Props> = ({
         setOpenModal(true);
     }
 
-    const setModal = () => {
+    const setModal = (index: number) => {
         if(state === "Add New Asset") {
             setState("Add New Liquidita");
             setOpenModal(true);
+            setChecked(index);
         }
     }
 
@@ -49,7 +51,7 @@ export const TableTemp: React.FC<Props> = ({
             <TableBody className="divide-y">
                 {tableData && tableData.content.length > 0 ? 
                     tableData.content.map((item, index) => (
-                        <TableRow key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800" onClick={setModal}>
+                        <TableRow key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800" onClick={e => setModal(index)}>
                             {item.map((val, cellIndex) =>
                                 <TableCell key={cellIndex} className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                     {val}

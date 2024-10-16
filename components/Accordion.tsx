@@ -67,16 +67,25 @@ type Props = {
     setState: any;
     openModal: boolean;
     setOpenModal: any;
+    checked: number;
+    setChecked: any;
+    account: string; 
+    setAccount: any;
+    amount: number;
+    setAmount: any; 
+    newDate: Date; 
+    setNewDate: any;
 };
 
 export const AccordionTemp: React.FC<Props> = ({
-    accordionData, state, setState, openModal, setOpenModal
+    accordionData, state, setState, openModal, setOpenModal, setChecked, 
   }: Props) => {
 
-    const addLiquidita = (e : any) => {
+    const addLiquidita = (e : any, index: number) => {
         e.preventDefault();
         setState("Add New Liquidita");
         setOpenModal(true);
+        setChecked(index);
     }
     
     return (
@@ -88,7 +97,7 @@ export const AccordionTemp: React.FC<Props> = ({
                             <div>{acco.title.name}</div>
                             <div className="flex items-center">
                                 <div className="pr-4">{acco.title.price}</div>
-                                <div><FaPlus onClick={addLiquidita}/></div>
+                                <div><FaPlus onClick={e => addLiquidita(e, index)}/></div>
                             </div>
                         </div>
                     {/* </Typography> */}
@@ -108,7 +117,7 @@ export const AccordionTemp: React.FC<Props> = ({
                             </AccordionSummary>
                             {_acco.table && <AccordionDetails style={{padding: "0"}}>
                                 {/* <Typography> */}
-                                    <TableTemp tableData={_acco.table} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal}/>
+                                    <TableTemp tableData={_acco.table} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} setChecked={undefined}/>
                                 {/* </Typography> */}
                             </AccordionDetails>}
                         </Accordion>

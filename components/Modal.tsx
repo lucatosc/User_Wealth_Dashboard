@@ -10,10 +10,18 @@ type Props = {
     openModal: boolean;
     setOpenModal: any;
     bankList: string [];
+    checked: number;
+    setChecked: any;
+    account: string; 
+    setAccount: any;
+    amount: number;
+    setAmount: any; 
+    newDate: Date; 
+    setNewDate: any;
 };
 
 export const ModalTemp: React.FC<Props> = ({
-    listData, state, setState, openModal, setOpenModal, bankList,
+    listData, state, setState, openModal, setOpenModal, bankList, setChecked
   }: Props) => {
 
     const addLiquidita = () => {
@@ -58,7 +66,14 @@ export const ModalTemp: React.FC<Props> = ({
             {/* Add New Asset Modal} */}
             {state === "Add New Asset" && <Modal.Header>Add Assert</Modal.Header>}
             {state === "Add New Asset" && <Modal.Body>
-                <TableTemp openModal={openModal} setOpenModal={setOpenModal} tableData={listData} state={state} setState={setState}/>
+                <TableTemp 
+                    openModal={openModal} 
+                    setOpenModal={setOpenModal} 
+                    tableData={listData} 
+                    state={state} 
+                    setState={setState}
+                    setChecked={setChecked}
+                />
             </Modal.Body>}
 
             {/* Add New Liquidita */}

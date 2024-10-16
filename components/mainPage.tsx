@@ -212,9 +212,38 @@ export function MainPage() {
                 </div>
             </div>
             <div className="w-full h-[350px] p-3 rounded-lg bg-white overflow-y-scroll">
-                <AccordionTemp accordionData={accordionData}  state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />          
+                <AccordionTemp 
+                    accordionData={accordionData} 
+                    state={state} 
+                    setState={setState} 
+                    openModal={openModal} 
+                    setOpenModal={setOpenModal}
+                    checked={checked} 
+                    setChecked={setChecked}
+                    account={account} 
+                    setAccount={setAccount}
+                    amount={amount} 
+                    setAmount={setAmount} 
+                    newDate={newDate} 
+                    setNewDate={setNewDate}
+                />          
             </div>
-            <ModalTemp listData={listData} bankList={bankList} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} />
+            <ModalTemp 
+                listData={listData} 
+                bankList={bankList} 
+                state={state} 
+                setState={setState} 
+                openModal={openModal} 
+                setOpenModal={setOpenModal} 
+                checked={checked} 
+                setChecked={setChecked}
+                account={account} 
+                setAccount={setAccount}
+                amount={amount} 
+                setAmount={setAmount} 
+                newDate={newDate} 
+                setNewDate={setNewDate}
+            />
         </div>
     );
 }
