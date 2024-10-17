@@ -69,6 +69,9 @@ export function MainPage() {
     const [newDate, setNewDate] = useState <any> (getDateNow());
     const [newAccount, setNewAccount] = useState <string> ("");
 
+    const [chart0, setChart0] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [chart1, setChart1] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
     const addNewAsset = () => {
         setState("Add New Asset");
         setOpenModal(true);
@@ -77,6 +80,9 @@ export function MainPage() {
     useEffect(() => {
         const fetchData = async () => {
             console.log("Fetching data from Supabase...");
+
+            let Chart0 = chart0.slice(0);
+            let Chart1 = chart1.slice(0);
             
             //Liquidity
 
@@ -133,6 +139,10 @@ export function MainPage() {
                                 temp.push(item);
                                 tableData.content.push([item.date, item.amount, item.id]);
                                 bankAmount += item.amount;
+
+                                let month = parseFloat(item.date.slice(5, 7));
+                                Chart1[month - 1] += item.amount;
+                                Chart0[month - 1] += item.amount;
                             }
                         });
 
@@ -159,6 +169,10 @@ export function MainPage() {
 
             console.log("_accordionData =>", _accordionData);
             setAccordionData(_accordionData);
+            setChart0(Chart0);
+            setChart1(Chart1);
+
+            console.log(Chart1);
         };
     
         fetchData();
@@ -179,9 +193,11 @@ export function MainPage() {
             </div>
             <div className="w-full h-[300px] rounded-lg bg-white">
                 <LineChart
+                    // xAxis={[{ data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }]}
+                    xAxis={[{ data: [1,2,3,4,5,6,7,8,9,10,11,12] }]}
                     series={[
-                        { curve: "linear", data: [0, 5, 2, 6, 3, 9.3] },
-                        { curve: "linear", data: [6, 3, 7, 9.5, 4, 2] },
+                      {curve: "linear", data: chart0},
+                      {curve: "linear", data: chart1},
                     ]}
                 />
             </div>
