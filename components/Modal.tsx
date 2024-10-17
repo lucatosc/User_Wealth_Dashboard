@@ -32,20 +32,16 @@ export const ModalTemp: React.FC<Props> = ({
     const [totalBank, setTotalBank] = useState <any []> ([]);
     const [bankList, setBankList] = useState <string[]>([]);
 
-
-    console.log("account => ", account);
-    console.log("amount => ", amount);
-    console.log("newDate => ", newDate);
-
-
     const addLiquidita = () => {
         setState("");
         setOpenModal(false);
 
         const checkedBankId = totalBank.filter(bank => bank.name === account);
 
+
         console.log("Total Bank:", totalBank);
         console.log("Account:", account);
+        console.log("newDate:", newDate);
         console.log("Checked Bank ID:", checkedBankId);
 
         const fetchData = async () => {     
@@ -64,15 +60,9 @@ export const ModalTemp: React.FC<Props> = ({
         setState("");
         setOpenModal(false);
     }
-
-    const setAddAccount = () => {
-        console.log("sdfwewefwegew")
-        setState("Add New Liquidita Account");
-        setOpenModal(true);
-    }
     
     const addAccount = () => {
-        setState("Add New Liquidita");
+        setState("Add New Liquidita Account");
         setOpenModal(true);
     }
 
@@ -97,17 +87,7 @@ export const ModalTemp: React.FC<Props> = ({
                 .insert([
                     { name: newAccount },
                 ])
-                .select("name, id")
-            
-            if (bank_error) {
-                console.error("Error fetching data:", bank_error);
-            } else {
-                if(Bank_accounts) {
-                    let banks: string [] = Bank_accounts.map(item => item.name);
-                    setBankList(banks);
-                    setTotalBank(Bank_accounts);
-                }
-            }
+                .select()
         }
 
         fetchData();
@@ -118,7 +98,7 @@ export const ModalTemp: React.FC<Props> = ({
             //Bank
             let { data: Bank_accounts, error: bank_error } = await supabase
             .from('Bank_accounts')
-            .select(`name`)
+            .select(`name, id`)
             
             if (bank_error) {
                 console.error("Error fetching data:", bank_error);
@@ -126,6 +106,8 @@ export const ModalTemp: React.FC<Props> = ({
                 if(Bank_accounts) {
                     let banks: string [] = Bank_accounts.map(item => item.name);
                     setBankList(banks);
+                    setTotalBank(Bank_accounts);
+                    if(!account) setAccount(banks[0]);
                 }
             }
         }
@@ -164,9 +146,9 @@ export const ModalTemp: React.FC<Props> = ({
                         <div className="mb-2 block">
                             <Label htmlFor="account" value="Account" />
                         </div>
-                        <Select id="account" required>
+                        <Select id="account" value={account} onChange={e => setAccount(e.target.value)} required>
                             {bankList.length > 0 ? 
-                            bankList.map((user, index) => <option key={index} onClick={() => setAccount(user)}>{user}</option>) : 
+                            bankList.map((user, index) => <option key={index} value={user}>{user}</option>) : 
                             <option>No Account Available</option>}
                         </Select>
                     </div>
@@ -197,12 +179,12 @@ export const ModalTemp: React.FC<Props> = ({
                         </div>
                         <Select id="account" required>
                             {bankList.length > 0 ? 
-                            bankList.map(user => <option onClick={() => setAccount=(user)}>{user}</option>) : 
+                            bankList.map(user => <option onClick={() => setAccount(user)}>{user}</option>) : 
                             <option>No Account Available</option>}
                         </Select>
                     </div>
                     <div>
-                        <div className="text-blue-600 hover:cursor-pointer" onClick={setAddAccount}>Add new account</div>
+                        <div className="text-blue-600 hover:cursor-pointer" onClick={addAccount}>Add new account</div>
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />

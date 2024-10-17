@@ -1,5 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { getDateNow } from "./mainPage";
 
 
 export type TableData =
@@ -45,7 +46,7 @@ export const TableTemp: React.FC<Props> = ({
             setChecked(index);
             setAccount("");
             setAmount(0);
-            setNewDate(Date.now());
+            setNewDate(getDateNow());
         }
     }
 

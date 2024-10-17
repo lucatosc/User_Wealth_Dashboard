@@ -44,6 +44,16 @@ export const initAccordionData: AccordionData [] = [
     },
 ];
 
+export const getDateNow = () => {
+    const now = new Date(Date.now()); // Get the current date
+    const year = String(now.getFullYear()).slice(0); // Get last two digits of the year
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Get the month (0-11) and pad with 0
+    const day = String(now.getDate()).padStart(2, '0'); // Get the date and pad with 0
+
+    return `${year}-${month}-${day}`; // Format the date into YY-MM-DD
+}
+
+
 export function MainPage() {
 
     const [openModal, setOpenModal] = useState(false);
@@ -53,7 +63,7 @@ export function MainPage() {
     const [checked, setChecked] = useState <number> (0);
     const [account, setAccount] = useState <string> ("");
     const [amount, setAmount] = useState <number> (0);
-    const [newDate, setNewDate] = useState <any> (Date.now());
+    const [newDate, setNewDate] = useState <any> (getDateNow());
     const [newAccount, setNewAccount] = useState <string> ("");
 
     const addNewAsset = () => {
