@@ -49,7 +49,12 @@ export const ModalTemp: React.FC<Props> = ({
                     ])
                     .select()
             } else if(checked === 1) {
-
+                const { data, error } = await supabase
+                .from('Investments_users')
+                .insert([
+                    { date: newDate, quantity: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                ])
+                .select()
             } else if(checked === 2) {
 
             } else if(checked === 3) {
@@ -81,7 +86,11 @@ export const ModalTemp: React.FC<Props> = ({
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 1) {
-                
+                const { data, error } = await supabase
+                    .from('Investments_users')
+                    .update({ date: newDate, quantity: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .eq('id', checkCateId)
+                    .select()
             } else if(checked === 2) {
                 
             } else if(checked === 3) {
@@ -119,7 +128,10 @@ export const ModalTemp: React.FC<Props> = ({
                     .delete()
                     .eq('id', checkCateId)
             } else if(checked === 1) {
-                
+                const { error } = await supabase
+                    .from('Investments_users')
+                    .delete()
+                    .eq('id', checkCateId)
             } else if(checked === 2) {
                 
             } else if(checked === 3) {
@@ -157,7 +169,20 @@ export const ModalTemp: React.FC<Props> = ({
                     }
                 }
             } else if(checked === 1) {
-
+                const { data: Investments, error: Investments_error } = await supabase
+                .from('Investments')
+                .insert([
+                    { name: newAccount },
+                ])
+                .select()
+            
+            if (Investments_error) {
+                console.error("Error fetching data:", Investments_error);
+            } else {
+                if(Investments) {
+                    setAccount(newAccount);
+                }
+            }
             } else if(checked === 2) {
 
             } else if(checked === 3) {
@@ -202,7 +227,20 @@ export const ModalTemp: React.FC<Props> = ({
                     }
                 }
             } else if(checked === 1) {
-
+                let { data: Investments, error: Investment_error } = await supabase
+                .from('Investments')
+                .select(`name, id`)
+                
+                if (Investment_error) {
+                    console.error("Error fetching data:", Investment_error);
+                } else {
+                    if(Investments) {
+                        let banks: string [] = Investments.map(item => item.name);
+                        setBankList(banks);
+                        setTotalBank(Investments);
+                        if(!account) setAccount(banks[0]);
+                    }
+                }
             } else if(checked === 2) {
 
             } else if(checked === 3) {

@@ -167,35 +167,33 @@ export function MainPage() {
             }
             
             //Investimenti
-            totalAmount = 0;
-
-            let { data: Investements_users, error: Investements_error } = await supabase
-                .from('Investements_users')
-                .select(`*, Alternatives(name)`)
+            let { data: Investments_users, error: Investments_error } = await supabase
+                .from('Investments_users')
+                .select(`*, Investments(name)`)
                 .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
 
-            if (Investements_error) {
-                console.error("Error fetching data:", Investements_error);
+            if (Investments_error) {
+                console.error("Error fetching data:", Investments_error);
             } else {
-                console.log("Fetched Investements_Users:", Investements_users);
-                if (Investements_users) {
+                console.log("Fetched Investements_Users:", Investments_users);
+                if (Investments_users) {
                     totalAmount = 0;
                     
                     let InvArray: string [] = [];
-                    Investements_users.forEach(item => {
-                        if(InvArray.includes(item.Investments.name) === false) InvArray.push(item.investments.name); 
+                    Investments_users.forEach(item => {
+                        if(InvArray.includes(item.Investments.name) === false) InvArray.push(item.Investments.name); 
                     });
 
-                    InvArray.forEach(alt => {
+                    InvArray.forEach(inv => {
                         let temp: any [] = [];
-                        let tableData : TableData = {mainCategory: 0, childCategory: alt, title: ["Date", "Impoto"], content: []};
-                        let altAmount : number = 0;
+                        let tableData : TableData = {mainCategory: 0, childCategory: inv, title: ["Date", "Impoto"], content: []};
+                        let invAmount : number = 0;
 
-                        Investements_users.forEach(item => {
-                            if(item.Investment.name === alt) {
+                        Investments_users.forEach(item => {
+                            if(item.Investments.name === inv) {
                                 temp.push(item);
                                 tableData.content.push([item.date, item.quantity, item.id]);
-                                altAmount += item.quantity;
+                                invAmount += item.quantity;
 
                                 let month = parseFloat(item.date.slice(5, 7));
                                 Chart2[month - 1] += item.quantity;
@@ -204,11 +202,11 @@ export function MainPage() {
                         });
 
                         _accordionData[1].content.push({
-                            title: {name: alt, price: altAmount + ""},
+                            title: {name: inv, price: invAmount + ""},
                             table: tableData
                         })
 
-                        totalAmount += altAmount;
+                        totalAmount += invAmount;
                     })
 
                     _accordionData[1].title.price = totalAmount + "";
@@ -218,8 +216,6 @@ export function MainPage() {
             //Immobiliare
             
             //Altenativi
-            totalAmount = 0;
-
             let { data: Alternative_users, error: Alternative_error } = await supabase
                 .from('Alternative_users')
                 .select(`*, Alternatives(name)`)
@@ -377,7 +373,3 @@ export function MainPage() {
         </div>
     );
 }
-function moment(arg0: Date, DATE_TIME_FORMAT: any): any {
-    throw new Error("Function not implemented.");
-}
-
