@@ -159,7 +159,7 @@ export function MainPage() {
         };
     
         fetchData();
-    }, []);
+    }, [state, openModal, checked]);
 
 
 

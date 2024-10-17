@@ -38,12 +38,6 @@ export const ModalTemp: React.FC<Props> = ({
 
         const checkedBankId = totalBank.filter(bank => bank.name === account);
 
-
-        console.log("Total Bank:", totalBank);
-        console.log("Account:", account);
-        console.log("newDate:", newDate);
-        console.log("Checked Bank ID:", checkedBankId);
-
         const fetchData = async () => {     
             const { data, error } = await supabase
                 .from('Liquidity_users')
@@ -88,6 +82,14 @@ export const ModalTemp: React.FC<Props> = ({
                     { name: newAccount },
                 ])
                 .select()
+            
+            if (bank_error) {
+                console.error("Error fetching data:", bank_error);
+            } else {
+                if(Bank_accounts) {
+                    setAccount(newAccount);
+                }
+            }
         }
 
         fetchData();
@@ -113,7 +115,7 @@ export const ModalTemp: React.FC<Props> = ({
         }
 
         fetchData();
-    }, [])
+    }, [bankList])
 
     return (
         <Modal show={openModal} size="sm" onClose={() => {setOpenModal(false); setState("");}}>

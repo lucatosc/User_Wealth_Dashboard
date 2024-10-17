@@ -9,6 +9,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import { TableTemp, TableData } from "./Table";
 import { FaPlus } from 'react-icons/fa';
+import { getDateNow } from './mainPage';
 
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -85,6 +86,7 @@ export const AccordionTemp: React.FC<Props> = ({
     setState, 
     openModal, 
     setOpenModal, 
+    checked,
     setChecked, 
     account, 
     setAccount, 
@@ -101,6 +103,9 @@ export const AccordionTemp: React.FC<Props> = ({
         setState("Add New Liquidita");
         setOpenModal(true);
         setChecked(index);
+        setAccount("");
+        setAmount(0);
+        setNewDate(getDateNow());
     }
     
     return (
@@ -138,7 +143,7 @@ export const AccordionTemp: React.FC<Props> = ({
                                         setState={setState} 
                                         openModal={openModal} 
                                         setOpenModal={setOpenModal} 
-                                        checked={setChecked} 
+                                        checked={checked} 
                                         setChecked={setChecked} 
                                         account={account} 
                                         setAccount={setAccount}

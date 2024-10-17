@@ -26,7 +26,7 @@ type Props = {
 };
 
 export const TableTemp: React.FC<Props> = ({
-    tableData, state, setState, setOpenModal, setChecked, setAccount, setNewDate, setAmount, 
+    tableData, state, setState, checked, setOpenModal, setChecked, setAccount, setNewDate, setAmount, 
   }: Props) => {
 
     const editData = () => {
@@ -49,6 +49,8 @@ export const TableTemp: React.FC<Props> = ({
             setNewDate(getDateNow());
         }
     }
+
+    console.log("checked => ", checked);
 
     return (
         <Table striped>
