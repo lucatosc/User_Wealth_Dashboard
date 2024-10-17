@@ -117,7 +117,7 @@ export const AccordionTemp: React.FC<Props> = ({
             <Accordion key={index} className="mb-3 rounded-lg">
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" onClick={() => setChecked(index)}>
                     {/* <Typography> */}
-                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 120px)'}}>
+                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 130px)'}}>
                             <div>{acco.title.name}</div>
                             <div className="flex items-center">
                                 <div className="pr-4">{acco.title.price}</div>
@@ -131,7 +131,7 @@ export const AccordionTemp: React.FC<Props> = ({
                         <Accordion key={index} className="mb-3 rounded-lg rounded-r-none">
                             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                                 {/* <Typography> */}
-                                    <div className="flex items-center justify-between" style={{width: 'calc(100vw - 140px)'}}>
+                                    <div className="flex items-center justify-between" style={{width: 'calc(100vw - 150px)'}}>
                                         <div>{_acco.title.name}</div>
                                         <div className="flex items-center">
                                             <div className="pr-4">{_acco.title.price}</div>

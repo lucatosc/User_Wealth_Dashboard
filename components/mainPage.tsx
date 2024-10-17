@@ -71,6 +71,9 @@ export function MainPage() {
 
     const [chart0, setChart0] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [chart1, setChart1] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [chart2, setChart2] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [chart3, setChart3] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [chart4, setChart4] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
     const addNewAsset = () => {
         setState("Add New Asset");
@@ -83,9 +86,11 @@ export function MainPage() {
 
             let Chart0 = chart0.slice(0);
             let Chart1 = chart1.slice(0);
+            let Chart2 = chart2.slice(0);
+            let Chart3 = chart3.slice(0);
+            let Chart4 = chart4.slice(0);
             
-            //Liquidity
-
+            
             let _accordionData : AccordionData [] = [
                 {
                     title: {name: "Liquidita", price: "0"},
@@ -108,9 +113,10 @@ export function MainPage() {
                     content: []
                 },
             ];
-            let totalAmount : number = 0;
             
-            console.log("initAccordionData => ", initAccordionData)
+            //Liquidity
+            
+            let totalAmount : number = 0;
 
             let { data: Liquidity_users, error: liquidity_error } = await supabase
                 .from('Liquidity_users')
@@ -155,15 +161,61 @@ export function MainPage() {
                     })
 
                     _accordionData[0].title.price = totalAmount + "";
-                    console.log("_accordionData =>", _accordionData);
                 }
             }
-
+            
             //Investimenti
-
+            
             //Immobiliare
-
+            
             //Altenativi
+            totalAmount = 0;
+
+            let { data: Alternative_users, error: Alternative_error } = await supabase
+                .from('Alternative_users')
+                .select(`*, Alternatives(name)`)
+                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+
+            if (Alternative_error) {
+                console.error("Error fetching data:", Alternative_error);
+            } else {
+                console.log("Fetched Liquidity_Users:", Alternative_users);
+                if (Alternative_users) {
+                    totalAmount = 0;
+                    
+                    let altArray: string [] = [];
+                    Alternative_users.forEach(item => {
+                        if(altArray.includes(item.Alternatives.name) === false) altArray.push(item.Alternatives.name); 
+                    });
+
+                    altArray.forEach(alt => {
+                        let temp: any [] = [];
+                        let tableData : TableData = {mainCategory: 0, childCategory: alt, title: ["Date", "Impoto"], content: []};
+                        let altAmount : number = 0;
+
+                        Alternative_users.forEach(item => {
+                            if(item.Alternatives.name === alt) {
+                                temp.push(item);
+                                tableData.content.push([item.date, item.value, item.id]);
+                                altAmount += item.value;
+
+                                let month = parseFloat(item.date.slice(5, 7));
+                                Chart3[month - 1] += item.value;
+                                Chart0[month - 1] += item.value;
+                            }
+                        });
+
+                        _accordionData[3].content.push({
+                            title: {name: alt, price: altAmount + ""},
+                            table: tableData
+                        })
+
+                        totalAmount += altAmount;
+                    })
+
+                    _accordionData[3].title.price = totalAmount + "";
+                }
+            }
 
             //Passivita
 
@@ -171,8 +223,10 @@ export function MainPage() {
             setAccordionData(_accordionData);
             setChart0(Chart0);
             setChart1(Chart1);
+            setChart2(Chart2);
+            setChart3(Chart3);
+            setChart4(Chart4);
 
-            console.log(Chart1);
         };
     
         fetchData();
@@ -198,6 +252,9 @@ export function MainPage() {
                     series={[
                       {curve: "linear", data: chart0},
                       {curve: "linear", data: chart1},
+                      {curve: "linear", data: chart2},
+                      {curve: "linear", data: chart3},
+                      {curve: "linear", data: chart4},
                     ]}
                 />
             </div>

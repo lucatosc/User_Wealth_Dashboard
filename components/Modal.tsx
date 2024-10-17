@@ -40,13 +40,28 @@ export const ModalTemp: React.FC<Props> = ({
 
         const checkedBankId = totalBank.filter(bank => bank.name === account);
 
-        const fetchData = async () => {     
-            const { data, error } = await supabase
-                .from('Liquidity_users')
+        const fetchData = async () => {
+            if(checked === 0) {     
+                const { data, error } = await supabase
+                    .from('Liquidity_users')
+                    .insert([
+                        { date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                    ])
+                    .select()
+            } else if(checked === 1) {
+
+            } else if(checked === 2) {
+
+            } else if(checked === 3) {
+                const { data, error } = await supabase
+                .from('Alternative_users')
                 .insert([
-                    { date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                    { date: newDate, value: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
                 ])
                 .select()
+            } else if(checked === 4) {
+
+            }
         }
     
         fetchData();
@@ -59,11 +74,25 @@ export const ModalTemp: React.FC<Props> = ({
         const checkedBankId = totalBank.filter(bank => bank.name === account);
         
         const fetchData = async () => {     
-            const { data, error } = await supabase
-                .from('Liquidity_users')
-                .update({ date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
-                .eq('id', checkCateId)
-                .select()
+            if(checked === 0) {
+                const { data, error } = await supabase
+                    .from('Liquidity_users')
+                    .update({ date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .eq('id', checkCateId)
+                    .select()
+            } else if(checked === 1) {
+                
+            } else if(checked === 2) {
+                
+            } else if(checked === 3) {
+                const { data, error } = await supabase
+                    .from('Alternavie_users')
+                    .update({ date: newDate, value: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .eq('id', checkCateId)
+                    .select()
+            } else if(checked === 4) {
+
+            }
         }
     
         fetchData();
@@ -84,10 +113,23 @@ export const ModalTemp: React.FC<Props> = ({
         setOpenModal(false);
         
         const fetchData = async () => {     
-            const { error } = await supabase
-                .from('Liquidity_users')
-                .delete()
-                .eq('id', checkCateId)
+            if(checked === 0) {
+                const { error } = await supabase
+                    .from('Liquidity_users')
+                    .delete()
+                    .eq('id', checkCateId)
+            } else if(checked === 1) {
+                
+            } else if(checked === 2) {
+                
+            } else if(checked === 3) {
+                const { error } = await supabase
+                    .from('Alternative_users')
+                    .delete()
+                    .eq('id', checkCateId)
+            } else if(checked === 4) {
+
+            }
         }
 
         fetchData();
@@ -99,19 +141,42 @@ export const ModalTemp: React.FC<Props> = ({
         setOpenModal(true);
 
         const fetchData = async () => {     
-            const { data: Bank_accounts, error: bank_error } = await supabase
-                .from('Bank_accounts')
-                .insert([
-                    { name: newAccount },
-                ])
-                .select()
-            
-            if (bank_error) {
-                console.error("Error fetching data:", bank_error);
-            } else {
-                if(Bank_accounts) {
-                    setAccount(newAccount);
+            if(checked === 0) {
+                const { data: Bank_accounts, error: bank_error } = await supabase
+                    .from('Bank_accounts')
+                    .insert([
+                        { name: newAccount },
+                    ])
+                    .select()
+                
+                if (bank_error) {
+                    console.error("Error fetching data:", bank_error);
+                } else {
+                    if(Bank_accounts) {
+                        setAccount(newAccount);
+                    }
                 }
+            } else if(checked === 1) {
+
+            } else if(checked === 2) {
+
+            } else if(checked === 3) {
+                const { data: Altenatives, error: Alternatives_error } = await supabase
+                    .from('Alternatives')
+                    .insert([
+                        { name: newAccount },
+                    ])
+                    .select()
+                
+                if (Alternatives_error) {
+                    console.error("Error fetching data:", Alternatives_error);
+                } else {
+                    if(Altenatives) {
+                        setAccount(newAccount);
+                    }
+                }
+            } else if(checked === 4) {
+
             }
         }
 
@@ -120,20 +185,43 @@ export const ModalTemp: React.FC<Props> = ({
 
     useEffect(() => {
         const fetchData = async () => {
-            //Bank
-            let { data: Bank_accounts, error: bank_error } = await supabase
-            .from('Bank_accounts')
-            .select(`name, id`)
-            
-            if (bank_error) {
-                console.error("Error fetching data:", bank_error);
-            } else {
-                if(Bank_accounts) {
-                    let banks: string [] = Bank_accounts.map(item => item.name);
-                    setBankList(banks);
-                    setTotalBank(Bank_accounts);
-                    if(!account) setAccount(banks[0]);
+            if(checked === 0) {
+                //Bank
+                let { data: Bank_accounts, error: bank_error } = await supabase
+                .from('Bank_accounts')
+                .select(`name, id`)
+                
+                if (bank_error) {
+                    console.error("Error fetching data:", bank_error);
+                } else {
+                    if(Bank_accounts) {
+                        let banks: string [] = Bank_accounts.map(item => item.name);
+                        setBankList(banks);
+                        setTotalBank(Bank_accounts);
+                        if(!account) setAccount(banks[0]);
+                    }
                 }
+            } else if(checked === 1) {
+
+            } else if(checked === 2) {
+
+            } else if(checked === 3) {
+                let { data: Alternatives, error: alt_error } = await supabase
+                .from('Bank_accounts')
+                .select(`name, id`)
+                
+                if (alt_error) {
+                    console.error("Error fetching data:", alt_error);
+                } else {
+                    if(Alternatives) {
+                        let banks: string [] = Alternatives.map(item => item.name);
+                        setBankList(banks);
+                        setTotalBank(Alternatives);
+                        if(!account) setAccount(banks[0]);
+                    }
+                }
+            } else if(checked === 4) {
+
             }
         }
 
