@@ -78,6 +78,8 @@ type Props = {
     setNewDate: any;
     newAccount: string;
     setNewAccount: any;
+    checkCateId: string;
+    setCheckCateId: any;
 };
 
 export const AccordionTemp: React.FC<Props> = ({
@@ -95,7 +97,9 @@ export const AccordionTemp: React.FC<Props> = ({
     newAccount, 
     setNewAccount, 
     newDate, 
-    setNewDate
+    setNewDate,
+    checkCateId,
+    setCheckCateId,
   }: Props) => {
 
     const addLiquidita = (e : any, index: number) => {
@@ -111,7 +115,7 @@ export const AccordionTemp: React.FC<Props> = ({
     return (
         accordionData.map((acco, index) => 
             <Accordion key={index} className="mb-3 rounded-lg">
-                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" onClick={() => setChecked(index)}>
                     {/* <Typography> */}
                         <div className="flex items-center justify-between" style={{width: 'calc(100vw - 120px)'}}>
                             <div>{acco.title.name}</div>
@@ -150,7 +154,10 @@ export const AccordionTemp: React.FC<Props> = ({
                                         amount={amount} 
                                         setAmount={setAmount} 
                                         newDate={newDate} 
-                                        setNewDate={setNewDate}/>
+                                        setNewDate={setNewDate}
+                                        checkCateId={checkCateId}
+                                        setCheckCateId={setCheckCateId}
+                                    />
                                 {/* </Typography> */}
                             </AccordionDetails>}
                         </Accordion>

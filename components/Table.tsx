@@ -5,6 +5,8 @@ import { getDateNow } from "./mainPage";
 
 export type TableData =
     {
+        mainCategory: number,
+        childCategory: string,
         title: string [],
         content: string [][]
     };
@@ -23,20 +25,29 @@ type Props = {
     setAmount: any; 
     newDate: any; 
     setNewDate: any;
+    checkCateId?: string;
+    setCheckCateId?: any;
 };
 
 export const TableTemp: React.FC<Props> = ({
-    tableData, state, setState, checked, setOpenModal, setChecked, setAccount, setNewDate, setAmount, 
+    tableData, state, setState, checked, setOpenModal, setChecked, setAccount, setNewDate, setAmount, checkCateId, setCheckCateId, 
   }: Props) => {
 
-    const editData = () => {
+    const editData = (mainCate: number, _account: string, _newDate: string, _amount: string, id: string) => {
         setState("Add Update Liquidita");
         setOpenModal(true);
+        setCheckCateId(id);
+        setChecked(mainCate);
+        setAccount(_account);
+        setAmount(parseFloat(_amount));
+        setNewDate(_newDate);
     }
 
-    const deleteData = () => {
+    const deleteData = (mainCate: number, id: string) => {
         setState("Confirm");
         setOpenModal(true);
+        setCheckCateId(id);
+        setChecked(mainCate);
     }
 
     const setModal = (index: number) => {
@@ -49,8 +60,6 @@ export const TableTemp: React.FC<Props> = ({
             setNewDate(getDateNow());
         }
     }
-
-    console.log("checked => ", checked);
 
     return (
         <Table striped>
@@ -66,13 +75,13 @@ export const TableTemp: React.FC<Props> = ({
                     tableData.content.map((item, index) => (
                         <TableRow key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800" onClick={e => setModal(index)}>
                             {item.map((val, cellIndex) =>
-                                <TableCell key={cellIndex} className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                cellIndex < 2 && <TableCell key={cellIndex} className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                     {val}
                                 </TableCell>
                             )}
                             {state === "" && <TableCell className="flex justify-end">
-                                <FaEdit className="mr-4" onClick={editData}/>
-                                <FaTrash onClick={deleteData}/>
+                                <FaEdit className="mr-4" onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2])}/>
+                                <FaTrash onClick={() => deleteData(tableData.mainCategory, item[2])}/>
                             </TableCell>}
                             {state === "Add New Asset" && <TableCell className="flex justify-end" >
                                 <div className="cursor-pointer">{">"}</div>

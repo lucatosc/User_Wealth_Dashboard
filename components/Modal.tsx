@@ -24,10 +24,12 @@ type Props = {
     setNewDate: any;
     newAccount: string;
     setNewAccount: any;
+    checkCateId: string;
+    setCheckCateId: any;
 };
 
 export const ModalTemp: React.FC<Props> = ({
-    listData, state, setState, openModal, setOpenModal, checked, setChecked, account, setAccount,  amount, setAmount, newAccount, setNewAccount, newDate, setNewDate
+    listData, state, setState, openModal, setOpenModal, checked, setChecked, account, setAccount,  amount, setAmount, newAccount, setNewAccount, newDate, setNewDate, checkCateId, setCheckCateId
   }: Props) => {
     const [totalBank, setTotalBank] = useState <any []> ([]);
     const [bankList, setBankList] = useState <string[]>([]);
@@ -53,6 +55,18 @@ export const ModalTemp: React.FC<Props> = ({
     const updateLiquidita = () => {
         setState("");
         setOpenModal(false);
+
+        const checkedBankId = totalBank.filter(bank => bank.name === account);
+        
+        const fetchData = async () => {     
+            const { data, error } = await supabase
+                .from('Liquidity_users')
+                .update({ date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                .eq('id', checkCateId)
+                .select()
+        }
+    
+        fetchData();
     }
     
     const addAccount = () => {
@@ -68,6 +82,15 @@ export const ModalTemp: React.FC<Props> = ({
     const deleteData = () => {
         setState("");
         setOpenModal(false);
+        
+        const fetchData = async () => {     
+            const { error } = await supabase
+                .from('Liquidity_users')
+                .delete()
+                .eq('id', checkCateId)
+        }
+
+        fetchData();
     }
 
     
@@ -137,6 +160,8 @@ export const ModalTemp: React.FC<Props> = ({
                     setAmount={setAmount} 
                     newDate={newDate} 
                     setNewDate={setNewDate}
+                    checkCateId={checkCateId}
+                    setCheckCateId={setCheckCateId}
                 />
             </Modal.Body>}
 
@@ -172,32 +197,32 @@ export const ModalTemp: React.FC<Props> = ({
             </Modal.Body>}
 
             {/* Add Update Liquidita */}
-            {state === "Add Update Liquidita" && <Modal.Header>Add Liquidita</Modal.Header>}
+            {state === "Add Update Liquidita" && <Modal.Header>Update Liquidita</Modal.Header>}
             {state === "Add Update Liquidita" && <Modal.Body>
                 <div className="space-y-6">
                     <div className="w-full">
                         <div className="mb-2 block">
                             <Label htmlFor="account" value="Account" />
                         </div>
-                        <Select id="account" required>
+                        <Select id="account" value={account} onChange={e => setAccount(e.target.value)} required>
                             {bankList.length > 0 ? 
-                            bankList.map(user => <option onClick={() => setAccount(user)}>{user}</option>) : 
+                            bankList.map((user, index) => <option key={index} value={user}>{user}</option>) : 
                             <option>No Account Available</option>}
                         </Select>
                     </div>
                     <div>
-                        <div className="text-blue-600 hover:cursor-pointer" onClick={addAccount}>Add new account</div>
+                        <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add new account</div>
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
-                        <TextInput id="account" type="number" required />
+                        <TextInput id="account" type="number" required value={amount} onChange={e => setAmount(e.target.value)}/>
                     </div>
                     <div>
                         <Label htmlFor="date" value="Date"/>
-                        <TextInput id="date" type="date" required />
+                        <TextInput id="date" type="date" required value={newDate} onChange={e => setNewDate(e.target.value)}/>
                     </div>
-                    <div className="w-full">
-                        <Button onClick={updateLiquidita}>Add</Button>
+                    <div className="w-full items-center justify-center">
+                        <Button onClick={updateLiquidita}>Update</Button>
                     </div>
                 </div>
             </Modal.Body>}

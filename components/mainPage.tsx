@@ -17,6 +17,8 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export const listData : TableData = {
+    mainCategory: 0,
+    childCategory: "",
     title: [""],
     content: [["Liquidita"], ["Investimenti"], ["Immobiliare"], ["Altenativi"], ["Passivita"]]
 };
@@ -61,6 +63,7 @@ export function MainPage() {
     const [accordionData, setAccordionData] = useState <AccordionData []>(initAccordionData);
     
     const [checked, setChecked] = useState <number> (0);
+    const [checkCateId, setCheckCateId] = useState <string> ("");
     const [account, setAccount] = useState <string> ("");
     const [amount, setAmount] = useState <number> (0);
     const [newDate, setNewDate] = useState <any> (getDateNow());
@@ -122,13 +125,13 @@ export function MainPage() {
 
                     bankArray.forEach(bank => {
                         let temp: any [] = [];
-                        let tableData : TableData = {title: ["Date", "Impoto"], content: []};
+                        let tableData : TableData = {mainCategory: 0, childCategory: bank, title: ["Date", "Impoto"], content: []};
                         let bankAmount : number = 0;
 
                         Liquidity_users.forEach(item => {
                             if(item.Bank_accounts.name === bank) {
                                 temp.push(item);
-                                tableData.content.push([item.date, item.amount]);
+                                tableData.content.push([item.date, item.amount, item.id]);
                                 bankAmount += item.amount;
                             }
                         });
@@ -225,6 +228,8 @@ export function MainPage() {
                     setNewDate={setNewDate}
                     newAccount={newAccount} 
                     setNewAccount={setNewAccount}
+                    checkCateId={checkCateId}
+                    setCheckCateId={setCheckCateId}
                 />          
             </div>
             <ModalTemp 
@@ -243,6 +248,8 @@ export function MainPage() {
                 setNewDate={setNewDate}
                 newAccount={newAccount} 
                 setNewAccount={setNewAccount}
+                checkCateId={checkCateId}
+                setCheckCateId={setCheckCateId}
             />
         </div>
     );
