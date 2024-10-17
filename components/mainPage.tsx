@@ -74,6 +74,7 @@ export function MainPage() {
     const [chart2, setChart2] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [chart3, setChart3] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [chart4, setChart4] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [chart5, setChart5] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
     const addNewAsset = () => {
         setState("Add New Asset");
@@ -89,6 +90,7 @@ export function MainPage() {
             let Chart2 = chart2.slice(0);
             let Chart3 = chart3.slice(0);
             let Chart4 = chart4.slice(0);
+            let Chart5 = chart5.slice(0);
             
             
             let _accordionData : AccordionData [] = [
@@ -165,7 +167,54 @@ export function MainPage() {
             }
             
             //Investimenti
-            
+            totalAmount = 0;
+
+            let { data: Investements_users, error: Investements_error } = await supabase
+                .from('Investements_users')
+                .select(`*, Alternatives(name)`)
+                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+
+            if (Investements_error) {
+                console.error("Error fetching data:", Investements_error);
+            } else {
+                console.log("Fetched Investements_Users:", Investements_users);
+                if (Investements_users) {
+                    totalAmount = 0;
+                    
+                    let InvArray: string [] = [];
+                    Investements_users.forEach(item => {
+                        if(InvArray.includes(item.Investments.name) === false) InvArray.push(item.investments.name); 
+                    });
+
+                    InvArray.forEach(alt => {
+                        let temp: any [] = [];
+                        let tableData : TableData = {mainCategory: 0, childCategory: alt, title: ["Date", "Impoto"], content: []};
+                        let altAmount : number = 0;
+
+                        Investements_users.forEach(item => {
+                            if(item.Investment.name === alt) {
+                                temp.push(item);
+                                tableData.content.push([item.date, item.quantity, item.id]);
+                                altAmount += item.quantity;
+
+                                let month = parseFloat(item.date.slice(5, 7));
+                                Chart2[month - 1] += item.quantity;
+                                Chart0[month - 1] += item.quantity;
+                            }
+                        });
+
+                        _accordionData[1].content.push({
+                            title: {name: alt, price: altAmount + ""},
+                            table: tableData
+                        })
+
+                        totalAmount += altAmount;
+                    })
+
+                    _accordionData[1].title.price = totalAmount + "";
+                }
+            }
+
             //Immobiliare
             
             //Altenativi
@@ -200,7 +249,7 @@ export function MainPage() {
                                 altAmount += item.value;
 
                                 let month = parseFloat(item.date.slice(5, 7));
-                                Chart3[month - 1] += item.value;
+                                Chart4[month - 1] += item.value;
                                 Chart0[month - 1] += item.value;
                             }
                         });
@@ -226,6 +275,7 @@ export function MainPage() {
             setChart2(Chart2);
             setChart3(Chart3);
             setChart4(Chart4);
+            setChart5(Chart5);
 
         };
     
