@@ -14,8 +14,6 @@ type Props = {
     setState: any;
     openModal: boolean;
     setOpenModal: any;
-    bankList: string [];
-    setBankList: any;
     checked: number;
     setChecked: any;
     account: string; 
@@ -29,15 +27,26 @@ type Props = {
 };
 
 export const ModalTemp: React.FC<Props> = ({
-    listData, state, setState, openModal, setOpenModal, bankList, setBankList, setChecked, account, setAccount,  amount, setAmount, newAccount, setNewAccount, newDate, setNewDate
+    listData, state, setState, openModal, setOpenModal, checked, setChecked, account, setAccount,  amount, setAmount, newAccount, setNewAccount, newDate, setNewDate
   }: Props) => {
     const [totalBank, setTotalBank] = useState <any []> ([]);
+    const [bankList, setBankList] = useState <string[]>([]);
+
+
+    console.log("account => ", account);
+    console.log("amount => ", amount);
+    console.log("newDate => ", newDate);
+
 
     const addLiquidita = () => {
         setState("");
         setOpenModal(false);
 
         const checkedBankId = totalBank.filter(bank => bank.name === account);
+
+        console.log("Total Bank:", totalBank);
+        console.log("Account:", account);
+        console.log("Checked Bank ID:", checkedBankId);
 
         const fetchData = async () => {     
             const { data, error } = await supabase
@@ -57,6 +66,7 @@ export const ModalTemp: React.FC<Props> = ({
     }
 
     const setAddAccount = () => {
+        console.log("sdfwewefwegew")
         setState("Add New Liquidita Account");
         setOpenModal(true);
     }
@@ -79,6 +89,7 @@ export const ModalTemp: React.FC<Props> = ({
     
     const addNewAccount = () => {
         setState("Add New Liquidita");
+        setOpenModal(true);
 
         const fetchData = async () => {     
             const { data: Bank_accounts, error: bank_error } = await supabase
@@ -102,14 +113,28 @@ export const ModalTemp: React.FC<Props> = ({
         fetchData();
     }
 
-    const [dropDown, setDropDown] = useState("No Account Available");
-
     useEffect(() => {
-        if(bankList && bankList?.length > 0) setDropDown(bankList[0]);
+        const fetchData = async () => {
+            //Bank
+            let { data: Bank_accounts, error: bank_error } = await supabase
+            .from('Bank_accounts')
+            .select(`name`)
+            
+            if (bank_error) {
+                console.error("Error fetching data:", bank_error);
+            } else {
+                if(Bank_accounts) {
+                    let banks: string [] = Bank_accounts.map(item => item.name);
+                    setBankList(banks);
+                }
+            }
+        }
+
+        fetchData();
     }, [])
 
     return (
-        <Modal show={openModal} size="sm" onClose={() => {setOpenModal(false); setState("")}}>
+        <Modal show={openModal} size="sm" onClose={() => {setOpenModal(false); setState("");}}>
             
             {/* Add New Asset Modal} */}
             {state === "Add New Asset" && <Modal.Header>Add Assert</Modal.Header>}
@@ -120,7 +145,14 @@ export const ModalTemp: React.FC<Props> = ({
                     tableData={listData} 
                     state={state} 
                     setState={setState}
+                    checked={checked}
                     setChecked={setChecked}
+                    account={account} 
+                    setAccount={setAccount}
+                    amount={amount} 
+                    setAmount={setAmount} 
+                    newDate={newDate} 
+                    setNewDate={setNewDate}
                 />
             </Modal.Body>}
 
@@ -169,8 +201,8 @@ export const ModalTemp: React.FC<Props> = ({
                             <option>No Account Available</option>}
                         </Select>
                     </div>
-                    <div className="hover:cursor-pointer">
-                        <div className="text-blue-600" onClick={setAddAccount}>Add new account</div>
+                    <div>
+                        <div className="text-blue-600 hover:cursor-pointer" onClick={setAddAccount}>Add new account</div>
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
@@ -187,7 +219,7 @@ export const ModalTemp: React.FC<Props> = ({
             </Modal.Body>}
 
             {/* Add New Liquidita Account*/}
-            {state === "Add New Liquidita Account" && <Modal.Header>Add Liquidita Account</Modal.Header>}
+            {state === "Add New Liquidita Account" && <Modal.Header>Add New Liquidita Account</Modal.Header>}
             {state === "Add New Liquidita Account" && <Modal.Body>
                 <div className="space-y-6">
                     <div>

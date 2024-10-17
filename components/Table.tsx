@@ -14,11 +14,18 @@ type Props = {
     setState: any;
     openModal: boolean;
     setOpenModal: any;
+    checked: number;
     setChecked: any;
+    account: string; 
+    setAccount: any;
+    amount: number;
+    setAmount: any; 
+    newDate: any; 
+    setNewDate: any;
 };
 
 export const TableTemp: React.FC<Props> = ({
-    tableData, state, setState ,openModal, setOpenModal, setChecked,
+    tableData, state, setState, setOpenModal, setChecked, setAccount, setNewDate, setAmount, 
   }: Props) => {
 
     const editData = () => {
@@ -36,6 +43,9 @@ export const TableTemp: React.FC<Props> = ({
             setState("Add New Liquidita");
             setOpenModal(true);
             setChecked(index);
+            setAccount("");
+            setAmount(0);
+            setNewDate(Date.now());
         }
     }
 

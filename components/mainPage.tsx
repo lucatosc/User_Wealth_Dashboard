@@ -48,7 +48,6 @@ export function MainPage() {
 
     const [openModal, setOpenModal] = useState(false);
     const [state, setState] = useState("");
-    const [bankList, setBankList] = useState <string[]>([]);
     const [accordionData, setAccordionData] = useState <AccordionData []>(initAccordionData);
     
     const [checked, setChecked] = useState <number> (0);
@@ -66,19 +65,6 @@ export function MainPage() {
         const fetchData = async () => {
             console.log("Fetching data from Supabase...");
             
-            //Bank
-            let { data: Bank_accounts, error: bank_error } = await supabase
-                .from('Bank_accounts')
-                .select(`name`)
-                
-            if (bank_error) {
-                console.error("Error fetching data:", bank_error);
-            } else {
-                if(Bank_accounts) {
-                    let banks: string [] = Bank_accounts.map(item => item.name);
-                    setBankList(banks);
-                }
-            }
             //Liquidity
 
             let _accordionData : AccordionData [] = [
@@ -233,8 +219,6 @@ export function MainPage() {
             </div>
             <ModalTemp 
                 listData={listData} 
-                bankList={bankList} 
-                setBankList={setBankList} 
                 state={state} 
                 setState={setState} 
                 openModal={openModal} 
@@ -253,3 +237,7 @@ export function MainPage() {
         </div>
     );
 }
+function moment(arg0: Date, DATE_TIME_FORMAT: any): any {
+    throw new Error("Function not implemented.");
+}
+

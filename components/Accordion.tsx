@@ -80,7 +80,20 @@ type Props = {
 };
 
 export const AccordionTemp: React.FC<Props> = ({
-    accordionData, state, setState, openModal, setOpenModal, setChecked, 
+    accordionData, 
+    state, 
+    setState, 
+    openModal, 
+    setOpenModal, 
+    setChecked, 
+    account, 
+    setAccount, 
+    amount, 
+    setAmount, 
+    newAccount, 
+    setNewAccount, 
+    newDate, 
+    setNewDate
   }: Props) => {
 
     const addLiquidita = (e : any, index: number) => {
@@ -119,7 +132,20 @@ export const AccordionTemp: React.FC<Props> = ({
                             </AccordionSummary>
                             {_acco.table && <AccordionDetails style={{padding: "0"}}>
                                 {/* <Typography> */}
-                                    <TableTemp tableData={_acco.table} state={state} setState={setState} openModal={openModal} setOpenModal={setOpenModal} setChecked={setChecked}/>
+                                    <TableTemp 
+                                        tableData={_acco.table} 
+                                        state={state} 
+                                        setState={setState} 
+                                        openModal={openModal} 
+                                        setOpenModal={setOpenModal} 
+                                        checked={setChecked} 
+                                        setChecked={setChecked} 
+                                        account={account} 
+                                        setAccount={setAccount}
+                                        amount={amount} 
+                                        setAmount={setAmount} 
+                                        newDate={newDate} 
+                                        setNewDate={setNewDate}/>
                                 {/* </Typography> */}
                             </AccordionDetails>}
                         </Accordion>
