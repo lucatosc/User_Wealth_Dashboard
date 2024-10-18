@@ -6,7 +6,6 @@ import MuiAccordionSummary, {
     AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import { TableTemp, TableData } from "./Table";
 import { FaPlus } from 'react-icons/fa';
 import { getDateNow } from './mainPage';

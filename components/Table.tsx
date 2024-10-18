@@ -80,8 +80,8 @@ export const TableTemp: React.FC<Props> = ({
                                 </TableCell>
                             )}
                             {state === "" && <TableCell className="flex justify-end">
-                                <FaEdit className="mr-4" onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2])}/>
-                                <FaTrash onClick={() => deleteData(tableData.mainCategory, item[2])}/>
+                                <FaEdit className="mr-4 hover:cursor-pointer" onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2])}/>
+                                <FaTrash className="hover:cursor-pointer" onClick={() => deleteData(tableData.mainCategory, item[2])}/>
                             </TableCell>}
                             {state === "Add New Asset" && <TableCell className="flex justify-end" >
                                 <div className="cursor-pointer">{">"}</div>

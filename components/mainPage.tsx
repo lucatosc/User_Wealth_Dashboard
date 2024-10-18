@@ -141,12 +141,12 @@ export function MainPage() {
                 console.error("Error fetching data:", liquidity_error);
             } else {
                 console.log("Fetched Liquidity_Users:", Liquidity_users);
-                if (Liquidity_users) {
+                if (Liquidity_users && Liquidity_users !== null) {
                     totalAmount = 0;
                     
                     let bankArray: string [] = [];
-                    Liquidity_users.forEach(item => {
-                        if(bankArray.includes(item.Bank_accounts.name) === false) bankArray.push(item.Bank_accounts.name); 
+                    Liquidity_users?.forEach(item => {
+                        if(bankArray.includes(item?.Bank_accounts?.name) === false) bankArray.push(item?.Bank_accounts?.name); 
                     });
 
                     bankArray.forEach(bank => {
@@ -154,8 +154,8 @@ export function MainPage() {
                         let tableData : TableData = {mainCategory: 0, childCategory: bank, title: ["Date", "Impoto"], content: []};
                         let bankAmount : number = 0;
 
-                        Liquidity_users.forEach(item => {
-                            if(item.Bank_accounts.name === bank) {
+                        Liquidity_users?.forEach(item => {
+                            if(item?.Bank_accounts?.name === bank) {
                                 temp.push(item);
                                 tableData.content.push([item.date, item.amount, item.id]);
                                 bankAmount += item.amount;
@@ -188,12 +188,12 @@ export function MainPage() {
                 console.error("Error fetching data:", Investments_error);
             } else {
                 console.log("Fetched Investements_Users:", Investments_users);
-                if (Investments_users) {
+                if (Investments_users && Investments_users !== null) {
                     totalAmount = 0;
                     
                     let InvArray: string [] = [];
-                    Investments_users.forEach(item => {
-                        if(InvArray.includes(item.Investments.name) === false) InvArray.push(item.Investments.name); 
+                    Investments_users?.forEach(item => {
+                        if(InvArray.includes(item?.Investments?.name) === false) InvArray.push(item?.Investments?.name); 
                     });
 
                     InvArray.forEach(inv => {
@@ -201,8 +201,8 @@ export function MainPage() {
                         let tableData : TableData = {mainCategory: 0, childCategory: inv, title: ["Date", "Impoto"], content: []};
                         let invAmount : number = 0;
 
-                        Investments_users.forEach(item => {
-                            if(item.Investments.name === inv) {
+                        Investments_users?.forEach(item => {
+                            if(item?.Investments?.name === inv) {
                                 temp.push(item);
                                 tableData.content.push([item.date, item.quantity, item.id]);
                                 invAmount += item.quantity;
@@ -237,12 +237,12 @@ export function MainPage() {
                 console.error("Error fetching data:", Alternative_error);
             } else {
                 console.log("Fetched Liquidity_Users:", Alternative_users);
-                if (Alternative_users) {
+                if (Alternative_users && Alternative_users !== null) {
                     totalAmount = 0;
                     
                     let altArray: string [] = [];
                     Alternative_users.forEach(item => {
-                        if(altArray.includes(item.Alternatives.name) === false) altArray.push(item.Alternatives.name); 
+                        if(altArray.includes(item?.Alternatives?.name) === false) altArray.push(item?.Alternatives?.name); 
                     });
 
                     altArray.forEach(alt => {
@@ -250,8 +250,8 @@ export function MainPage() {
                         let tableData : TableData = {mainCategory: 0, childCategory: alt, title: ["Date", "Impoto"], content: []};
                         let altAmount : number = 0;
 
-                        Alternative_users.forEach(item => {
-                            if(item.Alternatives.name === alt) {
+                        Alternative_users?.forEach(item => {
+                            if(item?.Alternatives?.name === alt) {
                                 temp.push(item);
                                 tableData.content.push([item.date, item.value, item.id]);
                                 altAmount += item.value;
