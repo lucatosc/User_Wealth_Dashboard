@@ -76,6 +76,9 @@ export function MainPage() {
     const [chart4, setChart4] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [chart5, setChart5] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
+    const [chartList, setChartList] = useState<boolean[]>([true, true, true, true, true, true]);
+    const [series, setSeries] = useState<any[]>([]);
+
     const addNewAsset = () => {
         setState("Add New Asset");
         setOpenModal(true);
@@ -282,12 +285,25 @@ export function MainPage() {
             setChart4(Chart4);
             setChart5(Chart5);
 
+            let temp_list: any[] = [];
+            if(chartList[0]) temp_list.push({curve: "linear", data: chart0});
+            if(chartList[1]) temp_list.push({curve: "linear", data: Chart1});
+            if(chartList[2]) temp_list.push({curve: "linear", data: Chart2});
+            if(chartList[3]) temp_list.push({curve: "linear", data: Chart3});
+            if(chartList[4]) temp_list.push({curve: "linear", data: Chart4});
+            if(chartList[5]) temp_list.push({curve: "linear", data: Chart5});
+
+            setSeries(temp_list);
         };
     
         fetchData();
-    }, [state, openModal, checked]);
+    }, [state, openModal, checked, chartList]);
 
-
+    const handleChange = (index: number) => {
+        let list = chartList.slice(0);
+        list[index] = (list[index] === false);
+        setChartList(list);
+    }
 
     return (
         <div className="w-full flex-1 flex flex-col min-w-80 bg-[#ebf2f3] p-5">
@@ -304,38 +320,32 @@ export function MainPage() {
                 <LineChart
                     // xAxis={[{ data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }]}
                     xAxis={[{ data: [1,2,3,4,5,6,7,8,9,10,11,12] }]}
-                    series={[
-                      {curve: "linear", data: chart0},
-                      {curve: "linear", data: chart1},
-                      {curve: "linear", data: chart2},
-                      {curve: "linear", data: chart3},
-                      {curve: "linear", data: chart4},
-                    ]}
+                    series={series}
                 />
             </div>
             <div className="flex flex-wrap items-center justify-between gap-4 py-3">
                 <div className="text-center">
-                    <Checkbox id="total" />
+                    <Checkbox id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
                     <Label className="ml-2" htmlFor="total">Total</Label>
                 </div>
                 <div className="text-center">
-                    <Checkbox id="liquidita" />
+                    <Checkbox id="liquidita" checked={chartList[1]} onChange={e => handleChange(1)} />
                     <Label className="ml-2" htmlFor="liquidita">Liquidita</Label>
                 </div>
                 <div className="text-center">
-                    <Checkbox id="investimenti" />
+                    <Checkbox id="investimenti" checked={chartList[2]} onChange={e => handleChange(2)} />
                     <Label className="ml-2" htmlFor="investimenti">Investimenti</Label>
                 </div>
                 <div className="text-center">
-                    <Checkbox id="immobiliare" />
+                    <Checkbox id="immobiliare" checked={chartList[3]} onChange={e => handleChange(3)} />
                     <Label className="ml-2" htmlFor="immobiliare">Immobiliare</Label>
                 </div>
                 <div className="text-center">
-                    <Checkbox id="altenativi" />
+                    <Checkbox id="altenativi" checked={chartList[4]} onChange={e => handleChange(4)} />
                     <Label className="ml-2" htmlFor="altenativi">Altenativi</Label>
                 </div>
                 <div className="text-center">
-                    <Checkbox id="passivita" />
+                    <Checkbox id="passivita" checked={chartList[5]} onChange={e => handleChange(5)} />
                     <Label className="ml-2" htmlFor="passivita">Passivita</Label>
                 </div>
             </div>
