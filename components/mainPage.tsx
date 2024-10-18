@@ -2,7 +2,6 @@
 import { AccordionTemp } from "@/components/Accordion";
 import { Button, Checkbox, Label } from "flowbite-react";
 import Link from "next/link";
-import { SubmitButton } from "@/components/submit-button";
 import { signOutAction } from "@/app/actions";
 import { useEffect, useState } from "react";
 import { ModalTemp } from "./Modal";
@@ -10,6 +9,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { createClient } from '@supabase/supabase-js';
 import { TableData } from "@/components/Table";
 import { AccordionData } from "@/components/Accordion";
+import { useRouter } from "next/navigation";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -80,6 +80,15 @@ export function MainPage() {
         setState("Add New Asset");
         setOpenModal(true);
     }
+
+    const router = useRouter();
+
+    const handleSignOut = async () => {
+        // Call signOutAction
+        await signOutAction(); // Ensure your signOutAction returns a promise.
+        // Redirect after the action has been executed
+        router.push('/sign-in');
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -286,7 +295,7 @@ export function MainPage() {
                 <Link className="w-7 h-7 rounded-full bg-cyan-400 text-white text-center" href="/protected/reset-password">
                     R
                 </Link>
-                {/* <SubmitButton formAction={signOutAction}>L</SubmitButton> */}
+                <div className="w-7 h-7 rounded-full bg-cyan-400 text-white text-center hover:cursor-pointer" onClick={handleSignOut}>L</div>
             </div>
             <div className="flex justify-end items-center p-2">
                 <Button gradientDuoTone="cyanToBlue" size="xs" onClick={addNewAsset}>Add Asset</Button>

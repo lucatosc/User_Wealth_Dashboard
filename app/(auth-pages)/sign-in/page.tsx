@@ -13,7 +13,7 @@ export default function Login({ searchParams }: { searchParams: Message }) {
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
         <div className="flex justify-center">
           <div className="w-20 h-20 rounded-full items-center">
-            <Avatar img="../../slack_avatar.png" alt="User's Avatar" rounded-full size="xl"/>
+            <Avatar img="/slack_avatar.png" alt="User's Avatar" rounded-full size="xl"/>
           </div>
         </div>
         <Label htmlFor="email">Email</Label>
