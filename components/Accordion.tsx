@@ -14,9 +14,6 @@ const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
     ))(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
-    '&:not(:last-child)': {
-        borderBottom: 0,
-    },
     '&::before': {
         display: 'none',
     },
@@ -28,7 +25,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
         {...props}
     />
     ))(({ theme }) => ({
-    backgroundColor: 'rgba(0, 0, 0, .03)',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
     flexDirection: 'row-reverse',
     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
         transform: 'rotate(90deg)',
@@ -116,10 +113,10 @@ export const AccordionTemp: React.FC<Props> = ({
             <Accordion key={index} className="mb-3 rounded-lg">
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" onClick={() => setChecked(index)}>
                     {/* <Typography> */}
-                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 130px)'}}>
+                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 160px)'}}>
                             <div>{acco.title.name}</div>
                             <div className="flex items-center">
-                                <div className="pr-4">{acco.title.price}</div>
+                                <div className="pr-4">€{acco.title.price}</div>
                                 <div><FaPlus onClick={e => addLiquidita(e, index)}/></div>
                             </div>
                         </div>
@@ -130,10 +127,10 @@ export const AccordionTemp: React.FC<Props> = ({
                         <Accordion key={index} className="mb-3 rounded-lg rounded-r-none">
                             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                                 {/* <Typography> */}
-                                    <div className="flex items-center justify-between" style={{width: 'calc(100vw - 150px)'}}>
+                                    <div className="flex items-center justify-between" style={{width: 'calc(100vw - 180px)'}}>
                                         <div>{_acco.title.name}</div>
                                         <div className="flex items-center">
-                                            <div className="pr-4">{_acco.title.price}</div>
+                                            <div className="pr-4">€{_acco.title.price}</div>
                                         </div>
                                     </div>
                                 {/* </Typography> */}

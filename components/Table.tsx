@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { getDateNow } from "./mainPage";
-
+import { SlArrowRight } from "react-icons/sl";
 
 export type TableData =
     {
@@ -63,13 +63,13 @@ export const TableTemp: React.FC<Props> = ({
 
     return (
         <Table striped>
-            <TableHead>
+            {state === "" && <TableHead>
                 {tableData?.title.length > 0 ? 
                     tableData.title.map((item, index) => <TableHeadCell key={index}>{item}</TableHeadCell>)
                     : <TableHeadCell>No Data</TableHeadCell>
                 }
                 <TableHeadCell />
-            </TableHead>
+            </TableHead>}
             <TableBody className="divide-y">
                 {tableData && tableData.content.length > 0 ? 
                     tableData.content.map((item, index) => (
@@ -84,7 +84,7 @@ export const TableTemp: React.FC<Props> = ({
                                 <FaTrash className="hover:cursor-pointer" onClick={() => deleteData(tableData.mainCategory, item[2])}/>
                             </TableCell>}
                             {state === "Add New Asset" && <TableCell className="flex justify-end" >
-                                <div className="cursor-pointer">{">"}</div>
+                                <SlArrowRight className="cursor-pointer" />
                             </TableCell>}
                         </TableRow>
                     ))

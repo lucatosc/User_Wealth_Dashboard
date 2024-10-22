@@ -1,15 +1,23 @@
 "use client";
 import { AccordionTemp } from "@/components/Accordion";
-import { Button, Checkbox, Label } from "flowbite-react";
+import { Checkbox, Label } from "flowbite-react";
 import Link from "next/link";
 import { signOutAction } from "@/app/actions";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ModalTemp } from "./Modal";
 import { LineChart } from '@mui/x-charts/LineChart';
 import { createClient } from '@supabase/supabase-js';
 import { TableData } from "@/components/Table";
 import { AccordionData } from "@/components/Accordion";
 import { useRouter } from "next/navigation";
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -56,6 +64,7 @@ export const getDateNow = () => {
 }
 
 
+
 export function MainPage() {
 
     const [openModal, setOpenModal] = useState(false);
@@ -68,6 +77,7 @@ export function MainPage() {
     const [amount, setAmount] = useState <number> (0);
     const [newDate, setNewDate] = useState <any> (getDateNow());
     const [newAccount, setNewAccount] = useState <string> ("");
+    const [myTotalAmount, setMyTotalAmount] = useState <number> (0);
 
     const [chart0, setChart0] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [chart1, setChart1] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -85,6 +95,43 @@ export function MainPage() {
     }
 
     const router = useRouter();
+
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLButtonElement>(null);
+  
+    const handleToggle = () => {
+      setOpen((prevOpen) => !prevOpen);
+    };
+  
+    const handleClose = (event: Event | React.SyntheticEvent) => {
+      if (
+        anchorRef.current &&
+        anchorRef.current.contains(event.target as HTMLElement)
+      ) {
+        return;
+      }
+  
+      setOpen(false);
+    };
+  
+    function handleListKeyDown(event: React.KeyboardEvent) {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        setOpen(false);
+      } else if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    }
+  
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = useRef(open);
+    useEffect(() => {
+      if (prevOpen.current === true && open === false) {
+        anchorRef.current!.focus();
+      }
+  
+      prevOpen.current = open;
+    }, [open]);
 
     const handleSignOut = async () => {
         // Call signOutAction
@@ -128,6 +175,8 @@ export function MainPage() {
                 },
             ];
             
+            let _myTotalAmount: number = 0;
+
             //Liquidity
             
             let totalAmount : number = 0;
@@ -160,7 +209,7 @@ export function MainPage() {
                                 tableData.content.push([item.date, item.amount, item.id]);
                                 bankAmount += item.amount;
 
-                                let month = parseFloat(item.date.slice(5, 7));
+                                let month = parseInt(item.date.slice(5, 7));
                                 Chart1[month - 1] += item.amount;
                                 Chart0[month - 1] += item.amount;
                             }
@@ -177,7 +226,8 @@ export function MainPage() {
                     _accordionData[0].title.price = totalAmount + "";
                 }
             }
-            
+            _myTotalAmount += totalAmount;
+
             //Investimenti
             let { data: Investments_users, error: Investments_error } = await supabase
                 .from('Investments_users')
@@ -207,7 +257,7 @@ export function MainPage() {
                                 tableData.content.push([item.date, item.quantity, item.id]);
                                 invAmount += item.quantity;
 
-                                let month = parseFloat(item.date.slice(5, 7));
+                                let month = parseInt(item.date.slice(5, 7));
                                 Chart2[month - 1] += item.quantity;
                                 Chart0[month - 1] += item.quantity;
                             }
@@ -224,7 +274,8 @@ export function MainPage() {
                     _accordionData[1].title.price = totalAmount + "";
                 }
             }
-
+            _myTotalAmount += totalAmount;
+            
             //Immobiliare
             
             //Altenativi
@@ -236,7 +287,7 @@ export function MainPage() {
             if (Alternative_error) {
                 console.error("Error fetching data:", Alternative_error);
             } else {
-                console.log("Fetched Liquidity_Users:", Alternative_users);
+                console.log("Fetched Alternative_Users:", Alternative_users);
                 if (Alternative_users && Alternative_users !== null) {
                     totalAmount = 0;
                     
@@ -256,7 +307,7 @@ export function MainPage() {
                                 tableData.content.push([item.date, item.value, item.id]);
                                 altAmount += item.value;
 
-                                let month = parseFloat(item.date.slice(5, 7));
+                                let month = parseInt(item.date.slice(5, 7));
                                 Chart4[month - 1] += item.value;
                                 Chart0[month - 1] += item.value;
                             }
@@ -273,10 +324,10 @@ export function MainPage() {
                     _accordionData[3].title.price = totalAmount + "";
                 }
             }
-
+            _myTotalAmount += totalAmount;
+            
             //Passivita
 
-            console.log("_accordionData =>", _accordionData);
             setAccordionData(_accordionData);
             setChart0(Chart0);
             setChart1(Chart1);
@@ -286,7 +337,7 @@ export function MainPage() {
             setChart5(Chart5);
 
             let temp_list: any[] = [];
-            if(chartList[0]) temp_list.push({curve: "linear", data: chart0});
+            if(chartList[0]) temp_list.push({curve: "linear", data: Chart0});
             if(chartList[1]) temp_list.push({curve: "linear", data: Chart1});
             if(chartList[2]) temp_list.push({curve: "linear", data: Chart2});
             if(chartList[3]) temp_list.push({curve: "linear", data: Chart3});
@@ -294,10 +345,12 @@ export function MainPage() {
             if(chartList[5]) temp_list.push({curve: "linear", data: Chart5});
 
             setSeries(temp_list);
+            setMyTotalAmount(_myTotalAmount);
         };
     
         fetchData();
-    }, [state, openModal, checked, chartList]);
+
+    }, [state, checked]);
 
     const handleChange = (index: number) => {
         let list = chartList.slice(0);
@@ -306,50 +359,99 @@ export function MainPage() {
     }
 
     return (
-        <div className="w-full flex-1 flex flex-col min-w-80 bg-[#ebf2f3] p-5">
-            <div className="flex justify-end items-center pr-2 pb-2 border-b border-[#8be2ee]">
-                <Link className="w-7 h-7 rounded-full bg-cyan-400 text-white text-center" href="/protected/reset-password">
-                    R
-                </Link>
-                <div className="w-7 h-7 rounded-full bg-cyan-400 text-white text-center hover:cursor-pointer" onClick={handleSignOut}>L</div>
+        <div className="w-full flex-1 flex flex-col min-w-80 bg-[#f9fbfc] p-5">
+            <div className="flex justify-end z-10 items-center border-b boder-[#dfe3eb]">
+                <Button
+                    ref={anchorRef}
+                    id="composition-button"
+                    aria-controls={open ? 'composition-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                >
+                    <div className="w-7 h-7 rounded-full items-center">
+                        <Avatar src="/slack_avatar.png" alt="User's Avatar" sx={{ width: 28, height: 28 }}/>
+                    </div>
+                </Button>
+                <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement="bottom-start"
+                    transition
+                    disablePortal
+                >
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                            {...TransitionProps}
+                            style={{
+                                transformOrigin:
+                                placement === 'bottom-start' ? 'left top' : 'left bottom',
+                            }}
+                        >
+                            <Paper>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList
+                                    autoFocusItem={open}
+                                    id="composition-menu"
+                                    aria-labelledby="composition-button"
+                                    onKeyDown={handleListKeyDown}
+                                >
+                                    <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                                    <MenuItem>
+                                        <Link href="/protected/reset-password">
+                                            Reset Password
+                                        </Link>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleSignOut}>Logout</MenuItem>
+                                </MenuList>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Grow>
+                    )}
+                </Popper>
             </div>
             <div className="flex justify-end items-center p-2">
-                <Button gradientDuoTone="cyanToBlue" size="xs" onClick={addNewAsset}>Add Asset</Button>
+                <Button variant="outlined" size="small" onClick={addNewAsset}>Add Asset</Button>
             </div>
-            <div className="w-full h-[300px] rounded-lg bg-white">
+            <div className="w-full h-[250px] rounded-lg bg-white border border-[#dfe3eb]">
                 <LineChart
                     // xAxis={[{ data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }]}
                     xAxis={[{ data: [1,2,3,4,5,6,7,8,9,10,11,12] }]}
                     series={series}
                 />
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-4 py-3">
-                <div className="text-center">
+            <div className="grid grid-cols-3 md:grid-cols-6 items-center gap-3 w-full p-3">
+                <div className="text-left">
                     <Checkbox id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
                     <Label className="ml-2" htmlFor="total">Total</Label>
                 </div>
-                <div className="text-center">
+                <div className="text-left">
                     <Checkbox id="liquidita" checked={chartList[1]} onChange={e => handleChange(1)} />
                     <Label className="ml-2" htmlFor="liquidita">Liquidita</Label>
                 </div>
-                <div className="text-center">
+                <div className="text-left">
                     <Checkbox id="investimenti" checked={chartList[2]} onChange={e => handleChange(2)} />
                     <Label className="ml-2" htmlFor="investimenti">Investimenti</Label>
                 </div>
-                <div className="text-center">
+                <div className="text-left">
                     <Checkbox id="immobiliare" checked={chartList[3]} onChange={e => handleChange(3)} />
                     <Label className="ml-2" htmlFor="immobiliare">Immobiliare</Label>
                 </div>
-                <div className="text-center">
+                <div className="text-left">
                     <Checkbox id="altenativi" checked={chartList[4]} onChange={e => handleChange(4)} />
                     <Label className="ml-2" htmlFor="altenativi">Altenativi</Label>
                 </div>
-                <div className="text-center">
+                <div className="text-left">
                     <Checkbox id="passivita" checked={chartList[5]} onChange={e => handleChange(5)} />
                     <Label className="ml-2" htmlFor="passivita">Passivita</Label>
                 </div>
             </div>
-            <div className="w-full h-[350px] p-3 rounded-lg bg-white overflow-y-scroll">
+            <div className="w-full h-[40] rounded-t-lg bg-white border border-[#dfe3eb] flex justify-between items-center px-8 py-4">
+                <div className="text-2xl">Patrimonio</div>
+                <div className="pl-8 text-2xl">€${myTotalAmount}</div>
+            </div>
+            <div className="w-full h-[320px] p-3 rounded-b-lg bg-white overflow-y-scroll border border-[#dfe3eb]">
                 <AccordionTemp 
                     accordionData={accordionData} 
                     state={state} 
