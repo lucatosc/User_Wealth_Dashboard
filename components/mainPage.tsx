@@ -350,7 +350,7 @@ export function MainPage() {
     
         fetchData();
 
-    }, [state, checked]);
+    }, [state, checked, chartList]);
 
     const handleChange = (index: number) => {
         let list = chartList.slice(0);
@@ -422,36 +422,36 @@ export function MainPage() {
                 />
             </div>
             <div className="grid grid-cols-3 md:grid-cols-6 items-center gap-3 w-full p-3">
-                <div className="text-left">
+                <div className="text-left flex items-center">
                     <Checkbox id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
-                    <Label className="ml-2" htmlFor="total">Total</Label>
+                    <Label className="ml-2 text-lg font-semibold" htmlFor="total">Total</Label>
                 </div>
-                <div className="text-left">
+                <div className="text-left flex items-center">
                     <Checkbox id="liquidita" checked={chartList[1]} onChange={e => handleChange(1)} />
-                    <Label className="ml-2" htmlFor="liquidita">Liquidita</Label>
+                    <Label className="ml-2 text-lg font-semibold" htmlFor="liquidita">Liquidita</Label>
                 </div>
-                <div className="text-left">
+                <div className="text-left flex items-center">
                     <Checkbox id="investimenti" checked={chartList[2]} onChange={e => handleChange(2)} />
-                    <Label className="ml-2" htmlFor="investimenti">Investimenti</Label>
+                    <Label className="ml-2 text-lg font-semibold" htmlFor="investimenti">Investimenti</Label>
                 </div>
-                <div className="text-left">
+                <div className="text-left flex items-center">
                     <Checkbox id="immobiliare" checked={chartList[3]} onChange={e => handleChange(3)} />
-                    <Label className="ml-2" htmlFor="immobiliare">Immobiliare</Label>
+                    <Label className="ml-2 text-lg font-semibold" htmlFor="immobiliare">Immobiliare</Label>
                 </div>
-                <div className="text-left">
+                <div className="text-left flex items-center">
                     <Checkbox id="altenativi" checked={chartList[4]} onChange={e => handleChange(4)} />
-                    <Label className="ml-2" htmlFor="altenativi">Altenativi</Label>
+                    <Label className="ml-2 text-lg font-semibold" htmlFor="altenativi">Altenativi</Label>
                 </div>
-                <div className="text-left">
+                <div className="text-left flex items-center">
                     <Checkbox id="passivita" checked={chartList[5]} onChange={e => handleChange(5)} />
-                    <Label className="ml-2" htmlFor="passivita">Passivita</Label>
+                    <Label className="ml-2 text-lg font-semibold" htmlFor="passivita">Passivita</Label>
                 </div>
             </div>
-            <div className="w-full h-[40] rounded-t-lg bg-white border border-[#dfe3eb] flex justify-between items-center px-8 py-4">
+            <div className="w-full h-[40] rounded-t-lg bg-white text-xl font-semibold border border-[#dfe3eb] flex justify-between items-center px-8 py-4">
                 <div className="text-2xl">Patrimonio</div>
-                <div className="pl-8 text-2xl">€${myTotalAmount}</div>
+                <div className="pl-8 text-2xl">€{myTotalAmount}</div>
             </div>
-            <div className="w-full h-[320px] p-3 rounded-b-lg bg-white overflow-y-scroll border border-[#dfe3eb]">
+            <div className="w-full h-[320px] px-5 pt-5 pb-2 rounded-b-lg text-xl font-semibold bg-white overflow-y-scroll border border-[#dfe3eb] border-t-0">
                 <AccordionTemp 
                     accordionData={accordionData} 
                     state={state} 

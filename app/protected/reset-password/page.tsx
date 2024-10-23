@@ -1,16 +1,11 @@
 import { resetPasswordAction } from "@/app/actions";
-import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Avatar from '@mui/material/Avatar';
 
-export default async function ResetPassword({
-  searchParams,
-}: {
-  searchParams: Message;
-}) {
+export default async function ResetPassword() {
   return (
     <div className="w-full flex-1 flex flex-col min-w-80 p-5">
       <div className="flex justify-end items-center pr-2 pb-2 border-b border-[#8be2ee]">
@@ -42,7 +37,6 @@ export default async function ResetPassword({
         <SubmitButton formAction={resetPasswordAction}>
           Reset password
         </SubmitButton>
-        <FormMessage message={searchParams} />
       </form>
     </div>
   );

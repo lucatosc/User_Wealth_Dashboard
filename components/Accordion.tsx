@@ -7,8 +7,11 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { TableTemp, TableData } from "./Table";
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaMoneyBillWave, FaGem } from 'react-icons/fa';
 import { getDateNow } from './mainPage';
+import { GoHomeFill } from "react-icons/go";
+import { MdOutlineTrendingDown } from "react-icons/md";
+import { AiFillPieChart } from "react-icons/ai";
 
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -113,21 +116,38 @@ export const AccordionTemp: React.FC<Props> = ({
             <Accordion key={index} className="mb-3 rounded-lg">
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" onClick={() => setChecked(index)}>
                     {/* <Typography> */}
-                        <div className="flex items-center justify-between" style={{width: 'calc(100vw - 160px)'}}>
-                            <div>{acco.title.name}</div>
+                        <div className="flex items-center justify-between pl-3" style={{width: 'calc(100vw - 170px)'}}>
+                            <div className='flex items-center'>
+                                {index === 0 && <div className='w-9 h-9 rounded-full bg-[#defceb] flex items-center justify-center'>
+                                    <FaMoneyBillWave color='rgb(39, 180, 93)' />
+                                </div>}
+                                {index === 1 && <div className='w-9 h-9 rounded-full bg-[#d2dcf6] flex items-center justify-center'>
+                                    <AiFillPieChart color='rgb(25, 29, 141)' />
+                                </div>}
+                                {index === 2 && <div className='w-9 h-9 rounded-full bg-[#f7e9cd] flex items-center justify-center'>
+                                    <GoHomeFill color='rgb(185, 133, 7)' />
+                                </div>}
+                                {index === 3 && <div className='w-9 h-9 rounded-full bg-[#e4c4fa] flex items-center justify-center'>
+                                    <FaGem color='rgb(71, 0, 175)' />
+                                </div>}
+                                {index === 4 && <div className='w-9 h-9 rounded-full bg-[#facbc4] flex items-center justify-center'>
+                                    <MdOutlineTrendingDown color='rgb(191, 18, 36)' />
+                                </div>}
+                                <div className='pl-3 text-xl font-semibold'>{acco.title.name}</div>
+                            </div>
                             <div className="flex items-center">
-                                <div className="pr-4">€{acco.title.price}</div>
+                                <div className="pr-4 text-xl">€{acco.title.price}</div>
                                 <div><FaPlus onClick={e => addLiquidita(e, index)}/></div>
                             </div>
                         </div>
                     {/* </Typography> */}
                 </AccordionSummary>
-                <AccordionDetails style={{padding: "12px 0 12px 12px"}}>
+                <AccordionDetails style={{padding: "16px 0 0 20px"}}>
                     {acco.content.length > 0 && acco.content.map((_acco, index) => 
-                        <Accordion key={index} className="mb-3 rounded-lg rounded-r-none">
+                        <Accordion key={index} className="mb-4 rounded-lg rounded-r-none">
                             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                                 {/* <Typography> */}
-                                    <div className="flex items-center justify-between" style={{width: 'calc(100vw - 180px)'}}>
+                                    <div className="flex items-center justify-between" style={{width: 'calc(100vw - 190px)'}}>
                                         <div>{_acco.title.name}</div>
                                         <div className="flex items-center">
                                             <div className="pr-4">€{_acco.title.price}</div>
