@@ -11,7 +11,7 @@ export default async function ResetPassword() {
     <div className="w-full flex-1 flex flex-col min-w-80 p-5">
       <div className="flex justify-between items-center pr-2 pb-2 border-b border-[#8be2ee]">
         <Link className="w-7 h-7 rounded-full" href="/protected">
-          <RiLogoutCircleLine size={28} />
+          <RiLogoutCircleLine size={32} />
         </Link>
         <Link className="w-7 h-7 rounded-full" href="/protected">
           <div className="w-7 h-7 rounded-full items-center">

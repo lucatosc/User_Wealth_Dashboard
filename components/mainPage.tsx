@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import { HiUserCircle } from "react-icons/hi2";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -369,9 +370,7 @@ export function MainPage() {
                     aria-haspopup="true"
                     onClick={handleToggle}
                 >
-                    <div className="w-7 h-7 rounded-full items-center">
-                        <Avatar src="/slack_avatar.png" alt="User's Avatar" sx={{ width: 28, height: 28 }}/>
-                    </div>
+                    <HiUserCircle size={32}/>
                 </Button>
                 <Popper
                     open={open}
@@ -397,7 +396,11 @@ export function MainPage() {
                                     aria-labelledby="composition-button"
                                     onKeyDown={handleListKeyDown}
                                 >
-                                    <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                                    <MenuItem>
+                                        <Link href="/protected/profile">
+                                            My Profile
+                                        </Link>
+                                    </MenuItem>
                                     <MenuItem>
                                         <Link href="/protected/reset-password">
                                             Reset Password

@@ -131,3 +131,61 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
+
+export const updateProfileAction = async (formData: FormData) => {
+  const supabase = createClient();
+
+  const fname = formData.get("fname") as string;
+  const lname = formData.get("lname") as string;
+  const email = formData.get("email") as string;
+  const confirmEmail = formData.get("confirmEmail") as string;
+  const address = formData.get("address") as string;
+  
+  if (email !== confirmEmail) {
+    encodedRedirect(
+      "error",
+      "/protected/profile",
+      "Emails do not match",
+    );
+  }
+
+  let updateData : any = {};
+  if(fname || lname) updateData['name'] = fname + lname;
+  if(email) updateData['email'] = email;
+  if(address) updateData['address'] = address;
+
+  const { data, error } = await supabase
+  .from('User')
+  .update(updateData)
+  .eq('auth_id', '7f57080d-74cf-4528-922f-fb8f1e5ca818')
+  .select()
+
+  if (error) {
+    encodedRedirect(
+      "error",
+      "/protected/profile",
+      "Profile update failed",
+    );
+  }
+
+  encodedRedirect("success", "/protected/profile", "Profile updated");
+};
+
+export const deleteProfileAction = async (formData: FormData) => {
+  const supabase = createClient();
+
+  const { error } = await supabase
+  .from('User')
+  .delete()
+  .eq('auth_id', '7f57080d-74cf-4528-922f-fb8f1e5ca818')
+
+  if (error) {
+    encodedRedirect(
+      "error",
+      "/protected/profile",
+      "Profile delete failed",
+    );
+  }
+
+  encodedRedirect("success", "/protected/profile", "Profile deleted");
+};
