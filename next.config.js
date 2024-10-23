@@ -3,11 +3,14 @@
 
 // module.exports = nextConfig;
 
-export const getServerSideProps = async () => {
-    return {
-      redirect: {
-        destination: '/sign-in',
-        permanent: false, // Use 'true' for permanent redirects (301)
-      },
-    }
-  };
+module.exports = {
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/sign-in',
+                permanent: false, // Use 'true' for permanent redirects (301)
+            },
+        ];
+    },
+};
