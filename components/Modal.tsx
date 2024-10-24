@@ -292,21 +292,37 @@ export const ModalTemp: React.FC<Props> = ({
             </Modal.Body>}
 
             {/* Add New Liquidita */}
-            {state === "Add New Liquidita" && <Modal.Header>Add Liquidita</Modal.Header>}
+            {state === "Add New Liquidita" && (
+                (checked === 0 && <Modal.Header>Add Liquidita</Modal.Header>) || 
+                (checked === 1 && <Modal.Header>Add Investimenti</Modal.Header>) || 
+                (checked === 2 && <Modal.Header>Add Immobiliare</Modal.Header>) ||
+                (checked === 3 && <Modal.Header>Add Alternativi</Modal.Header>) ||
+                (checked === 4 && <Modal.Header>Add Passivita</Modal.Header>)
+            )}
             {state === "Add New Liquidita" && <Modal.Body>
                 <div className="space-y-6">
                     <div className="w-full">
                         <div className="mb-2 block">
-                            <Label htmlFor="account" value="Account" />
+                            {(checked === 0 && <Label htmlFor="account" value="Bank Name" />) || 
+                            (checked === 1 && <Label htmlFor="account" value="Investment Name" />) || 
+                            (checked === 2 && <Label htmlFor="account" value="Immobiliare Name" />) ||
+                            (checked === 3 && <Label htmlFor="account" value="Alternative Name" />) ||
+                            (checked === 4 && <Label htmlFor="account" value="Passivity Name" />)}
                         </div>
                         <Select id="account" value={account} onChange={e => setAccount(e.target.value)} required>
                             {bankList.length > 0 ? 
                             bankList.map((user, index) => <option key={index} value={user}>{user}</option>) : 
-                            <option>No Account Available</option>}
+                            <option>Empty data</option>}
                         </Select>
                     </div>
                     <div>
-                        <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add new account</div>
+                        {
+                            (checked === 0 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Bank Name</div>) || 
+                            (checked === 1 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Investment Name</div>) || 
+                            (checked === 2 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Immobiliare Name</div>) || 
+                            (checked === 3 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Alternative Name</div>) || 
+                            (checked === 4 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Passivity Name</div>)
+                        }
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
@@ -323,21 +339,35 @@ export const ModalTemp: React.FC<Props> = ({
             </Modal.Body>}
 
             {/* Add Update Liquidita */}
-            {state === "Add Update Liquidita" && <Modal.Header>Update Liquidita</Modal.Header>}
+            {state === "Add Update Liquidita" && ((checked === 0 && <Modal.Header>Update Liquidita</Modal.Header>) || 
+                (checked === 1 && <Modal.Header>Update Investimenti</Modal.Header>) || 
+                (checked === 2 && <Modal.Header>Update Immobiliare</Modal.Header>) ||
+                (checked === 3 && <Modal.Header>Update Alternativi</Modal.Header>) ||
+                (checked === 4 && <Modal.Header>Update Passivita</Modal.Header>))}
             {state === "Add Update Liquidita" && <Modal.Body>
                 <div className="space-y-6">
                     <div className="w-full">
                         <div className="mb-2 block">
-                            <Label htmlFor="account" value="Account" />
+                            {(checked === 0 && <Label htmlFor="account" value="Bank Name" />) || 
+                            (checked === 1 && <Label htmlFor="account" value="Investment Name" />) || 
+                            (checked === 2 && <Label htmlFor="account" value="Immobiliare Name" />) ||
+                            (checked === 3 && <Label htmlFor="account" value="Alternative Name" />) ||
+                            (checked === 4 && <Label htmlFor="account" value="Passivity Name" />)}
                         </div>
                         <Select id="account" value={account} onChange={e => setAccount(e.target.value)} required>
                             {bankList.length > 0 ? 
                             bankList.map((user, index) => <option key={index} value={user}>{user}</option>) : 
-                            <option>No Account Available</option>}
+                            <option>Empty Data</option>}
                         </Select>
                     </div>
                     <div>
-                        <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add new account</div>
+                        {
+                            (checked === 0 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Bank Name</div>) || 
+                            (checked === 1 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Investment Name</div>) || 
+                            (checked === 2 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Immobiliare Name</div>) || 
+                            (checked === 3 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Alternative Name</div>) || 
+                            (checked === 4 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Passivity Name</div>)
+                        }
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
@@ -354,11 +384,19 @@ export const ModalTemp: React.FC<Props> = ({
             </Modal.Body>}
 
             {/* Add New Liquidita Account*/}
-            {state === "Add New Liquidita Account" && <Modal.Header>Add New Liquidita Account</Modal.Header>}
+            {state === "Add New Liquidita Account" && ((checked === 0 && <Modal.Header>Add New Bank Name</Modal.Header>) || 
+                (checked === 1 && <Modal.Header>Add New Investment Name</Modal.Header>) || 
+                (checked === 2 && <Modal.Header>Add New Immobiliare Name</Modal.Header>) ||
+                (checked === 3 && <Modal.Header>Add New Alternative Name</Modal.Header>) ||
+                (checked === 4 && <Modal.Header>Add New Passivity Name</Modal.Header>))}
             {state === "Add New Liquidita Account" && <Modal.Body>
                 <div className="space-y-6">
                     <div>
-                        <Label htmlFor="amount" value="Account Name" />
+                        {(checked === 0 && <Label htmlFor="account" value="Bank Name" />) || 
+                        (checked === 1 && <Label htmlFor="account" value="Investment Name" />) || 
+                        (checked === 2 && <Label htmlFor="account" value="Immobiliare Name" />) ||
+                        (checked === 3 && <Label htmlFor="account" value="Alternative Name" />) ||
+                        (checked === 4 && <Label htmlFor="account" value="Passivity Name" />)}
                         <TextInput id="account" type="text" required value={newAccount} onChange={e => setNewAccount(e.target.value)}/>
                     </div>
                     <div className="w-full">
