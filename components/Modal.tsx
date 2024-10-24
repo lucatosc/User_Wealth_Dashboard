@@ -221,6 +221,7 @@ export const ModalTemp: React.FC<Props> = ({
                 } else {
                     if(Bank_accounts) {
                         let banks: string [] = Bank_accounts.map(item => item.name);
+                        banks.sort();
                         setBankList(banks);
                         setTotalBank(Bank_accounts);
                         if(!account) setAccount(banks[0]);
@@ -236,13 +237,14 @@ export const ModalTemp: React.FC<Props> = ({
                 } else {
                     if(Investments) {
                         let banks: string [] = Investments.map(item => item.name);
+                        banks.sort();
                         setBankList(banks);
                         setTotalBank(Investments);
                         if(!account) setAccount(banks[0]);
                     }
                 }
             } else if(checked === 2) {
-
+                
             } else if(checked === 3) {
                 let { data: Alternatives, error: alt_error } = await supabase
                 .from('Bank_accounts')
@@ -253,6 +255,7 @@ export const ModalTemp: React.FC<Props> = ({
                 } else {
                     if(Alternatives) {
                         let banks: string [] = Alternatives.map(item => item.name);
+                        banks.sort();
                         setBankList(banks);
                         setTotalBank(Alternatives);
                         if(!account) setAccount(banks[0]);
