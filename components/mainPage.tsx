@@ -88,6 +88,7 @@ export function MainPage() {
     useEffect(() => {
         const fetchData = async () => {
             console.log("Fetching data from Supabase...");
+            console.log(process.env)
 
             let Chart0 = chart0.slice(0);
             let Chart1 = chart1.slice(0);

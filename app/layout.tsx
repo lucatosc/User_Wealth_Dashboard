@@ -16,7 +16,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  console.log(process.env);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-background">
