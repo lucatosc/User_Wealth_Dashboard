@@ -3,8 +3,8 @@ import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import Avatar from '@mui/material/Avatar';
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { Menu } from "@/components/menu";
 
 export default async function ResetPassword() {
   return (
@@ -13,11 +13,7 @@ export default async function ResetPassword() {
         <Link className="w-7 h-7 rounded-full" href="/protected">
           <RiLogoutCircleLine size={32} />
         </Link>
-        <Link className="w-7 h-7 rounded-full" href="/protected">
-          <div className="w-7 h-7 rounded-full items-center">
-              <Avatar src="/slack_avatar.png" alt="User's Avatar" sx={{ width: 28, height: 28 }}/>
-          </div>
-        </Link>
+        <Menu />
       </div>
       <form className="flex flex-col w-full max-w-md p-4 gap-2 [&>input]:mb-4 m-auto">
         <h1 className="text-2xl font-medium">Resset password</h1>

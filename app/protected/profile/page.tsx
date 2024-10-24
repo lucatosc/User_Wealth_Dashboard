@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { HiUserCircle } from "react-icons/hi2";
+import { Menu } from "@/components/menu";
 
 export default async function Profile() {
   return (
@@ -13,9 +14,7 @@ export default async function Profile() {
         <Link className="w-7 h-7 rounded-full" href="/protected">
           <RiLogoutCircleLine size={28} />
         </Link>
-        <Link className="w-7 h-7 rounded-full" href="/protected">
-          <HiUserCircle size={32}/>
-        </Link>
+        <Menu />
       </div>
       <form className="flex flex-col w-full max-w-md p-4 gap-2 [&>input]:mb-4 m-auto">
         <h1 className="text-2xl font-medium">Profile</h1>

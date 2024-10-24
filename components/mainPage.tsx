@@ -1,24 +1,14 @@
 "use client";
 import { AccordionTemp } from "@/components/Accordion";
 import { Checkbox, Label } from "flowbite-react";
-import Link from "next/link";
-import { signOutAction } from "@/app/actions";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalTemp } from "./Modal";
 import { LineChart } from '@mui/x-charts/LineChart';
 import { createClient } from '@supabase/supabase-js';
 import { TableData } from "@/components/Table";
 import { AccordionData } from "@/components/Accordion";
-import { useRouter } from "next/navigation";
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import { HiUserCircle } from "react-icons/hi2";
+import { Menu } from "./menu";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -94,52 +84,6 @@ export function MainPage() {
         setState("Add New Asset");
         setOpenModal(true);
     }
-
-    const router = useRouter();
-
-    const [open, setOpen] = useState(false);
-    const anchorRef = useRef<HTMLButtonElement>(null);
-  
-    const handleToggle = () => {
-      setOpen((prevOpen) => !prevOpen);
-    };
-  
-    const handleClose = (event: Event | React.SyntheticEvent) => {
-      if (
-        anchorRef.current &&
-        anchorRef.current.contains(event.target as HTMLElement)
-      ) {
-        return;
-      }
-  
-      setOpen(false);
-    };
-  
-    function handleListKeyDown(event: React.KeyboardEvent) {
-      if (event.key === 'Tab') {
-        event.preventDefault();
-        setOpen(false);
-      } else if (event.key === 'Escape') {
-        setOpen(false);
-      }
-    }
-  
-    // return focus to the button when we transitioned from !open -> open
-    const prevOpen = useRef(open);
-    useEffect(() => {
-      if (prevOpen.current === true && open === false) {
-        anchorRef.current!.focus();
-      }
-  
-      prevOpen.current = open;
-    }, [open]);
-
-    const handleSignOut = async () => {
-        // Call signOutAction
-        await signOutAction(); // Ensure your signOutAction returns a promise.
-        // Redirect after the action has been executed
-        router.push('/sign-in');
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -362,57 +306,7 @@ export function MainPage() {
     return (
         <div className="w-full flex-1 flex flex-col min-w-80 bg-[#f9fbfc] p-5">
             <div className="flex justify-end z-10 items-center border-b boder-[#dfe3eb]">
-                <Button
-                    ref={anchorRef}
-                    id="composition-button"
-                    aria-controls={open ? 'composition-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
-                    aria-haspopup="true"
-                    onClick={handleToggle}
-                >
-                    <HiUserCircle size={32}/>
-                </Button>
-                <Popper
-                    open={open}
-                    anchorEl={anchorRef.current}
-                    role={undefined}
-                    placement="bottom-start"
-                    transition
-                    disablePortal
-                >
-                    {({ TransitionProps, placement }) => (
-                        <Grow
-                            {...TransitionProps}
-                            style={{
-                                transformOrigin:
-                                placement === 'bottom-start' ? 'left top' : 'left bottom',
-                            }}
-                        >
-                            <Paper>
-                                <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList
-                                    autoFocusItem={open}
-                                    id="composition-menu"
-                                    aria-labelledby="composition-button"
-                                    onKeyDown={handleListKeyDown}
-                                >
-                                    <MenuItem>
-                                        <Link href="/protected/profile">
-                                            My Profile
-                                        </Link>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <Link href="/protected/reset-password">
-                                            Reset Password
-                                        </Link>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleSignOut}>Logout</MenuItem>
-                                </MenuList>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Grow>
-                    )}
-                </Popper>
+                <Menu />
             </div>
             <div className="flex justify-end items-center p-2">
                 <Button variant="outlined" size="small" onClick={addNewAsset}>Add Asset</Button>

@@ -30,6 +30,14 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-up", error.message);
   } else {
     console.log("Sign Up Success Data: ", data);
+
+    const { data : userData, error : userError } = await supabase
+    .from('User')
+    .insert([
+      { email: email, auth_id: data.user?.id },
+    ])
+    .select()
+
     return encodedRedirect(
       "success",
       "/sign-up",
