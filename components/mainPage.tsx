@@ -88,7 +88,14 @@ export function MainPage() {
     useEffect(() => {
         const fetchData = async () => {
             console.log("Fetching data from Supabase...");
-            console.log(process.env)
+            console.log(process.env.POSTGRES_DATABASE)
+            console.log(process.env.POSTGRES_PASSWORD)
+            console.log(process.env.POSTGRES_HOST)
+            console.log(process.env.POSTGRES_URL_NON_POOLING)
+            console.log(process.env.POSTGRES_PRISMA_URL)
+            console.log(process.env.POSTGRES_URL)
+
+
 
             let Chart0 = chart0.slice(0);
             let Chart1 = chart1.slice(0);
