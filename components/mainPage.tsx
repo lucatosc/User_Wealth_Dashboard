@@ -89,12 +89,12 @@ export function MainPage() {
         const fetchData = async () => {
             console.log("Fetching data from Supabase...");
 
-            let Chart0 = chart0.slice(0);
-            let Chart1 = chart1.slice(0);
-            let Chart2 = chart2.slice(0);
-            let Chart3 = chart3.slice(0);
-            let Chart4 = chart4.slice(0);
-            let Chart5 = chart5.slice(0);
+            let Chart0 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart1 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart2 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart3 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart4 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart5 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             
             let _accordionData : AccordionData [] = [
                 {
@@ -141,6 +141,8 @@ export function MainPage() {
                     Liquidity_users?.forEach(item => {
                         if(bankArray.includes(item?.Bank_accounts?.name) === false) bankArray.push(item?.Bank_accounts?.name); 
                     });
+
+                    bankArray.sort();
 
                     bankArray.forEach(bank => {
                         let temp: any [] = [];
@@ -189,6 +191,8 @@ export function MainPage() {
                     Investments_users?.forEach(item => {
                         if(InvArray.includes(item?.Investments?.name) === false) InvArray.push(item?.Investments?.name); 
                     });
+
+                    InvArray.sort();
 
                     InvArray.forEach(inv => {
                         let temp: any [] = [];
@@ -240,6 +244,8 @@ export function MainPage() {
                         if(altArray.includes(item?.Alternatives?.name) === false) altArray.push(item?.Alternatives?.name); 
                     });
 
+                    altArray.sort();
+
                     altArray.forEach(alt => {
                         let temp: any [] = [];
                         let tableData : TableData = {mainCategory: 0, childCategory: alt, title: ["Date", "Impoto"], content: []};
@@ -281,12 +287,12 @@ export function MainPage() {
             setChart5(Chart5);
 
             let temp_list: any[] = [];
-            if(chartList[0]) temp_list.push({curve: "linear", data: Chart0});
-            if(chartList[1]) temp_list.push({curve: "linear", data: Chart1});
-            if(chartList[2]) temp_list.push({curve: "linear", data: Chart2});
-            if(chartList[3]) temp_list.push({curve: "linear", data: Chart3});
-            if(chartList[4]) temp_list.push({curve: "linear", data: Chart4});
-            if(chartList[5]) temp_list.push({curve: "linear", data: Chart5});
+            if(chartList[0]) temp_list.push({curve: "linear", color: 'red', data: Chart0});
+            if(chartList[1]) temp_list.push({curve: "linear", color: 'green', data: Chart1});
+            if(chartList[2]) temp_list.push({curve: "linear", color: 'blue', data: Chart2});
+            if(chartList[3]) temp_list.push({curve: "linear", color: 'yellow', data: Chart3});
+            if(chartList[4]) temp_list.push({curve: "linear", color: 'purple', data: Chart4});
+            if(chartList[5]) temp_list.push({curve: "linear", color: 'gray', data: Chart5});
 
             setSeries(temp_list);
             setMyTotalAmount(_myTotalAmount);
@@ -319,27 +325,27 @@ export function MainPage() {
             </div>
             <div className="grid grid-cols-3 md:grid-cols-6 items-center gap-3 w-full p-3">
                 <div className="text-left flex items-center">
-                    <Checkbox id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
+                    <Checkbox color="red" id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
                     <Label className="ml-2 text-lg font-semibold" htmlFor="total">Total</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="liquidita" checked={chartList[1]} onChange={e => handleChange(1)} />
+                    <Checkbox color="green" id="liquidita" checked={chartList[1]} onChange={e => handleChange(1)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="liquidita">Liquidita</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="investimenti" checked={chartList[2]} onChange={e => handleChange(2)} />
+                    <Checkbox color="blue" id="investimenti" checked={chartList[2]} onChange={e => handleChange(2)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="investimenti">Investimenti</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="immobiliare" checked={chartList[3]} onChange={e => handleChange(3)} />
+                    <Checkbox color="yellow" id="immobiliare" checked={chartList[3]} onChange={e => handleChange(3)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="immobiliare">Immobiliare</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="altenativi" checked={chartList[4]} onChange={e => handleChange(4)} />
+                    <Checkbox color="purple" id="altenativi" checked={chartList[4]} onChange={e => handleChange(4)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="altenativi">Altenativi</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="passivita" checked={chartList[5]} onChange={e => handleChange(5)} />
+                    <Checkbox color="gray" id="passivita" checked={chartList[5]} onChange={e => handleChange(5)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="passivita">Passivita</Label>
                 </div>
             </div>
