@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { HiUserCircle } from "react-icons/hi2";
 import { Menu } from "@/components/menu";
 
 export default async function Profile() {
@@ -42,7 +41,7 @@ export default async function Profile() {
         <Label htmlFor="confirmemail">Confirm Email</Label>
         <Input
           type="email"
-          name="confirmemail"
+          name="confirmEmail"
           placeholder="Confirm Email"
           required
         />
@@ -53,14 +52,9 @@ export default async function Profile() {
           placeholder="Address"
           required
         />
-        <div className="flex justify-around">
-          <SubmitButton pendingText="Updating..." formAction={updateProfileAction}>
-            Update
-          </SubmitButton>
-          <SubmitButton pendingText="Deleting..." formAction={deleteProfileAction}>
-            Delete
-          </SubmitButton>
-        </div>
+        <SubmitButton pendingText="Updating..." formAction={updateProfileAction}>
+          Update
+        </SubmitButton>
       </form>
     </div>
   );

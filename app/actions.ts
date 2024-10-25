@@ -158,7 +158,7 @@ export const updateProfileAction = async (formData: FormData) => {
   }
 
   let updateData : any = {};
-  if(fname || lname) updateData['name'] = fname + lname;
+  if(fname || lname) updateData['name'] = fname + " " + lname;
   if(email) updateData['email'] = email;
   if(address) updateData['address'] = address;
 
