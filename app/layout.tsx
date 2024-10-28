@@ -1,7 +1,6 @@
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
-import { Provider } from 'react-redux';
-import { store } from '../redux/store';
+import ReduxProvider from "@/components/ReduxProvider";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -16,16 +15,18 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-background">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main className="w-full border-2 min-h-screen flex flex-col items-center justify-center m-auto">
-            {children}
-          </main>
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main className="w-full border-2 min-h-screen flex flex-col items-center justify-center m-auto">
+              {children}
+            </main>
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

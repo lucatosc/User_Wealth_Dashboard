@@ -57,11 +57,9 @@ export const getDateNow = () => {
 
 
 export function MainPage() {
-
     const [openModal, setOpenModal] = useState(false);
     const [state, setState] = useState("");
     const [accordionData, setAccordionData] = useState <AccordionData []>(initAccordionData);
-    
     const [checked, setChecked] = useState <number> (0);
     const [checkCateId, setCheckCateId] = useState <string> ("");
     const [account, setAccount] = useState <string> ("");
@@ -69,14 +67,6 @@ export function MainPage() {
     const [newDate, setNewDate] = useState <any> (getDateNow());
     const [newAccount, setNewAccount] = useState <string> ("");
     const [myTotalAmount, setMyTotalAmount] = useState <number> (0);
-
-    const [chart0, setChart0] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart1, setChart1] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart2, setChart2] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart3, setChart3] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart4, setChart4] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart5, setChart5] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-
     const [chartList, setChartList] = useState<boolean[]>([true, true, true, true, true, true]);
     const [series, setSeries] = useState<any[]>([]);
 
@@ -279,12 +269,6 @@ export function MainPage() {
             //Passivita
 
             setAccordionData(_accordionData);
-            setChart0(Chart0);
-            setChart1(Chart1);
-            setChart2(Chart2);
-            setChart3(Chart3);
-            setChart4(Chart4);
-            setChart5(Chart5);
 
             let temp_list: any[] = [];
             if(chartList[0]) temp_list.push({curve: "linear", color: 'red', data: Chart0});
