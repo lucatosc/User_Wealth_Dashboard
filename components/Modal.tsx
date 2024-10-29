@@ -45,14 +45,14 @@ export const ModalTemp: React.FC<Props> = ({
                 const { data, error } = await supabase
                     .from('Liquidity_users')
                     .insert([
-                        { date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                        { date: newDate, amount: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id },
                     ])
                     .select()
             } else if(checked === 1) {
                 const { data, error } = await supabase
                 .from('Investments_users')
                 .insert([
-                    { date: newDate, quantity: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                    { date: newDate, quantity: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id },
                 ])
                 .select()
             } else if(checked === 2) {
@@ -61,7 +61,7 @@ export const ModalTemp: React.FC<Props> = ({
                 const { data, error } = await supabase
                 .from('Alternative_users')
                 .insert([
-                    { date: newDate, value: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                    { date: newDate, value: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id },
                 ])
                 .select()
             } else if(checked === 4) {
@@ -82,13 +82,13 @@ export const ModalTemp: React.FC<Props> = ({
             if(checked === 0) {
                 const { data, error } = await supabase
                     .from('Liquidity_users')
-                    .update({ date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, amount: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 1) {
                 const { data, error } = await supabase
                     .from('Investments_users')
-                    .update({ date: newDate, quantity: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, quantity: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 2) {
@@ -96,7 +96,7 @@ export const ModalTemp: React.FC<Props> = ({
             } else if(checked === 3) {
                 const { data, error } = await supabase
                     .from('Alternavie_users')
-                    .update({ date: newDate, value: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, value: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 4) {

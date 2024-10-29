@@ -9,6 +9,8 @@ import { TableData } from "@/components/Table";
 import { AccordionData } from "@/components/Accordion";
 import Button from "@mui/material/Button";
 import { Menu } from "./menu";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -70,6 +72,8 @@ export function MainPage() {
     const [chartList, setChartList] = useState<boolean[]>([true, true, true, true, true, true]);
     const [series, setSeries] = useState<any[]>([]);
 
+    const { user, loading } = useSelector((state: RootState) => state.user);
+
     const addNewAsset = () => {
         setState("Add New Asset");
         setOpenModal(true);
@@ -118,7 +122,7 @@ export function MainPage() {
             let { data: Liquidity_users, error: liquidity_error } = await supabase
                 .from('Liquidity_users')
                 .select(`*, Bank_accounts(name)`)
-                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+                .eq('user_id', user.id);
 
             if (liquidity_error) {
                 console.error("Error fetching data:", liquidity_error);
@@ -168,7 +172,7 @@ export function MainPage() {
             let { data: Investments_users, error: Investments_error } = await supabase
                 .from('Investments_users')
                 .select(`*, Investments(name)`)
-                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+                .eq('user_id', user.id);
 
             if (Investments_error) {
                 console.error("Error fetching data:", Investments_error);
@@ -220,7 +224,7 @@ export function MainPage() {
             let { data: Alternative_users, error: Alternative_error } = await supabase
                 .from('Alternative_users')
                 .select(`*, Alternatives(name)`)
-                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+                .eq('user_id', user.id);
 
             if (Alternative_error) {
                 console.error("Error fetching data:", Alternative_error);
