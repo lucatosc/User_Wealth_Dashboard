@@ -45,14 +45,14 @@ export const ModalTemp: React.FC<Props> = ({
                 const { data, error } = await supabase
                     .from('Liquidity_users')
                     .insert([
-                        { date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                        { date: newDate, amount: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id },
                     ])
                     .select()
             } else if(checked === 1) {
                 const { data, error } = await supabase
                 .from('Investments_users')
                 .insert([
-                    { date: newDate, quantity: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                    { date: newDate, quantity: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id },
                 ])
                 .select()
             } else if(checked === 2) {
@@ -61,7 +61,7 @@ export const ModalTemp: React.FC<Props> = ({
                 const { data, error } = await supabase
                 .from('Alternative_users')
                 .insert([
-                    { date: newDate, value: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id },
+                    { date: newDate, value: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id },
                 ])
                 .select()
             } else if(checked === 4) {
@@ -82,13 +82,13 @@ export const ModalTemp: React.FC<Props> = ({
             if(checked === 0) {
                 const { data, error } = await supabase
                     .from('Liquidity_users')
-                    .update({ date: newDate, amount: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, amount: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 1) {
                 const { data, error } = await supabase
                     .from('Investments_users')
-                    .update({ date: newDate, quantity: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, quantity: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 2) {
@@ -96,7 +96,7 @@ export const ModalTemp: React.FC<Props> = ({
             } else if(checked === 3) {
                 const { data, error } = await supabase
                     .from('Alternavie_users')
-                    .update({ date: newDate, value: amount, currency: "EUR", user_id: '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b', bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, value: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 4) {
@@ -221,6 +221,7 @@ export const ModalTemp: React.FC<Props> = ({
                 } else {
                     if(Bank_accounts) {
                         let banks: string [] = Bank_accounts.map(item => item.name);
+                        banks.sort();
                         setBankList(banks);
                         setTotalBank(Bank_accounts);
                         if(!account) setAccount(banks[0]);
@@ -236,16 +237,17 @@ export const ModalTemp: React.FC<Props> = ({
                 } else {
                     if(Investments) {
                         let banks: string [] = Investments.map(item => item.name);
+                        banks.sort();
                         setBankList(banks);
                         setTotalBank(Investments);
                         if(!account) setAccount(banks[0]);
                     }
                 }
             } else if(checked === 2) {
-
+                
             } else if(checked === 3) {
                 let { data: Alternatives, error: alt_error } = await supabase
-                .from('Bank_accounts')
+                .from('Alternatives')
                 .select(`name, id`)
                 
                 if (alt_error) {
@@ -253,6 +255,7 @@ export const ModalTemp: React.FC<Props> = ({
                 } else {
                     if(Alternatives) {
                         let banks: string [] = Alternatives.map(item => item.name);
+                        banks.sort();
                         setBankList(banks);
                         setTotalBank(Alternatives);
                         if(!account) setAccount(banks[0]);
@@ -272,45 +275,56 @@ export const ModalTemp: React.FC<Props> = ({
             {/* Add New Asset Modal} */}
             {state === "Add New Asset" && <Modal.Header>Add Assert</Modal.Header>}
             {state === "Add New Asset" && <Modal.Body>
-                <TableTemp 
-                    openModal={openModal} 
-                    setOpenModal={setOpenModal} 
-                    tableData={listData} 
-                    state={state} 
-                    setState={setState}
-                    checked={checked}
-                    setChecked={setChecked}
-                    account={account} 
-                    setAccount={setAccount}
-                    amount={amount} 
-                    setAmount={setAmount} 
-                    newDate={newDate} 
-                    setNewDate={setNewDate}
-                    checkCateId={checkCateId}
-                    setCheckCateId={setCheckCateId}
-                />
+                <div className="border border-[#dfe3eb] rounded-lg">
+                    <TableTemp 
+                        openModal={openModal} 
+                        setOpenModal={setOpenModal} 
+                        tableData={listData} 
+                        state={state} 
+                        setState={setState}
+                        checked={checked}
+                        setChecked={setChecked}
+                        account={account} 
+                        setAccount={setAccount}
+                        amount={amount} 
+                        setAmount={setAmount} 
+                        newDate={newDate} 
+                        setNewDate={setNewDate}
+                        checkCateId={checkCateId}
+                        setCheckCateId={setCheckCateId}
+                    />
+                </div>
             </Modal.Body>}
 
             {/* Add New Liquidita */}
-            {state === "Add New Liquidita" && <Modal.Header>Add Liquidita</Modal.Header>}
+            {state === "Add New Liquidita" && (
+                (checked === 0 && <Modal.Header>Add New Liquidita</Modal.Header>) || 
+                (checked === 1 && <Modal.Header>Add New Investimento</Modal.Header>) || 
+                (checked === 2 && <Modal.Header>Add New Immobiliare</Modal.Header>) ||
+                (checked === 3 && <Modal.Header>Add New Alternativi</Modal.Header>) ||
+                (checked === 4 && <Modal.Header>Add New Passivita</Modal.Header>)
+            )}
             {state === "Add New Liquidita" && <Modal.Body>
-                <div className="space-y-6">
+                {(checked === 0 || checked === 1 || checked === 3) && <div className="space-y-6">
                     <div className="w-full">
-                        <div className="mb-2 block">
-                            <Label htmlFor="account" value="Account" />
-                        </div>
+                        <Label htmlFor="account" value="Account" />
                         <Select id="account" value={account} onChange={e => setAccount(e.target.value)} required>
                             {bankList.length > 0 ? 
                             bankList.map((user, index) => <option key={index} value={user}>{user}</option>) : 
-                            <option>No Account Available</option>}
+                            <option>Empty data</option>}
                         </Select>
-                    </div>
-                    <div>
-                        <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add new account</div>
+                        <div className="text-blue-600 cursor-pointer pt-2 pl-5" onClick={addAccount}>Add New Account</div>
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
-                        <TextInput id="account" type="number" required value={amount} onChange={e => setAmount(e.target.value)}/>
+                        <TextInput id="amount" type="number" required value={amount} onChange={e => setAmount(e.target.value)}/>
+                    </div>
+                    <div className="w-full">
+                        <Label htmlFor="currency" value="Currency" />
+                        <Select id="currency" /*onChange={e => setCurrency(e.target.value)}*/ required>
+                            <option value="EUR">{"EUR"}</option>
+                            <option value="USD">{"USD"}</option>
+                        </Select>
                     </div>
                     <div>
                         <Label htmlFor="date" value="Date"/>
@@ -319,25 +333,95 @@ export const ModalTemp: React.FC<Props> = ({
                     <div className="w-full items-center justify-center">
                         <Button onClick={addLiquidita}>Add</Button>
                     </div>
-                </div>
+                </div>}
+
+                {checked === 2 && <div className="space-y-6">
+                    <div>
+                        <Label htmlFor="purchase" value="Purchase Price" />
+                        <TextInput id="purchase" type="number" required /*value={purchase} onChange={e => setPurchasePrice(e.target.value)}*//>
+                    </div>
+                    <div>
+                        <Label htmlFor="history" value="Historical Price" />
+                        <TextInput id="history" type="number" required /*value={history} onChange={e => setHistoricalPrice(e.target.value)}*//>
+                    </div>
+                    <div>
+                        <Label htmlFor="purchaseDate" value="Purchase Date" />
+                        <TextInput id="purchaseDate" type="date" required /*value={purchaseDate} onChange={e => setPurchaseDate(e.target.value)}*//>
+                    </div>
+                    <div>
+                        <Label htmlFor="square" value="Square Metres" />
+                        <TextInput id="square" type="number" required /*value={square} onChange={e => setSquare(e.target.value)}*//>
+                    </div>
+                    <div>
+                        <Label htmlFor="city" value="City" />
+                        <TextInput id="city" type="text" required /*value={city} onChange={e => setCity(e.target.value)}*//>
+                    </div>
+                                   <div>
+                        <Label htmlFor="address" value="Address" />
+                        <TextInput id="address" type="text" required /*value={address} onChange={e => setAddress(e.target.value)}*//>
+                    </div>
+                    <div className="w-full items-center justify-center">
+                        <Button onClick={addLiquidita}>Add</Button>
+                    </div>
+                </div>}
+
+                {checked === 4 && <div className="space-y-6">
+                    <div>
+                        <Label htmlFor="amount" value="Amount" />
+                        <TextInput id="amount" type="number" required /*value={amount} onChange={e => setAmount(e.target.value)}*//>
+                    </div>
+                    <div>
+                        <Label htmlFor="instalments" value="Instalments" />
+                        <TextInput id="instalments" type="date" required /*value={instalments} onChange={e => setInstalments(e.target.value)}*//>
+                    </div>
+                    <div>
+                        <Label htmlFor="interstType" value="Interst Type" />
+                        <TextInput id="interstType" type="number" required /*value={interstType} onChange={e => setInterstType(e.target.value)}*//>
+                    </div>
+                    <div>
+                        <Label htmlFor="interest" value="Interest" />
+                        <TextInput id="interest" type="text" required /*value={interest} onChange={e => setInterest(e.target.value)}*//>
+                    </div>
+                                   <div>
+                        <Label htmlFor="date" value="Date" />
+                        <TextInput id="date" type="text" required /*value={date} onChange={e => setDate(e.target.value)}*//>
+                    </div>
+                    <div className="w-full items-center justify-center">
+                        <Button onClick={addLiquidita}>Add</Button>
+                    </div>
+                </div>}
             </Modal.Body>}
 
             {/* Add Update Liquidita */}
-            {state === "Add Update Liquidita" && <Modal.Header>Update Liquidita</Modal.Header>}
+            {state === "Add Update Liquidita" && ((checked === 0 && <Modal.Header>Update Liquidita</Modal.Header>) || 
+                (checked === 1 && <Modal.Header>Update Investimenti</Modal.Header>) || 
+                (checked === 2 && <Modal.Header>Update Immobiliare</Modal.Header>) ||
+                (checked === 3 && <Modal.Header>Update Alternativi</Modal.Header>) ||
+                (checked === 4 && <Modal.Header>Update Passivita</Modal.Header>))}
             {state === "Add Update Liquidita" && <Modal.Body>
                 <div className="space-y-6">
                     <div className="w-full">
                         <div className="mb-2 block">
-                            <Label htmlFor="account" value="Account" />
+                            {(checked === 0 && <Label htmlFor="account" value="Bank Name" />) || 
+                            (checked === 1 && <Label htmlFor="account" value="Investment Name" />) || 
+                            (checked === 2 && <Label htmlFor="account" value="Immobiliare Name" />) ||
+                            (checked === 3 && <Label htmlFor="account" value="Alternative Name" />) ||
+                            (checked === 4 && <Label htmlFor="account" value="Passivity Name" />)}
                         </div>
                         <Select id="account" value={account} onChange={e => setAccount(e.target.value)} required>
                             {bankList.length > 0 ? 
                             bankList.map((user, index) => <option key={index} value={user}>{user}</option>) : 
-                            <option>No Account Available</option>}
+                            <option>Empty Data</option>}
                         </Select>
                     </div>
                     <div>
-                        <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add new account</div>
+                        {
+                            (checked === 0 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Bank Name</div>) || 
+                            (checked === 1 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Investment Name</div>) || 
+                            (checked === 2 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Immobiliare Name</div>) || 
+                            (checked === 3 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Alternative Name</div>) || 
+                            (checked === 4 && <div className="text-blue-600 cursor-pointer" onClick={addAccount}>Add New Passivity Name</div>)
+                        }
                     </div>
                     <div>
                         <Label htmlFor="amount" value="Amount" />
@@ -354,13 +438,19 @@ export const ModalTemp: React.FC<Props> = ({
             </Modal.Body>}
 
             {/* Add New Liquidita Account*/}
-            {state === "Add New Liquidita Account" && <Modal.Header>Add New Liquidita Account</Modal.Header>}
+            {state === "Add New Liquidita Account" && ((checked === 0 && <Modal.Header>Add New Bank Account</Modal.Header>) || 
+                (checked === 1 && <Modal.Header>Add New Investment Account</Modal.Header>) || 
+                (checked === 3 && <Modal.Header>Add New Alternative Account</Modal.Header>))}
             {state === "Add New Liquidita Account" && <Modal.Body>
                 <div className="space-y-6">
                     <div>
-                        <Label htmlFor="amount" value="Account Name" />
+                        <Label htmlFor="account" value="Account Name" />
                         <TextInput id="account" type="text" required value={newAccount} onChange={e => setNewAccount(e.target.value)}/>
                     </div>
+                    {checked === 0 && <div>
+                        <Label htmlFor="iban" value="Iban" />
+                        <TextInput id="iban" type="text" required /*value={newIban} onChange={e => setNewIban(e.target.value)}*//>
+                    </div>}
                     <div className="w-full">
                         <Button onClick={addNewAccount}>Add</Button>
                     </div>
@@ -383,7 +473,7 @@ export const ModalTemp: React.FC<Props> = ({
                     </Button>
                   </div>
                 </div>
-              </Modal.Body>}
+            </Modal.Body>}
         </Modal>
     );
 }

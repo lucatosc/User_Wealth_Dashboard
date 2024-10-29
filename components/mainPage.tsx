@@ -9,6 +9,8 @@ import { TableData } from "@/components/Table";
 import { AccordionData } from "@/components/Accordion";
 import Button from "@mui/material/Button";
 import { Menu } from "./menu";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -57,11 +59,9 @@ export const getDateNow = () => {
 
 
 export function MainPage() {
-
     const [openModal, setOpenModal] = useState(false);
     const [state, setState] = useState("");
     const [accordionData, setAccordionData] = useState <AccordionData []>(initAccordionData);
-    
     const [checked, setChecked] = useState <number> (0);
     const [checkCateId, setCheckCateId] = useState <string> ("");
     const [account, setAccount] = useState <string> ("");
@@ -69,16 +69,10 @@ export function MainPage() {
     const [newDate, setNewDate] = useState <any> (getDateNow());
     const [newAccount, setNewAccount] = useState <string> ("");
     const [myTotalAmount, setMyTotalAmount] = useState <number> (0);
-
-    const [chart0, setChart0] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart1, setChart1] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart2, setChart2] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart3, setChart3] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart4, setChart4] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [chart5, setChart5] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-
     const [chartList, setChartList] = useState<boolean[]>([true, true, true, true, true, true]);
     const [series, setSeries] = useState<any[]>([]);
+
+    const { user, loading } = useSelector((state: RootState) => state.user);
 
     const addNewAsset = () => {
         setState("Add New Asset");
@@ -88,22 +82,13 @@ export function MainPage() {
     useEffect(() => {
         const fetchData = async () => {
             console.log("Fetching data from Supabase...");
-            console.log(process.env.POSTGRES_DATABASE)
-            console.log(process.env.POSTGRES_PASSWORD)
-            console.log(process.env.POSTGRES_HOST)
-            console.log(process.env.POSTGRES_URL_NON_POOLING)
-            console.log(process.env.POSTGRES_PRISMA_URL)
-            console.log(process.env.POSTGRES_URL)
 
-
-
-            let Chart0 = chart0.slice(0);
-            let Chart1 = chart1.slice(0);
-            let Chart2 = chart2.slice(0);
-            let Chart3 = chart3.slice(0);
-            let Chart4 = chart4.slice(0);
-            let Chart5 = chart5.slice(0);
-            
+            let Chart0 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart1 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart2 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart3 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart4 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart5 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             
             let _accordionData : AccordionData [] = [
                 {
@@ -137,7 +122,7 @@ export function MainPage() {
             let { data: Liquidity_users, error: liquidity_error } = await supabase
                 .from('Liquidity_users')
                 .select(`*, Bank_accounts(name)`)
-                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+                .eq('user_id', user.id);
 
             if (liquidity_error) {
                 console.error("Error fetching data:", liquidity_error);
@@ -150,6 +135,8 @@ export function MainPage() {
                     Liquidity_users?.forEach(item => {
                         if(bankArray.includes(item?.Bank_accounts?.name) === false) bankArray.push(item?.Bank_accounts?.name); 
                     });
+
+                    bankArray.sort();
 
                     bankArray.forEach(bank => {
                         let temp: any [] = [];
@@ -185,7 +172,7 @@ export function MainPage() {
             let { data: Investments_users, error: Investments_error } = await supabase
                 .from('Investments_users')
                 .select(`*, Investments(name)`)
-                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+                .eq('user_id', user.id);
 
             if (Investments_error) {
                 console.error("Error fetching data:", Investments_error);
@@ -198,6 +185,8 @@ export function MainPage() {
                     Investments_users?.forEach(item => {
                         if(InvArray.includes(item?.Investments?.name) === false) InvArray.push(item?.Investments?.name); 
                     });
+
+                    InvArray.sort();
 
                     InvArray.forEach(inv => {
                         let temp: any [] = [];
@@ -235,7 +224,7 @@ export function MainPage() {
             let { data: Alternative_users, error: Alternative_error } = await supabase
                 .from('Alternative_users')
                 .select(`*, Alternatives(name)`)
-                .eq('user_id', '4c4b7b19-50b4-49b4-8283-06a2a0cbc44b');
+                .eq('user_id', user.id);
 
             if (Alternative_error) {
                 console.error("Error fetching data:", Alternative_error);
@@ -248,6 +237,8 @@ export function MainPage() {
                     Alternative_users.forEach(item => {
                         if(altArray.includes(item?.Alternatives?.name) === false) altArray.push(item?.Alternatives?.name); 
                     });
+
+                    altArray.sort();
 
                     altArray.forEach(alt => {
                         let temp: any [] = [];
@@ -282,20 +273,14 @@ export function MainPage() {
             //Passivita
 
             setAccordionData(_accordionData);
-            setChart0(Chart0);
-            setChart1(Chart1);
-            setChart2(Chart2);
-            setChart3(Chart3);
-            setChart4(Chart4);
-            setChart5(Chart5);
 
             let temp_list: any[] = [];
-            if(chartList[0]) temp_list.push({curve: "linear", data: Chart0});
-            if(chartList[1]) temp_list.push({curve: "linear", data: Chart1});
-            if(chartList[2]) temp_list.push({curve: "linear", data: Chart2});
-            if(chartList[3]) temp_list.push({curve: "linear", data: Chart3});
-            if(chartList[4]) temp_list.push({curve: "linear", data: Chart4});
-            if(chartList[5]) temp_list.push({curve: "linear", data: Chart5});
+            if(chartList[0]) temp_list.push({curve: "linear", color: 'red', data: Chart0});
+            if(chartList[1]) temp_list.push({curve: "linear", color: 'green', data: Chart1});
+            if(chartList[2]) temp_list.push({curve: "linear", color: 'blue', data: Chart2});
+            if(chartList[3]) temp_list.push({curve: "linear", color: 'yellow', data: Chart3});
+            if(chartList[4]) temp_list.push({curve: "linear", color: 'purple', data: Chart4});
+            if(chartList[5]) temp_list.push({curve: "linear", color: 'gray', data: Chart5});
 
             setSeries(temp_list);
             setMyTotalAmount(_myTotalAmount);
@@ -328,27 +313,27 @@ export function MainPage() {
             </div>
             <div className="grid grid-cols-3 md:grid-cols-6 items-center gap-3 w-full p-3">
                 <div className="text-left flex items-center">
-                    <Checkbox id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
+                    <Checkbox color="red" id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
                     <Label className="ml-2 text-lg font-semibold" htmlFor="total">Total</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="liquidita" checked={chartList[1]} onChange={e => handleChange(1)} />
+                    <Checkbox color="green" id="liquidita" checked={chartList[1]} onChange={e => handleChange(1)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="liquidita">Liquidita</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="investimenti" checked={chartList[2]} onChange={e => handleChange(2)} />
+                    <Checkbox color="blue" id="investimenti" checked={chartList[2]} onChange={e => handleChange(2)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="investimenti">Investimenti</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="immobiliare" checked={chartList[3]} onChange={e => handleChange(3)} />
+                    <Checkbox color="yellow" id="immobiliare" checked={chartList[3]} onChange={e => handleChange(3)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="immobiliare">Immobiliare</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="altenativi" checked={chartList[4]} onChange={e => handleChange(4)} />
+                    <Checkbox color="purple" id="altenativi" checked={chartList[4]} onChange={e => handleChange(4)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="altenativi">Altenativi</Label>
                 </div>
                 <div className="text-left flex items-center">
-                    <Checkbox id="passivita" checked={chartList[5]} onChange={e => handleChange(5)} />
+                    <Checkbox color="gray" id="passivita" checked={chartList[5]} onChange={e => handleChange(5)} />
                     <Label className="ml-2 text-lg font-semibold" htmlFor="passivita">Passivita</Label>
                 </div>
             </div>
