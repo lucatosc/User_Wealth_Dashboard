@@ -51,31 +51,16 @@ export const signInAction = async (formData: FormData) => {
   const password = formData.get("password") as string;
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
 
   if (error) {
-    return { redirect: "/sign-in", message: error.message };
+    return encodedRedirect("error", "/sign-in", error.message);
   }
 
-  const userQuery = await supabase
-    .from('User')
-    .select(`*`)
-    .eq('auth_id', data.user.id);
-
-  if (userQuery.error) {
-    return { redirect: "/sign-in", message: userQuery.error.message };
-  }
-
-  const user_data = userQuery.data;
-
-  // Here, instead of dispatching, just return the user data
-  return {
-    redirect: "/protected",
-    user: user_data,
-  };
+  return redirect("/protected");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
