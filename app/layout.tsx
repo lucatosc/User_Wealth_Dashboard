@@ -14,7 +14,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-background">
+      <body className="bg-[#f9fbfc]">
         <ReduxProvider>
           <ThemeProvider
             attribute="class"
@@ -22,7 +22,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <main className="w-full md:w-2/3 border-2 min-h-screen flex flex-col items-center justify-center m-auto">
+            <main className="w-full md:w-2/3 min-h-screen flex flex-col items-center justify-center m-auto">
               {children}
             </main>
           </ThemeProvider>
