@@ -11,6 +11,10 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Button from "@mui/material/Button";
 import { HiUserCircle } from "react-icons/hi2";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { supabase } from "./mainPage";
+import { encodedRedirect } from "@/utils/utils";
 
 export function Menu() {
     const router = useRouter();
@@ -53,7 +57,15 @@ export function Menu() {
     }, [open]);
 
     const handleSignOut = async () => {
-        console.log("dsfjwioqaefjiowefjweoifjeoiwfjaewiofjaeoiwfjeiwofjieo")
+        // const { user, loading } = useSelector((state: RootState) => state.user);
+
+        // const {error: user_error } = await supabase
+        // .from('User')
+        // .update({ login: 'FALSE' })
+        // .eq('id', user?.id)
+        // .select()
+            
+        // if(user_error) return encodedRedirect("error", "/protected", user_error.message);
 
         // Call signOutAction
         await signOutAction(); // Ensure your signOutAction returns a promise.

@@ -205,7 +205,7 @@ export const ModalTemp: React.FC<Props> = ({
                 const { data: Bank_accounts, error: bank_error } = await supabase
                     .from('Bank_accounts')
                     .insert([
-                        { name: newAccount },
+                        { name: newAccount, iban: newIban },
                     ])
                     .select()
                 

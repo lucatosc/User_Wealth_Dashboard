@@ -149,16 +149,6 @@ export const resetPasswordAction = async (formData: FormData) => {
 
 export const signOutAction = async () => {
   const supabase = createClient();
-  const { user, loading } = useSelector((state: RootState) => state.user);
-
-  const {error: user_error } = await supabase
-  .from('User')
-  .update({ login: 'FALSE' })
-  .eq('id', user?.id)
-  .select()
-      
-  if(user_error) return encodedRedirect("error", "/protected", user_error.message);
-
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
