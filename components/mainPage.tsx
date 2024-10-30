@@ -428,7 +428,7 @@ export function MainPage() {
                     series={series}
                 />
             </div>
-            <div className="grid grid-cols-3 md:grid-cols-6 items-center gap-3 w-full p-3">
+            <div className="grid grid-cols-3 items-center gap-3 w-full p-3">
                 <div className="text-left flex items-center">
                     <Checkbox color="red" id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
                     <Label className="ml-2 text-lg font-semibold" htmlFor="total">Total</Label>

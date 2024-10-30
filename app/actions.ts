@@ -61,9 +61,7 @@ export const signInAction = async (formData: FormData) => {
 
   if (error) {
     return encodedRedirect("error", "/sign-in", error.message);
-  }
-
-  
+  }  
   
   const {error: user_error } = await supabase
     .from('User')
@@ -162,7 +160,9 @@ export const updateProfileAction = async (formData: FormData) => {
   const confirmEmail = formData.get("confirmEmail") as string;
   const address = formData.get("address") as string;
   
-  const { user, loading } = useSelector((state: RootState) => state.user);
+  const { data: { user } } = await supabase.auth.getUser();
+
+console.log(user)
 
   if (email !== confirmEmail) {
     encodedRedirect(
@@ -180,8 +180,7 @@ export const updateProfileAction = async (formData: FormData) => {
   const { data, error } = await supabase
   .from('User')
   .update(updateData)
-  .eq('id', user?.id)
-  .select()
+  .eq('auth_id', user?.id)
 
   if (error) {
     encodedRedirect(
@@ -196,12 +195,12 @@ export const updateProfileAction = async (formData: FormData) => {
 
 export const deleteProfileAction = async (formData: FormData) => {
   const supabase = createClient();
-  const { user, loading } = useSelector((state: RootState) => state.user);
+  const { data: { user } } = await supabase.auth.getUser();
 
   const { error } = await supabase
   .from('User')
   .delete()
-  .eq('id', user?.id)
+  .eq('auth_id', user?.id)
 
   if (error) {
     encodedRedirect(

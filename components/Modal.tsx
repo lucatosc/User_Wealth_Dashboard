@@ -231,8 +231,6 @@ export const ModalTemp: React.FC<Props> = ({
                     setAccount(newAccount);
                 }
             }
-            } else if(checked === 2) {
-
             } else if(checked === 3) {
                 const { data: Altenatives, error: Alternatives_error } = await supabase
                     .from('Alternatives')
@@ -248,8 +246,6 @@ export const ModalTemp: React.FC<Props> = ({
                         setAccount(newAccount);
                     }
                 }
-            } else if(checked === 4) {
-
             }
         }
 
