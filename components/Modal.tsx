@@ -2,6 +2,8 @@ import { Button, Label, Modal, TextInput, Dropdown, Select } from "flowbite-reac
 import { TableData, TableTemp } from "./Table";
 import { useEffect, useState } from "react";
 import { createClient } from '@supabase/supabase-js';
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -31,6 +33,8 @@ type Props = {
 export const ModalTemp: React.FC<Props> = ({
     listData, state, setState, openModal, setOpenModal, checked, setChecked, account, setAccount,  amount, setAmount, newAccount, setNewAccount, newDate, setNewDate, checkCateId, setCheckCateId
   }: Props) => {
+    const { user, loading } = useSelector((state: RootState) => state.user);
+
     const [totalBank, setTotalBank] = useState <any []> ([]);
     const [bankList, setBankList] = useState <string[]>([]);
 
@@ -82,13 +86,13 @@ export const ModalTemp: React.FC<Props> = ({
             if(checked === 0) {
                 const { data, error } = await supabase
                     .from('Liquidity_users')
-                    .update({ date: newDate, amount: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, amount: amount, currency: "EUR", user_id: user?.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 1) {
                 const { data, error } = await supabase
                     .from('Investments_users')
-                    .update({ date: newDate, quantity: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, quantity: amount, currency: "EUR", user_id: user?.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 2) {
@@ -96,7 +100,7 @@ export const ModalTemp: React.FC<Props> = ({
             } else if(checked === 3) {
                 const { data, error } = await supabase
                     .from('Alternavie_users')
-                    .update({ date: newDate, value: amount, currency: "EUR", user_id: user.id, bank_account_id: checkedBankId[0].id })
+                    .update({ date: newDate, value: amount, currency: "EUR", user_id: user?.id, bank_account_id: checkedBankId[0].id })
                     .eq('id', checkCateId)
                     .select()
             } else if(checked === 4) {
@@ -162,7 +166,7 @@ export const ModalTemp: React.FC<Props> = ({
                     .select()
                 
                 if (bank_error) {
-                    console.error("Error fetching data:", bank_error);
+                    console.log("Error fetching data:", bank_error);
                 } else {
                     if(Bank_accounts) {
                         setAccount(newAccount);
@@ -177,7 +181,7 @@ export const ModalTemp: React.FC<Props> = ({
                 .select()
             
             if (Investments_error) {
-                console.error("Error fetching data:", Investments_error);
+                console.log("Error fetching data:", Investments_error);
             } else {
                 if(Investments) {
                     setAccount(newAccount);
@@ -194,7 +198,7 @@ export const ModalTemp: React.FC<Props> = ({
                     .select()
                 
                 if (Alternatives_error) {
-                    console.error("Error fetching data:", Alternatives_error);
+                    console.log("Error fetching data:", Alternatives_error);
                 } else {
                     if(Altenatives) {
                         setAccount(newAccount);
@@ -217,7 +221,7 @@ export const ModalTemp: React.FC<Props> = ({
                 .select(`name, id`)
                 
                 if (bank_error) {
-                    console.error("Error fetching data:", bank_error);
+                    console.log("Error fetching data:", bank_error);
                 } else {
                     if(Bank_accounts) {
                         let banks: string [] = Bank_accounts.map(item => item.name);
@@ -233,7 +237,7 @@ export const ModalTemp: React.FC<Props> = ({
                 .select(`name, id`)
                 
                 if (Investment_error) {
-                    console.error("Error fetching data:", Investment_error);
+                    console.log("Error fetching data:", Investment_error);
                 } else {
                     if(Investments) {
                         let banks: string [] = Investments.map(item => item.name);
@@ -251,7 +255,7 @@ export const ModalTemp: React.FC<Props> = ({
                 .select(`name, id`)
                 
                 if (alt_error) {
-                    console.error("Error fetching data:", alt_error);
+                    console.log("Error fetching data:", alt_error);
                 } else {
                     if(Alternatives) {
                         let banks: string [] = Alternatives.map(item => item.name);

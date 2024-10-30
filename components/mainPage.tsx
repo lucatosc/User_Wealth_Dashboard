@@ -9,8 +9,9 @@ import { TableData } from "@/components/Table";
 import { AccordionData } from "@/components/Accordion";
 import Button from "@mui/material/Button";
 import { Menu } from "./menu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { setUser } from "@/redux/slices/userSlice";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -56,8 +57,6 @@ export const getDateNow = () => {
     return `${year}-${month}-${day}`; // Format the date into YY-MM-DD
 }
 
-
-
 export function MainPage() {
     const [openModal, setOpenModal] = useState(false);
     const [state, setState] = useState("");
@@ -71,8 +70,26 @@ export function MainPage() {
     const [myTotalAmount, setMyTotalAmount] = useState <number> (0);
     const [chartList, setChartList] = useState<boolean[]>([true, true, true, true, true, true]);
     const [series, setSeries] = useState<any[]>([]);
+    const dispatch = useDispatch();
 
     const { user, loading } = useSelector((state: RootState) => state.user);
+
+    console.log("user   ====>>>>> ", user);
+
+    useEffect(() => {
+        const fetchData = async() => {
+            let { data, error } = await supabase
+                .from('User')
+                .select('*')
+                .eq('login', 'TRUE');
+
+            if(data) dispatch(setUser(data[0]));
+
+            console.log("currentData => ", data);
+        }
+
+        fetchData();
+    }, [dispatch])
 
     const addNewAsset = () => {
         setState("Add New Asset");
@@ -122,10 +139,10 @@ export function MainPage() {
             let { data: Liquidity_users, error: liquidity_error } = await supabase
                 .from('Liquidity_users')
                 .select(`*, Bank_accounts(name)`)
-                .eq('user_id', user.id);
+                .eq('user_id', user?.id);
 
             if (liquidity_error) {
-                console.error("Error fetching data:", liquidity_error);
+                console.log("Error fetching data:", liquidity_error);
             } else {
                 console.log("Fetched Liquidity_Users:", Liquidity_users);
                 if (Liquidity_users && Liquidity_users !== null) {
@@ -172,10 +189,10 @@ export function MainPage() {
             let { data: Investments_users, error: Investments_error } = await supabase
                 .from('Investments_users')
                 .select(`*, Investments(name)`)
-                .eq('user_id', user.id);
+                .eq('user_id', user?.id);
 
             if (Investments_error) {
-                console.error("Error fetching data:", Investments_error);
+                console.log("Error fetching data:", Investments_error);
             } else {
                 console.log("Fetched Investements_Users:", Investments_users);
                 if (Investments_users && Investments_users !== null) {
@@ -224,10 +241,10 @@ export function MainPage() {
             let { data: Alternative_users, error: Alternative_error } = await supabase
                 .from('Alternative_users')
                 .select(`*, Alternatives(name)`)
-                .eq('user_id', user.id);
+                .eq('user_id', user?.id);
 
             if (Alternative_error) {
-                console.error("Error fetching data:", Alternative_error);
+                console.log("Error fetching data:", Alternative_error);
             } else {
                 console.log("Fetched Alternative_Users:", Alternative_users);
                 if (Alternative_users && Alternative_users !== null) {
@@ -288,7 +305,7 @@ export function MainPage() {
     
         fetchData();
 
-    }, [state, checked, chartList]);
+    }, [state, checked, chartList, loading]);
 
     const handleChange = (index: number) => {
         let list = chartList.slice(0);

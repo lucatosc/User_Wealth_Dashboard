@@ -4,6 +4,9 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -24,9 +27,9 @@ export const signUpAction = async (formData: FormData) => {
   });
 
   if (error) {
-    console.error("Sign Up Error Code: ", error.code);
-    console.error("Sign Up Error Message: ", error.message);
-    console.error("Error Details: ", error);
+    console.log("Sign Up Error Code: ", error.code);
+    console.log("Sign Up Error Message: ", error.message);
+    console.log("Error Details: ", error);
     return encodedRedirect("error", "/sign-up", error.message);
   } else {
     console.log("Sign Up Success Data: ", data);
@@ -51,7 +54,7 @@ export const signInAction = async (formData: FormData) => {
   const password = formData.get("password") as string;
   const supabase = createClient();
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const {data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
@@ -59,6 +62,16 @@ export const signInAction = async (formData: FormData) => {
   if (error) {
     return encodedRedirect("error", "/sign-in", error.message);
   }
+
+  
+  
+  const {error: user_error } = await supabase
+    .from('User')
+    .update({ login: 'TRUE' })
+    .eq('auth_id', data.user.id)
+    .select()
+        
+  if(user_error) return encodedRedirect("error", "/sign-in", user_error.message);
 
   return redirect("/protected");
 };
@@ -78,7 +91,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   });
 
   if (error) {
-    console.error(error.message);
+    console.log(error.message);
     return encodedRedirect(
       "error",
       "/forgot-password",
@@ -136,6 +149,16 @@ export const resetPasswordAction = async (formData: FormData) => {
 
 export const signOutAction = async () => {
   const supabase = createClient();
+  const { user } = useSelector((state: RootState) => state.user);
+
+  const {error: user_error } = await supabase
+    .from('User')
+    .update({ login: 'TRUE' })
+    .eq('auth_id', user?.id)
+    .select()
+        
+  if(user_error) return encodedRedirect("error", "/protected", user_error.message);
+  
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
@@ -149,6 +172,8 @@ export const updateProfileAction = async (formData: FormData) => {
   const confirmEmail = formData.get("confirmEmail") as string;
   const address = formData.get("address") as string;
   
+  const { user, loading } = useSelector((state: RootState) => state.user);
+
   if (email !== confirmEmail) {
     encodedRedirect(
       "error",
@@ -165,7 +190,7 @@ export const updateProfileAction = async (formData: FormData) => {
   const { data, error } = await supabase
   .from('User')
   .update(updateData)
-  .eq('auth_id', '7f57080d-74cf-4528-922f-fb8f1e5ca818')
+  .eq('auth_id', user.auth_id)
   .select()
 
   if (error) {
@@ -181,11 +206,12 @@ export const updateProfileAction = async (formData: FormData) => {
 
 export const deleteProfileAction = async (formData: FormData) => {
   const supabase = createClient();
+  const { user, loading } = useSelector((state: RootState) => state.user);
 
   const { error } = await supabase
   .from('User')
   .delete()
-  .eq('auth_id', '7f57080d-74cf-4528-922f-fb8f1e5ca818')
+  .eq('auth_id', user.auth_id)
 
   if (error) {
     encodedRedirect(

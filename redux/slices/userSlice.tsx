@@ -1,4 +1,6 @@
+import { createClient } from '@/utils/supabase/client';
 import { createSlice } from '@reduxjs/toolkit';
+import { AppDispatch } from '../store';
 
 interface UserState {
     user: any;
