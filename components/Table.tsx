@@ -27,13 +27,26 @@ type Props = {
     setNewDate: any;
     checkCateId?: string;
     setCheckCateId?: any;
+    purchase: number;
+    setPurchasePrice: any;
+    history: number;
+    setHistoricalPrice: any;
+    square: number;
+    setSquare: any;
+    city: string;
+    setCity: any;
+    address: string;
+    setAddress: any;
+    newIban: string;
+    setNewIban: any;
 };
 
 export const TableTemp: React.FC<Props> = ({
-    tableData, state, setState, checked, setOpenModal, setChecked, setAccount, setNewDate, setAmount, checkCateId, setCheckCateId, 
+    tableData, state, setState, checked, setOpenModal, setChecked, setAccount, setNewDate, setAmount, checkCateId, setCheckCateId,
+    purchase, setPurchasePrice, history, setHistoricalPrice, square, setSquare, city, setCity, address, setAddress, newIban, setNewIban,
   }: Props) => {
 
-    const editData = (mainCate: number, _account: string, _newDate: string, _amount: string, id: string) => {
+    const editData = (mainCate: number, _account: string, _newDate: string, _amount: string, id: string, val1?: any, val2?: any, val3?: any, val4?: any) => {
         setState("Add Update Liquidita");
         setOpenModal(true);
         setCheckCateId(id);
@@ -41,6 +54,13 @@ export const TableTemp: React.FC<Props> = ({
         setAccount(_account);
         setAmount(parseFloat(_amount));
         setNewDate(_newDate);
+        if(checked === 2 || checked === 4) {
+            setPurchasePrice(_amount);
+            setHistoricalPrice(val1);
+            setSquare(val2);
+            setCity(val3);
+            setAddress(val4);
+        }
     }
 
     const deleteData = (mainCate: number, id: string) => {
@@ -80,7 +100,8 @@ export const TableTemp: React.FC<Props> = ({
                                 </TableCell>
                             )}
                             {state === "" && <TableCell className="flex justify-end">
-                                <FaEdit className="mr-4 hover:cursor-pointer" size={20} onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2])}/>
+                                {(checked === 0 || checked === 1 || checked === 3) && <FaEdit className="mr-4 hover:cursor-pointer" size={20} onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2])}/>}
+                                {(checked === 2 || checked === 4) && <FaEdit className="mr-4 hover:cursor-pointer" size={20} onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2], item[3], item[4], item[5], item[6])}/>}
                                 <FaTrash className="hover:cursor-pointer" size={20} onClick={() => deleteData(tableData.mainCategory, item[2])}/>
                             </TableCell>}
                             {state === "Add New Asset" && <TableCell className="flex justify-end" >

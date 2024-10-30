@@ -149,16 +149,16 @@ export const resetPasswordAction = async (formData: FormData) => {
 
 export const signOutAction = async () => {
   const supabase = createClient();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user, loading } = useSelector((state: RootState) => state.user);
 
   const {error: user_error } = await supabase
-    .from('User')
-    .update({ login: 'TRUE' })
-    .eq('auth_id', user?.id)
-    .select()
-        
+  .from('User')
+  .update({ login: 'FALSE' })
+  .eq('id', user?.id)
+  .select()
+      
   if(user_error) return encodedRedirect("error", "/protected", user_error.message);
-  
+
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
@@ -190,7 +190,7 @@ export const updateProfileAction = async (formData: FormData) => {
   const { data, error } = await supabase
   .from('User')
   .update(updateData)
-  .eq('auth_id', user.auth_id)
+  .eq('id', user?.id)
   .select()
 
   if (error) {
@@ -211,7 +211,7 @@ export const deleteProfileAction = async (formData: FormData) => {
   const { error } = await supabase
   .from('User')
   .delete()
-  .eq('auth_id', user.auth_id)
+  .eq('id', user?.id)
 
   if (error) {
     encodedRedirect(

@@ -53,6 +53,8 @@ export function Menu() {
     }, [open]);
 
     const handleSignOut = async () => {
+        console.log("dsfjwioqaefjiowefjweoifjeoiwfjaewiofjaeoiwfjeiwofjieo")
+
         // Call signOutAction
         await signOutAction(); // Ensure your signOutAction returns a promise.
         // Redirect after the action has been executed

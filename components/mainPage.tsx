@@ -72,9 +72,14 @@ export function MainPage() {
     const [series, setSeries] = useState<any[]>([]);
     const dispatch = useDispatch();
 
-    const { user, loading } = useSelector((state: RootState) => state.user);
+    const [purchase, setPurchasePrice] = useState <number> (0);
+    const [history, setHistoricalPrice] = useState <number> (0);
+    const [square, setSquare] = useState <number> (0);
+    const [city, setCity] = useState <string> ("");
+    const [address, setAddress] = useState <string> ("");
+    const [newIban, setNewIban] = useState <string> ("");
 
-    console.log("user   ====>>>>> ", user);
+    const { user, loading } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         const fetchData = async() => {
@@ -84,8 +89,6 @@ export function MainPage() {
                 .eq('login', 'TRUE');
 
             if(data) dispatch(setUser(data[0]));
-
-            console.log("currentData => ", data);
         }
 
         fetchData();
@@ -207,7 +210,7 @@ export function MainPage() {
 
                     InvArray.forEach(inv => {
                         let temp: any [] = [];
-                        let tableData : TableData = {mainCategory: 0, childCategory: inv, title: ["Date", "Impoto"], content: []};
+                        let tableData : TableData = {mainCategory: 1, childCategory: inv, title: ["Date", "Impoto"], content: []};
                         let invAmount : number = 0;
 
                         Investments_users?.forEach(item => {
@@ -237,6 +240,55 @@ export function MainPage() {
             
             //Immobiliare
             
+            let { data: Property, error: Property_error } = await supabase
+                .from('Property')
+                .select('*')
+                .eq('user_id', user?.id)    
+
+            if (Property_error) {
+                console.log("Error fetching data:", Property_error);
+            } else {
+                console.log("Fetched Alternative_Users:", Property);
+                if (Property && Property !== null) {
+                    totalAmount = 0;
+                    
+                    let InvArray: string [] = [];
+                    Property?.forEach(item => {
+                        if(InvArray.includes(item?.city) === false) InvArray.push(item?.city); 
+                    });
+
+                    InvArray.sort();
+
+                    InvArray.forEach(inv => {
+                        let temp: any [] = [];
+                        let tableData : TableData = {mainCategory: 2, childCategory: inv, title: ["Date", "Impoto"], content: []};
+                        let invAmount : number = 0;
+
+                        Property?.forEach(item => {
+                            if(item?.city === inv) {
+                                temp.push(item);
+                                tableData.content.push([item.date, item.purchase_price, item.id, item.historical_price, item.square_metres, item.city, item.address]);
+                                invAmount += item.purchase_price;
+
+                                let month = parseInt(item.date.slice(5, 7));
+                                Chart3[month - 1] += item.purchase_price;
+                                Chart0[month - 1] += item.purchase_price;
+                            }
+                        });
+
+                        _accordionData[2].content.push({
+                            title: {name: inv, price: invAmount + ""},
+                            table: tableData
+                        })
+
+                        totalAmount += invAmount;
+                    })
+
+                    _accordionData[2].title.price = totalAmount + "";
+                }
+            }
+            _myTotalAmount += totalAmount;
+
             //Altenativi
             let { data: Alternative_users, error: Alternative_error } = await supabase
                 .from('Alternative_users')
@@ -259,7 +311,7 @@ export function MainPage() {
 
                     altArray.forEach(alt => {
                         let temp: any [] = [];
-                        let tableData : TableData = {mainCategory: 0, childCategory: alt, title: ["Date", "Impoto"], content: []};
+                        let tableData : TableData = {mainCategory: 3, childCategory: alt, title: ["Date", "Impoto"], content: []};
                         let altAmount : number = 0;
 
                         Alternative_users?.forEach(item => {
@@ -289,6 +341,54 @@ export function MainPage() {
             
             //Passivita
 
+            let { data: Liabilites, error: Liabilites_error } = await supabase
+                .from('Liabilites')
+                .select('*')
+                .eq('user_id', user?.id);
+
+            if (Liabilites_error) {
+                console.log("Error fetching data:", Liabilites_error);
+            } else {
+                console.log("Fetched Alternative_Users:", Liabilites);
+                if (Liabilites && Liabilites !== null) {
+                    totalAmount = 0;
+                    
+                    let InvArray: string [] = [];
+                    Liabilites?.forEach(item => {
+                        if(InvArray.includes(item?.city) === false) InvArray.push(item?.name); 
+                    });
+
+                    InvArray.sort();
+
+                    InvArray.forEach(inv => {
+                        let temp: any [] = [];
+                        let tableData : TableData = {mainCategory: 4, childCategory: inv, title: ["Date", "Impoto"], content: []};
+                        let invAmount : number = 0;
+
+                        Liabilites?.forEach(item => {
+                            if(item?.name === inv) {
+                                temp.push(item);
+                                tableData.content.push([item.date, item.value, item.id, item.instalments, '0', item.interest, item.interest_type]);
+                                invAmount += item.value;
+
+                                let month = parseInt(item.date.slice(5, 7));
+                                Chart5[month - 1] += item.value;
+                                Chart0[month - 1] += item.value;
+                            }
+                        });
+
+                        _accordionData[4].content.push({
+                            title: {name: inv, price: invAmount + ""},
+                            table: tableData
+                        })
+
+                        totalAmount += invAmount;
+                    })
+
+                    _accordionData[4].title.price = totalAmount + "";
+                }
+            }
+
             setAccordionData(_accordionData);
 
             let temp_list: any[] = [];
@@ -303,9 +403,9 @@ export function MainPage() {
             setMyTotalAmount(_myTotalAmount);
         };
     
-        fetchData();
+        if(user) fetchData();
 
-    }, [state, checked, chartList, loading]);
+    }, [user, state, checked, chartList, loading]);
 
     const handleChange = (index: number) => {
         let list = chartList.slice(0);
@@ -377,6 +477,18 @@ export function MainPage() {
                     setNewAccount={setNewAccount}
                     checkCateId={checkCateId}
                     setCheckCateId={setCheckCateId}
+                    purchase={purchase}
+                    setPurchasePrice={setPurchasePrice}
+                    history={history}
+                    setHistoricalPrice={setHistoricalPrice}
+                    square={square}
+                    setSquare={setSquare}
+                    city={city}
+                    setCity={setCity}
+                    address={address}
+                    setAddress={setAddress}
+                    newIban={newIban}
+                    setNewIban={setNewIban}
                 />          
             </div>
             <ModalTemp 
@@ -397,6 +509,18 @@ export function MainPage() {
                 setNewAccount={setNewAccount}
                 checkCateId={checkCateId}
                 setCheckCateId={setCheckCateId}
+                purchase={purchase}
+                setPurchasePrice={setPurchasePrice}
+                history={history}
+                setHistoricalPrice={setHistoricalPrice}
+                square={square}
+                setSquare={setSquare}
+                city={city}
+                setCity={setCity}
+                address={address}
+                setAddress={setAddress}
+                newIban={newIban}
+                setNewIban={setNewIban}
             />
         </div>
     );

@@ -79,26 +79,24 @@ type Props = {
     setNewAccount: any;
     checkCateId: string;
     setCheckCateId: any;
+    purchase: number;
+    setPurchasePrice: any;
+    history: number;
+    setHistoricalPrice: any;
+    square: number;
+    setSquare: any;
+    city: string;
+    setCity: any;
+    address: string;
+    setAddress: any;
+    newIban: string;
+    setNewIban: any;
 };
 
 export const AccordionTemp: React.FC<Props> = ({
-    accordionData, 
-    state, 
-    setState, 
-    openModal, 
-    setOpenModal, 
-    checked,
-    setChecked, 
-    account, 
-    setAccount, 
-    amount, 
-    setAmount, 
-    newAccount, 
-    setNewAccount, 
-    newDate, 
-    setNewDate,
-    checkCateId,
-    setCheckCateId,
+    accordionData, state, setState, openModal, setOpenModal, checked,
+    setChecked, account, setAccount, amount, setAmount, newAccount, setNewAccount, newDate, setNewDate, checkCateId,
+    setCheckCateId, purchase, setPurchasePrice, history, setHistoricalPrice, square, setSquare, city, setCity, address, setAddress, newIban, setNewIban,
   }: Props) => {
 
     const addLiquidita = (e : any, index: number) => {
@@ -173,6 +171,18 @@ export const AccordionTemp: React.FC<Props> = ({
                                         setNewDate={setNewDate}
                                         checkCateId={checkCateId}
                                         setCheckCateId={setCheckCateId}
+                                        purchase={purchase}
+                                        setPurchasePrice={setPurchasePrice}
+                                        history={history}
+                                        setHistoricalPrice={setHistoricalPrice}
+                                        square={square}
+                                        setSquare={setSquare}
+                                        city={city}
+                                        setCity={setCity}
+                                        address={address}
+                                        setAddress={setAddress}
+                                        newIban={newIban}
+                                        setNewIban={setNewIban}
                                     />
                                 {/* </Typography> */}
                             </AccordionDetails>}
