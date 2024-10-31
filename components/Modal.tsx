@@ -307,7 +307,7 @@ export const ModalTemp: React.FC<Props> = ({
         }
 
         fetchData();
-    }, [])
+    }, [checked])
 
     return (
         <Modal show={openModal} size="sm" onClose={() => {setOpenModal(false); setState("");}}>
