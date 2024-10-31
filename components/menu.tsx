@@ -56,21 +56,8 @@ export function Menu() {
       prevOpen.current = open;
     }, [open]);
 
-    const handleSignOut = () => {
-        const { user, loading } = useSelector((state: RootState) => state.user);
-        
-        console.log("user            ================== >>>>>>>>>>>>>>>>>", user)
-        const fetchData = async() => {
-            // const { data, error } = await supabase
-            //     .from('User')
-            //     .update({login: 'FALSE'})
-            //     .eq('id', user?.id)
-                
-            // if(error) return encodedRedirect("error", "/protected", error.message);
-    
-            await signOutAction();
-        }
-        fetchData();
+    const handleSignOut = async() => {
+        await signOutAction();
         router.push('/sign-in');
     };
 

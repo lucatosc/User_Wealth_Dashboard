@@ -147,6 +147,16 @@ export const resetPasswordAction = async (formData: FormData) => {
 
 export const signOutAction = async () => {
   const supabase = createClient();
+  
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase
+    .from('User')
+    .update({login: 'FALSE'})
+    .eq('auth_id', user?.id)
+    
+    if(error) return encodedRedirect("error", "/protected", error.message);
+
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
@@ -161,8 +171,6 @@ export const updateProfileAction = async (formData: FormData) => {
   const address = formData.get("address") as string;
   
   const { data: { user } } = await supabase.auth.getUser();
-
-console.log(user)
 
   if (email !== confirmEmail) {
     encodedRedirect(
