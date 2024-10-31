@@ -79,6 +79,8 @@ export function MainPage() {
     const [address, setAddress] = useState <string> ("");
     const [newIban, setNewIban] = useState <string> ("");
 
+    const monthNames: string[] = ["0", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
     const { user, loading } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
@@ -103,12 +105,12 @@ export function MainPage() {
         const fetchData = async () => {
             console.log("Fetching data from Supabase...");
 
-            let Chart0 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            let Chart1 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            let Chart2 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            let Chart3 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            let Chart4 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            let Chart5 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart0 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart1 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart2 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart3 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart4 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            let Chart5 : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             
             let _accordionData : AccordionData [] = [
                 {
@@ -170,8 +172,8 @@ export function MainPage() {
                                 bankAmount += item.amount;
 
                                 let month = parseInt(item.date.slice(5, 7));
-                                Chart1[month - 1] += item.amount;
-                                Chart0[month - 1] += item.amount;
+                                Chart1[month] += item.amount;
+                                Chart0[month] += item.amount;
                             }
                         });
 
@@ -220,8 +222,8 @@ export function MainPage() {
                                 invAmount += item.quantity;
 
                                 let month = parseInt(item.date.slice(5, 7));
-                                Chart2[month - 1] += item.quantity;
-                                Chart0[month - 1] += item.quantity;
+                                Chart2[month] += item.quantity;
+                                Chart0[month] += item.quantity;
                             }
                         });
 
@@ -271,8 +273,8 @@ export function MainPage() {
                                 invAmount += item.purchase_price;
 
                                 let month = parseInt(item.date.slice(5, 7));
-                                Chart3[month - 1] += item.purchase_price;
-                                Chart0[month - 1] += item.purchase_price;
+                                Chart3[month] += item.purchase_price;
+                                Chart0[month] += item.purchase_price;
                             }
                         });
 
@@ -321,8 +323,8 @@ export function MainPage() {
                                 altAmount += item.value;
 
                                 let month = parseInt(item.date.slice(5, 7));
-                                Chart4[month - 1] += item.value;
-                                Chart0[month - 1] += item.value;
+                                Chart4[month] += item.value;
+                                Chart0[month] += item.value;
                             }
                         });
 
@@ -372,8 +374,8 @@ export function MainPage() {
                                 invAmount += item.value;
 
                                 let month = parseInt(item.date.slice(5, 7));
-                                Chart5[month - 1] += item.value;
-                                Chart0[month - 1] += item.value;
+                                Chart5[month] += item.value;
+                                Chart0[month] += item.value;
                             }
                         });
 
@@ -392,12 +394,12 @@ export function MainPage() {
             setAccordionData(_accordionData);
 
             let temp_list: any[] = [];
-            if(chartList[0]) temp_list.push({curve: "linear", color: 'red', data: Chart0});
-            if(chartList[1]) temp_list.push({curve: "linear", color: 'green', data: Chart1});
-            if(chartList[2]) temp_list.push({curve: "linear", color: 'blue', data: Chart2});
-            if(chartList[3]) temp_list.push({curve: "linear", color: 'yellow', data: Chart3});
-            if(chartList[4]) temp_list.push({curve: "linear", color: 'purple', data: Chart4});
-            if(chartList[5]) temp_list.push({curve: "linear", color: 'gray', data: Chart5});
+            if(chartList[0]) temp_list.push({curve: "linear", label: 'Tot', color: 'red', data: Chart0});
+            if(chartList[1]) temp_list.push({curve: "linear", label: 'Liq', color: 'green', data: Chart1});
+            if(chartList[2]) temp_list.push({curve: "linear", label: 'Inv', color: 'blue', data: Chart2});
+            if(chartList[3]) temp_list.push({curve: "linear", label: 'Imm', color: 'yellow', data: Chart3});
+            if(chartList[4]) temp_list.push({curve: "linear", label: 'Alt', color: 'purple', data: Chart4});
+            if(chartList[5]) temp_list.push({curve: "linear", label: 'Pas', color: 'gray', data: Chart5});
 
             setSeries(temp_list);
             setMyTotalAmount(_myTotalAmount);
@@ -422,10 +424,15 @@ export function MainPage() {
                 <Button variant="outlined" size="small" onClick={addNewAsset}>Add Asset</Button>
             </div>
             <div className="w-full h-[250px] rounded-lg bg-white border border-[#dfe3eb]">
-                <LineChart
-                    // xAxis={[{ data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }]}
-                    xAxis={[{ data: [1,2,3,4,5,6,7,8,9,10,11,12] }]}
+                {/* <LineChart
+                    xAxis={[{data: xData}]}
                     series={series}
+                /> */}
+                <LineChart
+                    series={series}
+                    xAxis={[{ scaleType: 'point', data: monthNames }]}
+                    yAxis={[{ id: 'leftAxisId' }, { id: 'rightAxisId' }]}
+                    rightAxis="rightAxisId"
                 />
             </div>
             <div className="grid grid-cols-3 items-center gap-3 w-full p-3">
