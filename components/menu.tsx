@@ -71,7 +71,7 @@ export function Menu() {
                 aria-haspopup="true"
                 onClick={handleToggle}
             >
-                <HiUserCircle size={32}/>
+                <HiUserCircle color="gray" size={32}/>
             </Button>
             <Popper
                 open={open}

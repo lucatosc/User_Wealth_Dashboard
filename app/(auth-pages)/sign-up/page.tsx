@@ -12,7 +12,7 @@ export default function Signup() {
         <h1 className="text-2xl font-medium">Sign Up</h1>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
           <div className="flex justify-center">
-            <HiUserCircle size={100} />
+            <HiUserCircle color="gray" size={100} />
           </div>
           <Label htmlFor="email">Email</Label>
           <Input name="email" placeholder="you@example.com" required />
