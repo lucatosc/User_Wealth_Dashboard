@@ -96,6 +96,7 @@ export const ModalTemp: React.FC<Props> = ({
                     { date: newDate, value: purchase, currency: "EUR", instalments: history, user_id: user?.id, interest: city, interest_type: address },
                 ])
                 .select()
+            }
         }
     
         fetchData();
