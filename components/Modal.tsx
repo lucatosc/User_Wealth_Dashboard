@@ -79,7 +79,7 @@ export const ModalTemp: React.FC<Props> = ({
                 const { data, error } = await supabase
                 .from('Property')
                 .insert([
-                    { date: newDate, purchase_price: purchase, currency: "EUR", historical_price: history, user_id: user?.id, city: city, address: address, square_metres: square },
+                    { date: newDate, purchase_price: purchase, historical_price: history, user_id: user?.id, city: city, address: address, square_metres: square },
                 ])
                 .select()
             } else if(checked === 3) {
@@ -93,7 +93,7 @@ export const ModalTemp: React.FC<Props> = ({
                 const { data, error } = await supabase
                 .from('Liabilites')
                 .insert([
-                    { date: newDate, value: purchase, currency: "EUR", instalments: history, user_id: user?.id, interest: city, interest_type: address },
+                    { name: address, date: newDate, value: purchase, instalments: history, user_id: user?.id, interest: city, interest_type: address },
                 ])
                 .select()
             }
