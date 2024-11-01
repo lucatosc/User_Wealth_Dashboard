@@ -14,7 +14,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-[#f9fbfc]">
+      <body className="bg-background">
         <ReduxProvider>
           <ThemeProvider
             attribute="class"

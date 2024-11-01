@@ -4,8 +4,6 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 
 
 export const signUpAction = async (formData: FormData) => {
@@ -20,10 +18,7 @@ export const signUpAction = async (formData: FormData) => {
 
   const { data, error } = await supabase.auth.signUp({
     email,
-    password,
-    options: {
-      emailRedirectTo: `${origin}/auth/callback`,
-    },
+    password
   });
 
   if (error) {

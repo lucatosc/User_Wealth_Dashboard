@@ -416,7 +416,7 @@ export function MainPage() {
     }
 
     return (
-        <div className="w-full flex-1 flex flex-col min-w-80 bg-[#f9fbfc] p-5">
+        <div className="w-full flex-1 flex flex-col min-w-80 p-5">
             <div className="flex justify-end z-10 items-center border-b boder-[#dfe3eb]">
                 <Menu />
             </div>
