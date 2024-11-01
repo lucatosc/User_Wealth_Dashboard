@@ -91,12 +91,11 @@ export const ModalTemp: React.FC<Props> = ({
                 .select()
             } else if(checked === 4) {
                 const { data, error } = await supabase
-                .from('Liabilities')
+                .from('Liabilites')
                 .insert([
                     { date: newDate, value: purchase, currency: "EUR", instalments: history, user_id: user?.id, interest: city, interest_type: address },
                 ])
                 .select()
-            }
         }
     
         fetchData();
