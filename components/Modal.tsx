@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createClient } from '@supabase/supabase-js';
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
+import { getDateNow } from "./mainPage";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -97,6 +98,16 @@ export const ModalTemp: React.FC<Props> = ({
                 ])
                 .select()
             }
+            setAccount("");
+            setAmount(0); 
+            setNewDate(getDateNow());
+            setNewAccount("");
+            setPurchasePrice(0);
+            setHistoricalPrice(0);
+            setSquare(0);
+            setCity("");
+            setAddress("");
+            setNewIban("");
         }
     
         fetchData();
