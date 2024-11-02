@@ -114,7 +114,7 @@ export const AccordionTemp: React.FC<Props> = ({
             <Accordion key={index} className="mb-3 rounded-lg">
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" onClick={() => setChecked(index)}>
                     {/* <Typography> */}
-                        <div className="flex items-center justify-between pl-3 w-full">
+                        <div className="min-[375px]:flex items-center justify-between pl-3 w-full">
                             <div className='flex items-center'>
                                 {index === 0 && <div className='w-9 h-9 rounded-full bg-[#defceb] flex items-center justify-center'>
                                     <FaMoneyBillWave color='rgb(39, 180, 93)' />

@@ -424,10 +424,6 @@ export function MainPage() {
                 <Button variant="outlined" size="small" onClick={addNewAsset}>Add Asset</Button>
             </div>
             <div className="w-full h-[250px] rounded-lg bg-white border border-[#dfe3eb]">
-                {/* <LineChart
-                    xAxis={[{data: xData}]}
-                    series={series}
-                /> */}
                 <LineChart
                     series={series}
                     xAxis={[{ scaleType: 'point', data: monthNames }]}
@@ -435,7 +431,7 @@ export function MainPage() {
                     rightAxis="rightAxisId"
                 />
             </div>
-            <div className="grid grid-cols-3 items-center gap-3 w-full p-3">
+            <div className="grid grid-cols-2 min-[375px]:grid-cols-3 items-center gap-3 w-full p-3">
                 <div className="text-left flex items-center">
                     <Checkbox color="red" id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
                     <Label className="ml-2 text-lg font-semibold" htmlFor="total">Total</Label>
