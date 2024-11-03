@@ -69,7 +69,8 @@ export function MainPage() {
     const [newAccount, setNewAccount] = useState <string> ("");
     const [myTotalAmount, setMyTotalAmount] = useState <number> (0);
     const [chartList, setChartList] = useState<boolean[]>([true, true, true, true, true, true]);
-    const [series, setSeries] = useState<any[]>([]);
+    const [series1, setSeries1] = useState<any[]>([]);
+    const [series2, setSeries2] = useState<any[]>([]);
     const dispatch = useDispatch();
 
     const [purchase, setPurchasePrice] = useState <number> (0);
@@ -393,15 +394,35 @@ export function MainPage() {
 
             setAccordionData(_accordionData);
 
-            let temp_list: any[] = [];
-            if(chartList[0]) temp_list.push({curve: "linear", label: 'Tot', color: 'red', data: Chart0});
-            if(chartList[1]) temp_list.push({curve: "linear", label: 'Liq', color: 'green', data: Chart1});
-            if(chartList[2]) temp_list.push({curve: "linear", label: 'Inv', color: 'blue', data: Chart2});
-            if(chartList[3]) temp_list.push({curve: "linear", label: 'Imm', color: 'yellow', data: Chart3});
-            if(chartList[4]) temp_list.push({curve: "linear", label: 'Alt', color: 'purple', data: Chart4});
-            if(chartList[5]) temp_list.push({curve: "linear", label: 'Pas', color: 'gray', data: Chart5});
+            let temp_list1: any[] = [];
+            let temp_list2: any[] = [];
 
-            setSeries(temp_list);
+            if(chartList[0]) {
+                temp_list1.push({curve: "linear", label: 'Tot', color: 'red', data: Chart0});
+                temp_list2.push({curve: "linear", color: 'red', data: Chart0});
+            }
+            if(chartList[1]) {
+                temp_list1.push({curve: "linear", label: 'Liq', color: 'green', data: Chart1});
+                temp_list2.push({curve: "linear", color: 'green', data: Chart1});
+            }
+            if(chartList[2]) {
+                temp_list1.push({curve: "linear", label: 'Inv', color: 'blue', data: Chart2});
+                temp_list2.push({curve: "linear", color: 'blue', data: Chart2});
+            }
+            if(chartList[3]) {
+                temp_list1.push({curve: "linear", label: 'Imm', color: 'orange', data: Chart3});
+                temp_list2.push({curve: "linear", color: 'orange', data: Chart3});
+            }
+            if(chartList[4]) {
+                temp_list1.push({curve: "linear", label: 'Alt', color: 'purple', data: Chart4});
+                temp_list2.push({curve: "linear", color: 'purple', data: Chart4});
+            }
+            if(chartList[5]) {
+                temp_list1.push({curve: "linear", label: 'Pas', color: 'black', data: Chart5});
+                temp_list2.push({curve: "linear", color: 'black', data: Chart5});
+            }
+            setSeries1(temp_list1);
+            setSeries2(temp_list2);
             setMyTotalAmount(_myTotalAmount);
         };
     
@@ -423,15 +444,53 @@ export function MainPage() {
             <div className="flex justify-end items-center p-2">
                 <Button variant="outlined" size="small" onClick={addNewAsset}>Add Asset</Button>
             </div>
-            <div className="w-full h-[250px] rounded-lg bg-white border border-[#dfe3eb]">
+            <div className="max-[424px]:hidden w-full h-[250px] rounded-lg bg-white border border-[#dfe3eb]">
                 <LineChart
-                    series={series}
-                    xAxis={[{ scaleType: 'point', data: monthNames }]}
-                    yAxis={[{ id: 'leftAxisId' }, { id: 'rightAxisId' }]}
-                    rightAxis="rightAxisId"
+                    series={series1}
+                    xAxis={[{
+                        scaleType: 'point',
+                        data: monthNames,
+                    }]}
+                    yAxis={[{
+                        scaleType: 'linear',
+                        labelStyle: { // Custom styles for the axis label
+                            fontSize: 14,
+                            transform: `translateY(${
+                                5 * Math.abs(Math.sin((Math.PI * -45) / 180))
+                            }px)`
+                        },
+                        tickLabelStyle: { // Custom styles for tick labels
+                            angle: -45,
+                            textAnchor: 'end',
+                            fontSize: 12,
+                        }
+                    }]}
                 />
             </div>
-            <div className="grid grid-cols-2 min-[375px]:grid-cols-3 items-center gap-3 w-full p-3">
+            <div className="min-[425px]:hidden w-full h-[250px] rounded-lg bg-white border border-[#dfe3eb]">
+                <LineChart
+                    series={series2}
+                    xAxis={[{
+                        scaleType: 'point',
+                        data: monthNames,
+                    }]}
+                    yAxis={[{
+                        scaleType: 'linear',
+                        labelStyle: { // Custom styles for the axis label
+                            fontSize: 14,
+                            transform: `translateY(${
+                                5 * Math.abs(Math.sin((Math.PI * -45) / 180))
+                            }px)`
+                        },
+                        tickLabelStyle: { // Custom styles for tick labels
+                            angle: -45,
+                            textAnchor: 'end',
+                            fontSize: 12,
+                        }
+                    }]}
+                />
+            </div>
+            <div className="grid grid-cols-2 min-[425px]:grid-cols-3 items-center gap-3 w-full p-3">
                 <div className="text-left flex items-center">
                     <Checkbox color="red" id="total" checked={chartList[0]} onChange={e => handleChange(0)}/>
                     <Label className="ml-2 text-lg font-semibold" htmlFor="total">Total</Label>
@@ -457,9 +516,9 @@ export function MainPage() {
                     <Label className="ml-2 text-lg font-semibold" htmlFor="passivita">Passivita</Label>
                 </div>
             </div>
-            <div className="w-full h-[40] rounded-t-lg bg-white text-xl font-semibold border border-[#dfe3eb] flex justify-between items-center px-8 py-4">
+            <div className="w-full h-[40] rounded-t-lg bg-white text-xl font-semibold border border-[#dfe3eb] w-[425px]:flex justify-between items-center px-8 py-4">
                 <div className="text-2xl">Patrimonio</div>
-                <div className="pl-8 text-2xl">€{myTotalAmount}</div>
+                <div className="pl-8 text-2xl text-end">€{myTotalAmount}</div>
             </div>
             <div className="w-full h-[320px] px-5 pt-5 pb-2 rounded-b-lg text-xl font-semibold bg-white overflow-y-scroll border border-[#dfe3eb] border-t-0">
                 <AccordionTemp 

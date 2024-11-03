@@ -85,23 +85,23 @@ export const TableTemp: React.FC<Props> = ({
         <Table striped>
             {state === "" && <TableHead>
                 {tableData?.title.length > 0 ? 
-                    tableData.title.map((item, index) => <TableHeadCell key={index}>{item}</TableHeadCell>)
+                    tableData.title.map((item, index) => <TableHeadCell className="max-[425px]:p-2" style={{padding: '0.5rem'}} key={index}>{item}</TableHeadCell>)
                     : <TableHeadCell>No Data</TableHeadCell>
                 }
                 <TableHeadCell />
             </TableHead>}
-            <TableBody className="divide-y">
+            <TableBody>
                 {tableData && tableData.content.length > 0 ? 
                     tableData.content.map((item, index) => (
                         <TableRow key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800" onClick={e => setModal(index)}>
                             {item.map((val, cellIndex) =>
-                                cellIndex < 2 && <TableCell key={cellIndex} className="whitespace-nowrap text-lg font-medium text-gray-900 dark:text-white">
+                                cellIndex < 2 && <TableCell key={cellIndex} className="max-[425px]:p-2 text-wrap text-lg font-medium text-gray-900 dark:text-white">
                                     {val}
                                 </TableCell>
                             )}
-                            {state === "" && <TableCell className="flex justify-end">
-                                {(checked === 0 || checked === 1 || checked === 3) && <FaEdit className="mr-4 hover:cursor-pointer" size={20} onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2])}/>}
-                                {(checked === 2 || checked === 4) && <FaEdit className="mr-4 hover:cursor-pointer" size={20} onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2], item[3], item[4], item[5], item[6])}/>}
+                            {state === "" && <TableCell className="min-[425px]:flex justify-end max-[425px]:p-2 items-center">
+                                {(checked === 0 || checked === 1 || checked === 3) && <FaEdit className="max-[425px]:m-1 mr-4 hover:cursor-pointer" size={20} onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2])}/>}
+                                {(checked === 2 || checked === 4) && <FaEdit className="max-[425px]:m-1 mr-4 hover:cursor-pointer" size={20} onClick={() => editData(tableData.mainCategory, tableData.childCategory, item[0], item[1], item[2], item[3], item[4], item[5], item[6])}/>}
                                 <FaTrash className="hover:cursor-pointer" size={20} onClick={() => deleteData(tableData.mainCategory, item[2])}/>
                             </TableCell>}
                             {state === "Add New Asset" && <TableCell className="flex justify-end" >
