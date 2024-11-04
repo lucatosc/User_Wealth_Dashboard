@@ -1,9 +1,9 @@
 import { MainPage } from "@/components/mainPage";
-import { createClient } from "@/utils/supabase/server";
+import { createServer } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function ProtectedPage() {
-  const supabase = createClient();
+  const supabase = createServer();
 
   const {
     data: { user },

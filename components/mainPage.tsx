@@ -4,7 +4,8 @@ import { Checkbox, Label } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { ModalTemp } from "./Modal";
 import { LineChart } from '@mui/x-charts/LineChart';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@/utils/supabase/client";
+import { createServer } from "@/utils/supabase/server";
 import { TableData } from "@/components/Table";
 import { AccordionData } from "@/components/Accordion";
 import Button from "@mui/material/Button";
@@ -13,10 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setUser } from "@/redux/slices/userSlice";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient();
+// export const supabaseServer = createServer();
 
 export const listData : TableData = {
     mainCategory: 0,
@@ -85,17 +84,33 @@ export function MainPage() {
     const { user, loading } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        const fetchData = async() => {
-            let { data, error } = await supabase
-                .from('User')
-                .select('*')
-                .eq('login', 'TRUE');
-
-            if(data) dispatch(setUser(data[0]));
+      const getUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        const {data: user_data, error: user_error } = await supabase
+            .from('User')
+            .select()
+            .eq('auth_id', user?.id);
+        if(user_error) console.log("fetching error", user_error);
+        else if(user_data) {
+            dispatch(setUser(user_data[0]));
+            console.log("User  =>  ", user_data[0])
         }
-
-        fetchData();
-    }, [dispatch])
+      };
+  
+      getUser();
+  
+      const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN') {
+          setUser(session ? session.user : null);
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null);
+        }
+      });
+  
+      return () => {
+        authListener?.subscription;
+      };
+    }, []);
 
     const addNewAsset = () => {
         setState("Add New Asset");
