@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { ModalTemp } from "./Modal";
 import { LineChart } from '@mui/x-charts/LineChart';
 import { createClient } from "@/utils/supabase/client";
-import { createServer } from "@/utils/supabase/server";
 import { TableData } from "@/components/Table";
 import { AccordionData } from "@/components/Accordion";
 import Button from "@mui/material/Button";
@@ -15,7 +14,6 @@ import { RootState } from "@/redux/store";
 import { setUser } from "@/redux/slices/userSlice";
 
 export const supabase = createClient();
-// export const supabaseServer = createServer();
 
 export const listData : TableData = {
     mainCategory: 0,
@@ -166,12 +164,12 @@ export function MainPage() {
                 console.log("Error fetching data:", liquidity_error);
             } else {
                 console.log("Fetched Liquidity_Users:", Liquidity_users);
-                if (Liquidity_users && Liquidity_users !== null) {
+                if (Liquidity_users) {
                     totalAmount = 0;
                     
                     let bankArray: string [] = [];
                     Liquidity_users?.forEach(item => {
-                        if(bankArray.includes(item?.Bank_accounts?.name) === false) bankArray.push(item?.Bank_accounts?.name); 
+                        if(!bankArray.includes(item?.Bank_accounts?.name)) bankArray.push(item?.Bank_accounts?.name);
                     });
 
                     bankArray.sort();
