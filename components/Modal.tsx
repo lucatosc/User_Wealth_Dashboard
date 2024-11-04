@@ -56,9 +56,6 @@ export const ModalTemp: React.FC<Props> = ({
     const [bankList, setBankList] = useState <string[]>([]);
 
     const addLiquidita = () => {
-        setState("");
-        setOpenModal(false);
-
         const checkedBankId = totalBank.filter(bank => bank.name === account);
 
         const fetchData = async () => {
@@ -98,6 +95,8 @@ export const ModalTemp: React.FC<Props> = ({
                 ])
                 .select()
             }
+            setState("");
+            setOpenModal(false);
             setAccount("");
             setAmount(0); 
             setNewDate(getDateNow());
@@ -114,9 +113,6 @@ export const ModalTemp: React.FC<Props> = ({
     }
 
     const updateLiquidita = () => {
-        setState("");
-        setOpenModal(false);
-
         const checkedBankId = totalBank.filter(bank => bank.name === account);
         
         const fetchData = async () => {     
@@ -161,6 +157,18 @@ export const ModalTemp: React.FC<Props> = ({
                     .eq('id', checkCateId)
                     .select()
             }
+            setState("");
+            setOpenModal(false);
+            setAccount("");
+            setAmount(0); 
+            setNewDate(getDateNow());
+            setNewAccount("");
+            setPurchasePrice(0);
+            setHistoricalPrice(0);
+            setSquare(0);
+            setCity("");
+            setAddress("");
+            setNewIban("");
         }
     
         fetchData();
@@ -177,9 +185,6 @@ export const ModalTemp: React.FC<Props> = ({
     }
     
     const deleteData = () => {
-        setState("");
-        setOpenModal(false);
-        
         const fetchData = async () => {     
             if(checked === 0) {
                 const { error } = await supabase
@@ -191,16 +196,14 @@ export const ModalTemp: React.FC<Props> = ({
                     .from('Investments_users')
                     .delete()
                     .eq('id', checkCateId)
-            } else if(checked === 2) {
-                
             } else if(checked === 3) {
                 const { error } = await supabase
                     .from('Alternative_users')
                     .delete()
                     .eq('id', checkCateId)
-            } else if(checked === 4) {
-
             }
+            setState("");
+            setOpenModal(false);
         }
 
         fetchData();
@@ -208,9 +211,6 @@ export const ModalTemp: React.FC<Props> = ({
 
     
     const addNewAccount = () => {
-        setState("Add New Liquidita");
-        setOpenModal(true);
-
         const fetchData = async () => {     
             if(checked === 0) {
                 const { data: Bank_accounts, error: bank_error } = await supabase
@@ -258,6 +258,8 @@ export const ModalTemp: React.FC<Props> = ({
                     }
                 }
             }
+            setState("Add New Liquidita");
+            setOpenModal(true);
         }
 
         fetchData();
@@ -318,7 +320,7 @@ export const ModalTemp: React.FC<Props> = ({
         }
 
         fetchData();
-    }, [checked])
+    }, [checked, openModal, state])
 
     return (
         <Modal show={openModal} size="sm" onClose={() => {setOpenModal(false); setState("");}}>

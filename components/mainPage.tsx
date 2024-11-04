@@ -61,7 +61,7 @@ export function MainPage() {
     const [openModal, setOpenModal] = useState(false);
     const [state, setState] = useState("");
     const [accordionData, setAccordionData] = useState <AccordionData []>(initAccordionData);
-    const [checked, setChecked] = useState <number> (0);
+    const [checked, setChecked] = useState <number> (-1);
     const [checkCateId, setCheckCateId] = useState <string> ("");
     const [account, setAccount] = useState <string> ("");
     const [amount, setAmount] = useState <number> (0);
@@ -251,7 +251,7 @@ export function MainPage() {
             if (Property_error) {
                 console.log("Error fetching data:", Property_error);
             } else {
-                console.log("Fetched Alternative_Users:", Property);
+                console.log("Fetched Propery:", Property);
                 if (Property && Property !== null) {
                     totalAmount = 0;
                     
@@ -352,7 +352,7 @@ export function MainPage() {
             if (Liabilites_error) {
                 console.log("Error fetching data:", Liabilites_error);
             } else {
-                console.log("Fetched Alternative_Users:", Liabilites);
+                console.log("Fetched Passivita:", Liabilites);
                 if (Liabilites && Liabilites !== null) {
                     totalAmount = 0;
                     
@@ -428,7 +428,7 @@ export function MainPage() {
     
         if(user) fetchData();
 
-    }, [user, state, checked, chartList, loading]);
+    }, [user, state, checked, chartList, loading, openModal]);
 
     const handleChange = (index: number) => {
         let list = chartList.slice(0);
