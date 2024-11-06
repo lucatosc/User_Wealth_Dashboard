@@ -531,7 +531,7 @@ export function MainPage() {
                     <Label className="ml-2 text-lg font-semibold" htmlFor="passivita">Passivita</Label>
                 </div>
             </div>
-            <div className="w-full h-[40] rounded-t-lg bg-white text-xl font-semibold border border-[#dfe3eb] w-[425px]:flex justify-between items-center px-8 py-4">
+            <div className="w-full h-[40] rounded-t-lg bg-white text-xl font-semibold border border-[#dfe3eb] min-[426px]:flex justify-between items-center px-8 py-4">
                 <div className="text-2xl">Patrimonio</div>
                 <div className="pl-8 text-2xl text-end">€{myTotalAmount}</div>
             </div>

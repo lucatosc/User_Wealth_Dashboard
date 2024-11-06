@@ -114,7 +114,7 @@ export const AccordionTemp: React.FC<Props> = ({
             <Accordion key={index} className="mb-3 rounded-lg">
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" onClick={() => setChecked(index)}>
                     {/* <Typography> */}
-                        <div className="min-[425px]:flex items-center justify-between min-[768px]:pl-3 w-full">
+                        <div className="max-[425px]:hidden flex items-center justify-between min-[768px]:pl-3 w-full">
                             <div className='flex items-center'>
                                 {index === 0 && <div className='w-9 h-9 rounded-full bg-[#defceb] flex items-center justify-center'>
                                     <FaMoneyBillWave color='rgb(39, 180, 93)' />
@@ -138,6 +138,30 @@ export const AccordionTemp: React.FC<Props> = ({
                                 <div><FaPlus onClick={e => addLiquidita(e, index)}/></div>
                             </div>
                         </div>
+                        <div className="min-[426px]:hidden flex items-center justify-between w-full">
+                            <div className='flex items-center'>
+                                {index === 0 && <div className='w-9 h-9 rounded-full bg-[#defceb] flex items-center justify-center'>
+                                    <FaMoneyBillWave color='rgb(39, 180, 93)' />
+                                </div>}
+                                {index === 1 && <div className='w-9 h-9 rounded-full bg-[#d2dcf6] flex items-center justify-center'>
+                                    <AiFillPieChart color='rgb(25, 29, 141)' />
+                                </div>}
+                                {index === 2 && <div className='w-9 h-9 rounded-full bg-[#f7e9cd] flex items-center justify-center'>
+                                    <GoHomeFill color='rgb(185, 133, 7)' />
+                                </div>}
+                                {index === 3 && <div className='w-9 h-9 rounded-full bg-[#e4c4fa] flex items-center justify-center'>
+                                    <FaGem color='rgb(71, 0, 175)' />
+                                </div>}
+                                {index === 4 && <div className='w-9 h-9 rounded-full bg-[#facbc4] flex items-center justify-center'>
+                                    <MdOutlineTrendingDown color='rgb(191, 18, 36)' />
+                                </div>}
+                                <div className='pl-4 text-xl font-semibold'>
+                                    <div>{acco.title.name}</div>
+                                    <div>€{acco.title.price}</div>
+                                </div>
+                            </div>
+                            <div><FaPlus onClick={e => addLiquidita(e, index)}/></div>
+                        </div>
                     {/* </Typography> */}
                 </AccordionSummary>
                 <AccordionDetails style={{padding: "16px 0 0 20px"}}>
@@ -145,9 +169,9 @@ export const AccordionTemp: React.FC<Props> = ({
                         <Accordion key={index} className="mb-4 rounded-lg rounded-r-none">
                             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                                 {/* <Typography> */}
-                                    <div className="min-[425px]:flex items-center justify-between w-full">
+                                    <div className="min-[426px]:flex items-center justify-between w-full">
                                         <div>{_acco.title.name}</div>
-                                        <div className="flex items-center justify-end">
+                                        <div className="flex items-center">
                                             <div className="pr-4">€{_acco.title.price}</div>
                                         </div>
                                     </div>
