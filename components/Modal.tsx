@@ -563,7 +563,7 @@ export const ModalTemp: React.FC<Props> = ({
                     </div>
                     {checked === 0 && <div>
                         <Label htmlFor="iban" value="Iban" />
-                        <TextInput id="iban" type="text" required /*value={newIban} onChange={e => setNewIban(e.target.value)}*//>
+                        <TextInput id="iban" type="text" required value={newIban} onChange={e => setNewIban(e.target.value)}/>
                     </div>}
                     <div className="w-full">
                         <Button onClick={addNewAccount}>Add</Button>
